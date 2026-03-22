@@ -46,8 +46,11 @@ and end with the constraint to return only a plain code block.
 # Install dependencies
 pip install -e ".[dev]"
 
-# Run benchmark against a model (requires ANTHROPIC_API_KEY or OPENAI_API_KEY)
-python runner/run_benchmark.py --model claude-sonnet-4-20250514 --label sonnet-4
+# Run benchmark (set the appropriate API key env var for your provider)
+python runner/run_benchmark.py --model claude-opus-4-20250514 --label opus-4
+python runner/run_benchmark.py --provider openai --model gpt-5.3-codex --label gpt-5.3-codex
+python runner/run_benchmark.py --provider deepseek --model deepseek-chat --label deepseek-v3.2
+python runner/run_benchmark.py --provider gemini --model gemini-3.1-pro --label gemini-3.1-pro
 
 # Automated independent review of generated code
 python runner/review.py results/<run-dir>/ --reviewer-model claude-opus-4-20250514
@@ -64,6 +67,19 @@ python runner/aggregate.py results/
 # Generate markdown report
 python runner/report.py results/ -o docs/report.md
 ```
+
+## Supported providers
+
+| Provider | `--provider` | API key env var | Example models |
+|----------|-------------|-----------------|----------------|
+| Anthropic | `anthropic` (default) | `ANTHROPIC_API_KEY` | `claude-opus-4-20250514` |
+| OpenAI | `openai` | `OPENAI_API_KEY` | `gpt-5.3-codex`, `o3` |
+| DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-chat` |
+| Google Gemini | `gemini` | `GEMINI_API_KEY` | `gemini-3.1-pro` |
+| Alibaba Qwen | `qwen` | `DASHSCOPE_API_KEY` | `qwen-plus` |
+| Moonshot (Kimi) | `moonshot` | `MOONSHOT_API_KEY` | `kimi-k2.5` |
+| Zhipu (GLM) | `zhipu` | `ZHIPU_API_KEY` | `glm-5` |
+| MiniMax | `minimax` | `MINIMAX_API_KEY` | `MiniMax-M2.5` |
 
 ## Project structure
 

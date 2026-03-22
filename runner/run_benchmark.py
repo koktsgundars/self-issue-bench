@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 """
-Run the self-issue benchmark against a model via the Anthropic or OpenAI API.
+Run the self-issue benchmark against a model.
 
 Usage:
     # Anthropic (default)
-    python runner/run_benchmark.py --model claude-sonnet-4-20250514 --label sonnet-4
-    python runner/run_benchmark.py --model claude-sonnet-4-20250514 --label sonnet-4 --double-review
+    python runner/run_benchmark.py --model claude-opus-4-20250514 --label opus-4
 
     # OpenAI
-    python runner/run_benchmark.py --provider openai --model gpt-4o --label gpt-4o
-    python runner/run_benchmark.py --provider openai --model o3 --label o3 --double-review
+    python runner/run_benchmark.py --provider openai --model gpt-5.3-codex --label gpt-5.3-codex
+
+    # Other providers (DeepSeek, Gemini, Qwen, Moonshot/Kimi, Zhipu/GLM, MiniMax)
+    python runner/run_benchmark.py --provider deepseek --model deepseek-chat --label deepseek-v3.2
+    python runner/run_benchmark.py --provider gemini --model gemini-3.1-pro --label gemini-3.1-pro
+    python runner/run_benchmark.py --provider qwen --model qwen-plus --label qwen-3.5-plus
+    python runner/run_benchmark.py --provider moonshot --model kimi-k2.5 --label kimi-k2.5
+    python runner/run_benchmark.py --provider zhipu --model glm-5 --label glm-5
+    python runner/run_benchmark.py --provider minimax --model MiniMax-M2.5 --label minimax-m2.5
 
 Requires:
-    ANTHROPIC_API_KEY or OPENAI_API_KEY environment variable
+    Set the appropriate API key environment variable for your provider.
     pip install anthropic openai pyyaml
 """
 
@@ -23,7 +29,7 @@ from datetime import date
 
 import yaml
 from constants import CHALLENGE_IDS, CHALLENGE_PROMPT_FILES, CHALLENGES_DIR, RESULTS_DIR
-from providers import check_api_key, create_provider
+from providers import ALL_PROVIDER_NAMES, check_api_key, create_provider
 
 REVIEW_PROMPT = (CHALLENGES_DIR / "review_prompt.md").read_text().strip()
 
@@ -86,9 +92,9 @@ def main():
     parser = argparse.ArgumentParser(description="Run self-issue benchmark")
     parser.add_argument(
         "--provider",
-        choices=["anthropic", "openai"],
+        choices=ALL_PROVIDER_NAMES,
         default="anthropic",
-        help="API provider (default: anthropic)",
+        help=f"API provider (default: anthropic). Available: {', '.join(ALL_PROVIDER_NAMES)}",
     )
     parser.add_argument(
         "--model",
