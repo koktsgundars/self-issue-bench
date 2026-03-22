@@ -1,0 +1,44 @@
+# Run metadata
+model: ""
+date: ""
+notes: ""
+
+# Per-challenge results
+challenges:
+  c1_fibonacci:
+    generated_code_file: ""  # relative path to saved code
+    # Each issue:
+    #   type: correctness | edge_case | security | style
+    #   severity: high | medium | low
+    #   description: ""
+    #   lines: ""
+    #   self_caught: true | false
+    issues: []
+
+  c2_palindrome:
+    generated_code_file: ""
+    issues: []
+
+  c3_word_frequency:
+    generated_code_file: ""
+    issues: []
+
+  c4_array_dedup:
+    generated_code_file: ""
+    issues: []
+
+  c5_deep_clone:
+    generated_code_file: ""
+    issues: []
+
+  c6_csv_parser:
+    generated_code_file: ""
+    issues: []
+
+  c7_retry:
+    generated_code_file: ""
+    issues: []
+
+  c8_token_counter:
+    generated_code_file: ""
+    issues: []

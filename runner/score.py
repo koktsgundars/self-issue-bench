@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""Score a single benchmark run from its YAML results file."""
+
+import sys
+from pathlib import Path
+
+import yaml
+from constants import CATEGORIES, CHALLENGE_IDS, SEVERITIES, normalize_issue_type
+
+
+def load_run(path: Path) -> dict:
+    results_file = path / "results.yaml" if path.is_dir() else path
+    with open(results_file) as f:
+        return yaml.safe_load(f)
+
+
+def score_run(data: dict) -> dict:
+    totals = {cat: 0 for cat in CATEGORIES}
+    severity_counts = {sev: 0 for sev in SEVERITIES}
+    self_caught = 0
+    total_issues = 0
+    per_challenge = {}
+
+    for cid in CHALLENGE_IDS:
+        challenge = data.get("challenges", {}).get(cid, {})
+        issues = challenge.get("issues") or []
+        c_totals = {cat: 0 for cat in CATEGORIES}
+
+        for issue in issues:
+            itype = normalize_issue_type(issue.get("type", ""))
+            if itype is None:
+                continue
+
+            totals[itype] += 1
+            c_totals[itype] += 1
+
+            sev = issue.get("severity", "").lower()
+            if sev in severity_counts:
+                severity_counts[sev] += 1
+
+            total_issues += 1
+            if issue.get("self_caught", False):
+                self_caught += 1
+
+        per_challenge[cid] = {
+            "issue_count": len(issues),
+            "by_type": c_totals,
+        }
+
+    self_catch_rate = self_caught / total_issues if total_issues > 0 else None
+
+    return {
+        "model": data.get("model", "unknown"),
+        "date": data.get("date", ""),
+        "total_issues": total_issues,
+        "by_type": totals,
+        "by_severity": severity_counts,
+        "self_caught": self_caught,
+        "self_catch_rate": self_catch_rate,
+        "per_challenge": per_challenge,
+    }
+
+
+def print_scorecard(score: dict) -> None:
+    print(f"Model: {score['model']}")
+    print(f"Date:  {score['date']}")
+    print(f"Total issues: {score['total_issues']}")
+    print()
+
+    print("By type:")
+    for cat in CATEGORIES:
+        print(f"  {cat:15s} {score['by_type'][cat]}")
+    print()
+
+    print("By severity:")
+    for sev in SEVERITIES:
+        print(f"  {sev:15s} {score['by_severity'][sev]}")
+    print()
+
+    if score["self_catch_rate"] is not None:
+        pct = score["self_catch_rate"] * 100
+        print(f"Self-caught: {score['self_caught']}/{score['total_issues']} ({pct:.0f}%)")
+    else:
+        print("Self-caught: no issues found")
+    print()
+
+    header = f"{'Challenge':20s} {'Total':>6s} " + " ".join(
+        f"{c:>12s}" for c in CATEGORIES
+    )
+    print(header)
+    print("-" * len(header))
+    for cid in CHALLENGE_IDS:
+        c = score["per_challenge"].get(cid, {})
+        count = c.get("issue_count", 0)
+        by_type = c.get("by_type", {})
+        row = f"{cid:20s} {count:>6d} " + " ".join(
+            f"{by_type.get(cat, 0):>12d}" for cat in CATEGORIES
+        )
+        print(row)
+
+    total = score["total_issues"]
+    print()
+    if total <= 2:
+        print("Signal: Excellent output quality on trivial tasks")
+    elif total <= 8:
+        print("Signal: Expected baseline — review pass adds meaningful value")
+    elif total <= 16:
+        print("Signal: Notable self-issue rate — systematic review needed")
+    else:
+        print("Signal: High self-issue rate — review architecture is not optional")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <run-dir-or-yaml>")
+        sys.exit(1)
+
+    path = Path(sys.argv[1])
+    data = load_run(path)
+    score = score_run(data)
+    print_scorecard(score)
+
+
+if __name__ == "__main__":
+    main()

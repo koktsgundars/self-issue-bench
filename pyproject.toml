@@ -1,0 +1,30 @@
+[project]
+name = "self-issue-bench"
+version = "0.1.0"
+description = "Benchmark measuring coding assistant self-generated issue rate"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.80",
+    "openai>=1.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",  # line length handled by formatter
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
