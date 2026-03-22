@@ -80,6 +80,10 @@ python runner/report.py results/ -o docs/report.md
 | Moonshot (Kimi) | `moonshot` | `MOONSHOT_API_KEY` | `kimi-k2.5` |
 | Zhipu (GLM) | `zhipu` | `ZHIPU_API_KEY` | `glm-5` |
 | MiniMax | `minimax` | `MINIMAX_API_KEY` | `MiniMax-M2.5` |
+| **OpenRouter** | `openrouter` | `OPENROUTER_API_KEY` | Any model — use `vendor/model` format |
+
+OpenRouter (openrouter.ai) gives you access to all of the above through a single API key.
+Use the `vendor/model` format for model IDs, e.g. `deepseek/deepseek-v3.2`, `google/gemini-3.1-pro-preview`.
 
 ## Project structure
 

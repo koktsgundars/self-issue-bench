@@ -30,6 +30,10 @@ OPENAI_COMPATIBLE_PROVIDERS = {
         "https://api.minimax.chat/v1",
         "MINIMAX_API_KEY",
     ),
+    "openrouter": (
+        "https://openrouter.ai/api/v1",
+        "OPENROUTER_API_KEY",
+    ),
 }
 
 ALL_PROVIDER_NAMES = ["anthropic", "openai"] + sorted(OPENAI_COMPATIBLE_PROVIDERS)

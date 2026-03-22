@@ -9,13 +9,13 @@ Usage:
     # OpenAI
     python runner/run_benchmark.py --provider openai --model gpt-5.3-codex --label gpt-5.3-codex
 
-    # Other providers (DeepSeek, Gemini, Qwen, Moonshot/Kimi, Zhipu/GLM, MiniMax)
+    # Other providers (direct)
     python runner/run_benchmark.py --provider deepseek --model deepseek-chat --label deepseek-v3.2
     python runner/run_benchmark.py --provider gemini --model gemini-3.1-pro --label gemini-3.1-pro
-    python runner/run_benchmark.py --provider qwen --model qwen-plus --label qwen-3.5-plus
-    python runner/run_benchmark.py --provider moonshot --model kimi-k2.5 --label kimi-k2.5
-    python runner/run_benchmark.py --provider zhipu --model glm-5 --label glm-5
-    python runner/run_benchmark.py --provider minimax --model MiniMax-M2.5 --label minimax-m2.5
+
+    # OpenRouter (single key for all models)
+    python runner/run_benchmark.py --provider openrouter --model deepseek/deepseek-v3.2 --label deepseek-v3.2
+    python runner/run_benchmark.py --provider openrouter --model google/gemini-3.1-pro-preview --label gemini-3.1-pro
 
 Requires:
     Set the appropriate API key environment variable for your provider.
