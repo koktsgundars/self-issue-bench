@@ -78,10 +78,10 @@ class OpenAIProvider:
             messages=messages,
             **{token_param: MAX_TOKENS},
         )
-        text = response.choices[0].message.content
+        text = response.choices[0].message.content or ""
         usage = {
-            "input_tokens": response.usage.prompt_tokens,
-            "output_tokens": response.usage.completion_tokens,
+            "input_tokens": response.usage.prompt_tokens if response.usage else 0,
+            "output_tokens": response.usage.completion_tokens if response.usage else 0,
         }
         return text, usage
 
