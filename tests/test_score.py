@@ -134,8 +134,8 @@ def test_token_usage_extraction():
         },
     })
     score = score_run(run)
-    assert score["total_gen_tokens"] == 330  # 50+100+60+120
-    assert score["total_review_tokens"] == 670  # 200+80+300+90
+    assert score["tokens"]["generation"] == 330  # 50+100+60+120
+    assert score["tokens"]["review"] == 670  # 200+80+300+90
 
 
 def test_per_challenge_counts():

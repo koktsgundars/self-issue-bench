@@ -51,8 +51,8 @@ def aggregate_scores(scores: list[dict]) -> dict:
     n = len(scores)
     totals = [s["total_issues"] for s in scores]
     weighted = [s["weighted_score"] for s in scores]
-    gen_tokens = [s.get("total_gen_tokens", 0) for s in scores]
-    review_tokens = [s.get("total_review_tokens", 0) for s in scores]
+    gen_tokens = [s.get("tokens", {}).get("generation", 0) for s in scores]
+    review_tokens = [s.get("tokens", {}).get("review", 0) for s in scores]
     rates = [s["self_catch_rate"] for s in scores if s["self_catch_rate"] is not None]
 
     by_type = {}

@@ -74,8 +74,10 @@ def score_run(data: dict) -> dict:
         "self_caught": self_caught,
         "self_caught_by_type": self_caught_by_type,
         "self_catch_rate": self_catch_rate,
-        "total_gen_tokens": total_gen_tokens,
-        "total_review_tokens": total_review_tokens,
+        "tokens": {
+            "generation": total_gen_tokens,
+            "review": total_review_tokens,
+        },
         "per_challenge": per_challenge,
     }
 

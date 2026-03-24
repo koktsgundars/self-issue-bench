@@ -80,24 +80,25 @@ def section_per_challenge(aggregates: dict) -> str:
 
 
 def section_challenge_type_profile(aggregates: dict) -> str:
-    """Issue type breakdown per challenge, summed across all models."""
+    """Issue type breakdown per challenge, averaged per model then summed."""
     lines = ["## Issue Types by Challenge", ""]
-    lines.append("Total issues of each type across all models per challenge.")
+    lines.append("Mean issues of each type per model, summed across all models.")
     lines.append("")
     lines.append("| Challenge | Correctness | Edge Case | Security | Style | Total |")
     lines.append("|-----------|-------------|-----------|----------|-------|-------|")
 
     for cid in CHALLENGE_IDS:
-        type_totals = {cat: 0 for cat in CATEGORIES}
+        type_totals = {cat: 0.0 for cat in CATEGORIES}
         for agg in aggregates.values():
             tt = agg["per_challenge"].get(cid, {}).get("type_totals", {})
+            n = agg["n_runs"]
             for cat in CATEGORIES:
-                type_totals[cat] += tt.get(cat, 0)
+                type_totals[cat] += tt.get(cat, 0) / n
         total = sum(type_totals.values())
         if total == 0:
             continue
-        cells = [f"{type_totals[c]}" for c in CATEGORIES]
-        lines.append(f"| {cid} | " + " | ".join(cells) + f" | {total} |")
+        cells = [f"{type_totals[c]:.0f}" for c in CATEGORIES]
+        lines.append(f"| {cid} | " + " | ".join(cells) + f" | {total:.0f} |")
 
     lines.append("")
     return "\n".join(lines)
@@ -196,9 +197,9 @@ def section_token_efficiency(aggregates: dict) -> str:
         total = tok.get("total", {}).get("mean", 0)
         rpi = tok.get("review_tokens_per_issue")
         rpi_str = f"{rpi:.0f}" if rpi is not None else "-"
-        rows.append((total, label, gen, rev, total, rpi_str))
+        rows.append((total, label, gen, rev, rpi_str))
 
-    for _, label, gen, rev, total, rpi_str in sorted(rows):
+    for total, label, gen, rev, rpi_str in sorted(rows):
         lines.append(f"| {label} | {gen:,.0f} | {rev:,.0f} | {total:,.0f} | {rpi_str} |")
 
     lines.append("")
