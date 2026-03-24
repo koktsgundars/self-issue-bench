@@ -79,6 +79,30 @@ def section_per_challenge(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_challenge_type_profile(aggregates: dict) -> str:
+    """Issue type breakdown per challenge, summed across all models."""
+    lines = ["## Issue Types by Challenge", ""]
+    lines.append("Total issues of each type across all models per challenge.")
+    lines.append("")
+    lines.append("| Challenge | Correctness | Edge Case | Security | Style | Total |")
+    lines.append("|-----------|-------------|-----------|----------|-------|-------|")
+
+    for cid in CHALLENGE_IDS:
+        type_totals = {cat: 0 for cat in CATEGORIES}
+        for agg in aggregates.values():
+            tt = agg["per_challenge"].get(cid, {}).get("type_totals", {})
+            for cat in CATEGORIES:
+                type_totals[cat] += tt.get(cat, 0)
+        total = sum(type_totals.values())
+        if total == 0:
+            continue
+        cells = [f"{type_totals[c]}" for c in CATEGORIES]
+        lines.append(f"| {cid} | " + " | ".join(cells) + f" | {total} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_discrimination(aggregates: dict) -> str:
     """Which challenges best separate models."""
     lines = ["## Challenge Discrimination", ""]
@@ -186,6 +210,7 @@ def generate_report(results_dir: Path) -> str:
         "",
         section_comparison_table(groups, aggregates),
         section_per_challenge(aggregates),
+        section_challenge_type_profile(aggregates),
         section_discrimination(aggregates),
         section_self_catch(aggregates),
         section_findings(aggregates),

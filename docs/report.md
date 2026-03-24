@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-23 18:53
+Generated: 2026-03-23 20:42
 
 Models compared: 12
 Challenges: 16
@@ -42,6 +42,25 @@ Challenges: 16
 | c14_binary_search | - | - | - | - | - | - | - | - | - | - | - | - |
 | c15_rate_limiter | - | - | 1 | - | - | - | - | 1 | - | 1 | - | 1 |
 | c16_html_entity_decoder | 3 | 3 | 1 | 1 | 1 | 1 | 3 | 3 | 1 | 1 | 3 | 1 |
+
+## Issue Types by Challenge
+
+Total issues of each type across all models per challenge.
+
+| Challenge | Correctness | Edge Case | Security | Style | Total |
+|-----------|-------------|-----------|----------|-------|-------|
+| c3_word_frequency | 2 | 8 | 0 | 0 | 10 |
+| c4_array_dedup | 0 | 1 | 0 | 1 | 2 |
+| c5_deep_clone | 5 | 32 | 0 | 0 | 37 |
+| c6_csv_parser | 15 | 11 | 1 | 1 | 28 |
+| c7_retry | 7 | 2 | 0 | 2 | 11 |
+| c8_token_counter | 3 | 3 | 0 | 1 | 7 |
+| c9_url_parser | 19 | 32 | 0 | 0 | 51 |
+| c10_debounce | 1 | 0 | 0 | 0 | 1 |
+| c11_lru_cache | 1 | 2 | 0 | 1 | 4 |
+| c13_date_formatter | 2 | 0 | 0 | 0 | 2 |
+| c15_rate_limiter | 2 | 2 | 0 | 0 | 4 |
+| c16_html_entity_decoder | 12 | 10 | 0 | 0 | 22 |
 
 ## Challenge Discrimination
 
