@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-23 20:42
+Generated: 2026-03-23 20:43
 
 Models compared: 12
 Challenges: 16
@@ -99,6 +99,23 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | gpt-4o | 40% | 4 | 6 |
 | gemini-3.1-pro | 40% | 8 | 12 |
 | kimi-k2.5 | 33% | 5 | 10 |
+
+## Self-Catch Rate by Issue Type
+
+| Model | Correctness | Edge Case | Security | Style |
+|-------|-------------|-----------|----------|-------|
+| deepseek-v3.2 | 56% (5/9) | 79% (11/14) | - | - |
+| gemini-3.1-pro | 75% (6/8) | 17% (2/12) | - | - |
+| glm-5 | 55% (6/11) | 88% (7/8) | - | 0% (0/1) |
+| gpt-4o | 0% (0/3) | 67% (4/6) | - | 0% (0/1) |
+| gpt-4o-mini | 20% (1/5) | 83% (5/6) | - | 0% (0/1) |
+| haiku-4.5 | 100% (6/6) | 80% (4/5) | 100% (1/1) | - |
+| kimi-k2.5 | 25% (2/8) | 43% (3/7) | - | - |
+| minimax-m2.5 | 80% (4/5) | 38% (3/8) | - | 50% (1/2) |
+| o3-mini | 100% (3/3) | 88% (7/8) | - | 100% (1/1) |
+| opus-4 | 75% (3/4) | 100% (7/7) | - | - |
+| qwen-3.5-plus | 25% (1/4) | 54% (7/13) | - | - |
+| sonnet-4-strict-2pass | 100% (3/3) | 78% (7/9) | - | - |
 
 ## Key Findings
 

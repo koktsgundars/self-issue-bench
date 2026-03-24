@@ -100,6 +100,22 @@ def test_weighted_score_empty_run():
     assert score["weighted_score"] == 0
 
 
+def test_self_caught_by_type():
+    run = _make_run({
+        "c1_fibonacci": {
+            "issues": [
+                {"type": "correctness", "severity": "high", "self_caught": True},
+                {"type": "correctness", "severity": "medium", "self_caught": False},
+                {"type": "edge_case", "severity": "low", "self_caught": True},
+            ]
+        }
+    })
+    score = score_run(run)
+    assert score["self_caught_by_type"]["correctness"] == 1
+    assert score["self_caught_by_type"]["edge_case"] == 1
+    assert score["self_caught_by_type"]["security"] == 0
+
+
 def test_per_challenge_counts():
     run = _make_run({
         "c1_fibonacci": {"issues": []},
