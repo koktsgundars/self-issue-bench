@@ -58,13 +58,20 @@ def aggregate_scores(scores: list[dict]) -> dict:
         vals = [s["by_type"][cat] for s in scores]
         by_type[cat] = {"mean": mean(vals), "stddev": stddev(vals)}
 
-    # Per-challenge: how often each challenge has issues
+    # Per-challenge: how often each challenge has issues, and by-type breakdown
     per_challenge = {}
     for cid in CHALLENGE_IDS:
         counts = [s["per_challenge"].get(cid, {}).get("issue_count", 0) for s in scores]
+        # Sum issue types across all runs for this challenge
+        type_totals = {cat: 0 for cat in CATEGORIES}
+        for s in scores:
+            by = s["per_challenge"].get(cid, {}).get("by_type", {})
+            for cat in CATEGORIES:
+                type_totals[cat] += by.get(cat, 0)
         per_challenge[cid] = {
             "mean_issues": mean(counts),
             "has_issues_pct": sum(1 for c in counts if c > 0) / n * 100,
+            "type_totals": type_totals,
         }
 
     return {
