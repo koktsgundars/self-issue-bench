@@ -23,6 +23,12 @@ CHALLENGE_IDS = [
     "c14_binary_search",
     "c15_rate_limiter",
     "c16_html_entity_decoder",
+    "c17_concurrent_map",
+    "c18_iterator",
+    "c19_ring_buffer",
+    "c20_expression_parser",
+    "c21_task_scheduler",
+    "c22_markdown_renderer",
 ]
 
 # Each challenge prompt file is {id}.md
