@@ -222,6 +222,10 @@ def main():
                 ext = ".ts"
             elif "JavaScript" in prompt_text:
                 ext = ".js"
+            elif " Go " in prompt_text or "Go type" in prompt_text:
+                ext = ".go"
+            elif "Rust" in prompt_text:
+                ext = ".rs"
             else:
                 ext = ".py"
             code_filename = f"{challenge_id}{ext}"

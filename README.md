@@ -32,8 +32,8 @@ See `docs/benchmark.md` for the complete protocol and scoring rubric.
 
 ## Challenges
 
-The benchmark uses 16 challenges across Python, JavaScript, and TypeScript, ranging
-from easy to medium difficulty. Challenge prompts are **not included** in this
+The benchmark uses 22 challenges across Python, JavaScript, TypeScript, Go, and Rust,
+ranging from easy to medium difficulty. Challenge prompts are **not included** in this
 repository to prevent benchmark gaming.
 
 To use your own challenges, add markdown files to `challenges/` following the format
