@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-23 20:43
+Generated: 2026-03-23 20:45
 
 Models compared: 12
 Challenges: 16
@@ -116,6 +116,23 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | opus-4 | 75% (3/4) | 100% (7/7) | - | - |
 | qwen-3.5-plus | 25% (1/4) | 54% (7/13) | - | - |
 | sonnet-4-strict-2pass | 100% (3/3) | 78% (7/9) | - | - |
+
+## Token Efficiency
+
+| Model | Gen Tokens | Review Tokens | Total Tokens | Review Tokens/Issue |
+|-------|-----------|--------------|-------------|-------------------|
+| gpt-4o | 1,966 | 8,044 | 10,010 | 804 |
+| deepseek-v3.2 | 3,484 | 7,816 | 11,300 | 340 |
+| opus-4 | 2,189 | 9,284 | 11,473 | 844 |
+| gpt-4o-mini | 2,156 | 10,244 | 12,400 | 854 |
+| sonnet-4-strict-2pass | 2,639 | 10,784 | 13,423 | 899 |
+| haiku-4.5 | 3,313 | 13,360 | 16,673 | 1113 |
+| o3-mini | 4,340 | 20,659 | 24,999 | 1722 |
+| minimax-m2.5 | 18,631 | 19,053 | 37,684 | 1270 |
+| gemini-3.1-pro | 23,871 | 31,455 | 55,326 | 1573 |
+| kimi-k2.5 | 27,949 | 47,418 | 75,367 | 3161 |
+| glm-5 | 31,237 | 52,061 | 83,298 | 2603 |
+| qwen-3.5-plus | 54,978 | 102,732 | 157,710 | 6043 |
 
 ## Key Findings
 

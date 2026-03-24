@@ -116,6 +116,28 @@ def test_self_caught_by_type():
     assert score["self_caught_by_type"]["security"] == 0
 
 
+def test_token_usage_extraction():
+    run = _make_run({
+        "c1_fibonacci": {
+            "issues": [],
+            "usage": {
+                "generation": {"input_tokens": 50, "output_tokens": 100},
+                "review": {"input_tokens": 200, "output_tokens": 80},
+            },
+        },
+        "c5_deep_clone": {
+            "issues": [{"type": "correctness", "severity": "high", "self_caught": False}],
+            "usage": {
+                "generation": {"input_tokens": 60, "output_tokens": 120},
+                "review": {"input_tokens": 300, "output_tokens": 90},
+            },
+        },
+    })
+    score = score_run(run)
+    assert score["total_gen_tokens"] == 330  # 50+100+60+120
+    assert score["total_review_tokens"] == 670  # 200+80+300+90
+
+
 def test_per_challenge_counts():
     run = _make_run({
         "c1_fibonacci": {"issues": []},
