@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-23 20:45
+Generated: 2026-03-23 21:12
 
 Models compared: 12
 Challenges: 16
@@ -45,7 +45,7 @@ Challenges: 16
 
 ## Issue Types by Challenge
 
-Total issues of each type across all models per challenge.
+Mean issues of each type per model, summed across all models.
 
 | Challenge | Correctness | Edge Case | Security | Style | Total |
 |-----------|-------------|-----------|----------|-------|-------|
