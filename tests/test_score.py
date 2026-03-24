@@ -22,6 +22,7 @@ def test_single_issue():
     })
     score = score_run(run)
     assert score["total_issues"] == 1
+    assert score["weighted_score"] == 3  # high=3
     assert score["by_type"]["correctness"] == 1
     assert score["by_severity"]["high"] == 1
     assert score["self_caught"] == 1
@@ -77,6 +78,26 @@ def test_type_normalization_in_scoring():
     assert score["total_issues"] == 2
     assert score["by_type"]["edge_case"] == 1
     assert score["by_type"]["security"] == 1
+
+
+def test_weighted_score_mixed_severities():
+    run = _make_run({
+        "c1_fibonacci": {
+            "issues": [
+                {"type": "correctness", "severity": "high", "self_caught": False},
+                {"type": "edge_case", "severity": "medium", "self_caught": False},
+                {"type": "style", "severity": "low", "self_caught": False},
+            ]
+        }
+    })
+    score = score_run(run)
+    assert score["total_issues"] == 3
+    assert score["weighted_score"] == 6  # 3 + 2 + 1
+
+
+def test_weighted_score_empty_run():
+    score = score_run(_make_run({}))
+    assert score["weighted_score"] == 0
 
 
 def test_per_challenge_counts():
