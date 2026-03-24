@@ -182,6 +182,29 @@ def section_self_catch_by_type(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_token_efficiency(aggregates: dict) -> str:
+    """Token usage and efficiency analysis."""
+    lines = ["## Token Efficiency", ""]
+    lines.append("| Model | Gen Tokens | Review Tokens | Total Tokens | Review Tokens/Issue |")
+    lines.append("|-------|-----------|--------------|-------------|-------------------|")
+
+    rows = []
+    for label, agg in aggregates.items():
+        tok = agg.get("tokens", {})
+        gen = tok.get("generation", {}).get("mean", 0)
+        rev = tok.get("review", {}).get("mean", 0)
+        total = tok.get("total", {}).get("mean", 0)
+        rpi = tok.get("review_tokens_per_issue")
+        rpi_str = f"{rpi:.0f}" if rpi is not None else "-"
+        rows.append((total, label, gen, rev, total, rpi_str))
+
+    for _, label, gen, rev, total, rpi_str in sorted(rows):
+        lines.append(f"| {label} | {gen:,.0f} | {rev:,.0f} | {total:,.0f} | {rpi_str} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_findings(aggregates: dict) -> str:
     """Auto-generated key findings."""
     lines = ["## Key Findings", ""]
@@ -236,6 +259,7 @@ def generate_report(results_dir: Path) -> str:
         section_discrimination(aggregates),
         section_self_catch(aggregates),
         section_self_catch_by_type(aggregates),
+        section_token_efficiency(aggregates),
         section_findings(aggregates),
     ]
 

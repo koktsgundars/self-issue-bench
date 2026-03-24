@@ -51,6 +51,8 @@ def aggregate_scores(scores: list[dict]) -> dict:
     n = len(scores)
     totals = [s["total_issues"] for s in scores]
     weighted = [s["weighted_score"] for s in scores]
+    gen_tokens = [s.get("total_gen_tokens", 0) for s in scores]
+    review_tokens = [s.get("total_review_tokens", 0) for s in scores]
     rates = [s["self_catch_rate"] for s in scores if s["self_catch_rate"] is not None]
 
     by_type = {}
@@ -84,6 +86,9 @@ def aggregate_scores(scores: list[dict]) -> dict:
         else:
             self_catch_by_type[cat] = {"caught": 0, "total": 0, "rate": None}
 
+    mean_review = mean(review_tokens)
+    mean_issues = mean(totals)
+
     return {
         "label": scores[0].get("model", "unknown"),
         "n_runs": n,
@@ -93,6 +98,12 @@ def aggregate_scores(scores: list[dict]) -> dict:
         "self_catch_by_type": self_catch_by_type,
         "by_type": by_type,
         "per_challenge": per_challenge,
+        "tokens": {
+            "generation": {"mean": mean(gen_tokens)},
+            "review": {"mean": mean_review},
+            "total": {"mean": mean(gen_tokens) + mean_review},
+            "review_tokens_per_issue": mean_review / mean_issues if mean_issues > 0 else None,
+        },
     }
 
 

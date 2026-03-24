@@ -21,6 +21,8 @@ def score_run(data: dict) -> dict:
     self_caught_by_type = {cat: 0 for cat in CATEGORIES}
     total_issues = 0
     weighted_score = 0
+    total_gen_tokens = 0
+    total_review_tokens = 0
     per_challenge = {}
 
     for cid in CHALLENGE_IDS:
@@ -46,6 +48,15 @@ def score_run(data: dict) -> dict:
                 self_caught += 1
                 self_caught_by_type[itype] += 1
 
+        # Token usage
+        usage = challenge.get("usage", {})
+        gen = usage.get("generation", {})
+        rev = usage.get("review", {})
+        rev2 = usage.get("review_2", {})
+        total_gen_tokens += gen.get("input_tokens", 0) + gen.get("output_tokens", 0)
+        total_review_tokens += rev.get("input_tokens", 0) + rev.get("output_tokens", 0)
+        total_review_tokens += rev2.get("input_tokens", 0) + rev2.get("output_tokens", 0)
+
         per_challenge[cid] = {
             "issue_count": len(issues),
             "by_type": c_totals,
@@ -63,6 +74,8 @@ def score_run(data: dict) -> dict:
         "self_caught": self_caught,
         "self_caught_by_type": self_caught_by_type,
         "self_catch_rate": self_catch_rate,
+        "total_gen_tokens": total_gen_tokens,
+        "total_review_tokens": total_review_tokens,
         "per_challenge": per_challenge,
     }
 
