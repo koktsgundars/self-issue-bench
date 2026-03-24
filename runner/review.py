@@ -25,7 +25,7 @@ from pathlib import Path
 
 import yaml
 from constants import CHALLENGE_PROMPT_FILES, CHALLENGES_DIR, ISSUE_SEVERITIES, normalize_issue_type
-from providers import check_api_key, create_provider
+from providers import ALL_PROVIDER_NAMES, check_api_key, create_provider
 from score import load_run
 
 _RAW_TEMPLATE = (CHALLENGES_DIR / "independent_review_prompt.md").read_text()
@@ -168,7 +168,7 @@ def main():
     )
     parser.add_argument(
         "--reviewer-provider",
-        choices=["anthropic", "openai"],
+        choices=ALL_PROVIDER_NAMES,
         default="anthropic",
         help="API provider for reviewer (default: anthropic)",
     )
