@@ -18,6 +18,7 @@ def score_run(data: dict) -> dict:
     totals = {cat: 0 for cat in CATEGORIES}
     severity_counts = {sev: 0 for sev in SEVERITIES}
     self_caught = 0
+    self_caught_by_type = {cat: 0 for cat in CATEGORIES}
     total_issues = 0
     weighted_score = 0
     per_challenge = {}
@@ -43,6 +44,7 @@ def score_run(data: dict) -> dict:
             total_issues += 1
             if issue.get("self_caught", False):
                 self_caught += 1
+                self_caught_by_type[itype] += 1
 
         per_challenge[cid] = {
             "issue_count": len(issues),
@@ -59,6 +61,7 @@ def score_run(data: dict) -> dict:
         "by_type": totals,
         "by_severity": severity_counts,
         "self_caught": self_caught,
+        "self_caught_by_type": self_caught_by_type,
         "self_catch_rate": self_catch_rate,
         "per_challenge": per_challenge,
     }

@@ -74,12 +74,23 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "type_totals": type_totals,
         }
 
+    # Self-catch rate by issue type
+    self_catch_by_type = {}
+    for cat in CATEGORIES:
+        total_of_type = sum(s["by_type"][cat] for s in scores)
+        caught_of_type = sum(s.get("self_caught_by_type", {}).get(cat, 0) for s in scores)
+        if total_of_type > 0:
+            self_catch_by_type[cat] = {"caught": caught_of_type, "total": total_of_type, "rate": caught_of_type / total_of_type}
+        else:
+            self_catch_by_type[cat] = {"caught": 0, "total": 0, "rate": None}
+
     return {
         "label": scores[0].get("model", "unknown"),
         "n_runs": n,
         "total_issues": {"mean": mean(totals), "stddev": stddev(totals), "min": min(totals), "max": max(totals)},
         "weighted_score": {"mean": mean(weighted), "stddev": stddev(weighted), "min": min(weighted), "max": max(weighted)},
         "self_catch_rate": {"mean": mean(rates), "stddev": stddev(rates)} if rates else None,
+        "self_catch_by_type": self_catch_by_type,
         "by_type": by_type,
         "per_challenge": per_challenge,
     }

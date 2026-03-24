@@ -160,6 +160,28 @@ def section_self_catch(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_self_catch_by_type(aggregates: dict) -> str:
+    """Self-catch rate broken down by issue type across models."""
+    lines = ["## Self-Catch Rate by Issue Type", ""]
+    lines.append("| Model | Correctness | Edge Case | Security | Style |")
+    lines.append("|-------|-------------|-----------|----------|-------|")
+
+    for label in sorted(aggregates):
+        agg = aggregates[label]
+        scbt = agg.get("self_catch_by_type", {})
+        cells = []
+        for cat in CATEGORIES:
+            info = scbt.get(cat, {})
+            if info.get("total", 0) > 0:
+                cells.append(f"{info['rate']*100:.0f}% ({info['caught']}/{info['total']})")
+            else:
+                cells.append("-")
+        lines.append(f"| {label} | " + " | ".join(cells) + " |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_findings(aggregates: dict) -> str:
     """Auto-generated key findings."""
     lines = ["## Key Findings", ""]
@@ -213,6 +235,7 @@ def generate_report(results_dir: Path) -> str:
         section_challenge_type_profile(aggregates),
         section_discrimination(aggregates),
         section_self_catch(aggregates),
+        section_self_catch_by_type(aggregates),
         section_findings(aggregates),
     ]
 
