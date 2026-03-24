@@ -50,6 +50,7 @@ def aggregate_scores(scores: list[dict]) -> dict:
     """Compute aggregate statistics across multiple scored runs."""
     n = len(scores)
     totals = [s["total_issues"] for s in scores]
+    weighted = [s["weighted_score"] for s in scores]
     rates = [s["self_catch_rate"] for s in scores if s["self_catch_rate"] is not None]
 
     by_type = {}
@@ -70,6 +71,7 @@ def aggregate_scores(scores: list[dict]) -> dict:
         "label": scores[0].get("model", "unknown"),
         "n_runs": n,
         "total_issues": {"mean": mean(totals), "stddev": stddev(totals), "min": min(totals), "max": max(totals)},
+        "weighted_score": {"mean": mean(weighted), "stddev": stddev(weighted), "min": min(weighted), "max": max(weighted)},
         "self_catch_rate": {"mean": mean(rates), "stddev": stddev(rates)} if rates else None,
         "by_type": by_type,
         "per_challenge": per_challenge,

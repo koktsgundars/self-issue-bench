@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import yaml
-from constants import CATEGORIES, CHALLENGE_IDS, SEVERITIES, normalize_issue_type
+from constants import CATEGORIES, CHALLENGE_IDS, SEVERITIES, SEVERITY_WEIGHTS, normalize_issue_type
 
 
 def load_run(path: Path) -> dict:
@@ -19,6 +19,7 @@ def score_run(data: dict) -> dict:
     severity_counts = {sev: 0 for sev in SEVERITIES}
     self_caught = 0
     total_issues = 0
+    weighted_score = 0
     per_challenge = {}
 
     for cid in CHALLENGE_IDS:
@@ -37,6 +38,7 @@ def score_run(data: dict) -> dict:
             sev = issue.get("severity", "").lower()
             if sev in severity_counts:
                 severity_counts[sev] += 1
+            weighted_score += SEVERITY_WEIGHTS.get(sev, 1)
 
             total_issues += 1
             if issue.get("self_caught", False):
@@ -53,6 +55,7 @@ def score_run(data: dict) -> dict:
         "model": data.get("model", "unknown"),
         "date": data.get("date", ""),
         "total_issues": total_issues,
+        "weighted_score": weighted_score,
         "by_type": totals,
         "by_severity": severity_counts,
         "self_caught": self_caught,
@@ -65,6 +68,7 @@ def print_scorecard(score: dict) -> None:
     print(f"Model: {score['model']}")
     print(f"Date:  {score['date']}")
     print(f"Total issues: {score['total_issues']}")
+    print(f"Weighted score: {score['weighted_score']} (high=3, medium=2, low=1)")
     print()
 
     print("By type:")

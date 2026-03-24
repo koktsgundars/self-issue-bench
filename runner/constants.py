@@ -36,6 +36,9 @@ SEVERITIES = ["high", "medium", "low"]
 ISSUE_TYPES = set(CATEGORIES)
 ISSUE_SEVERITIES = set(SEVERITIES)
 
+# Severity weights for weighted scoring
+SEVERITY_WEIGHTS = {"high": 3, "medium": 2, "low": 1}
+
 # Aliases that map to canonical type names
 _TYPE_ALIASES = {
     "safety": "security",

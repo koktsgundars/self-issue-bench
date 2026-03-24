@@ -34,7 +34,7 @@ def main():
     model_col = max(len(s["model"]) for s in scores)
     model_col = max(model_col, 5)  # min width
 
-    header = f"{'Model':<{model_col}s}  {'Total':>5s}  " + "  ".join(
+    header = f"{'Model':<{model_col}s}  {'Total':>5s}  {'Wt':>4s}  " + "  ".join(
         f"{c[:4]:>4s}" for c in CATEGORIES
     ) + f"  {'Caught':>6s}  {'Rate':>5s}"
     print(header)
@@ -43,7 +43,7 @@ def main():
     for s in scores:
         rate = f"{s['self_catch_rate'] * 100:.0f}%" if s["self_catch_rate"] is not None else "n/a"
         row = (
-            f"{s['model']:<{model_col}s}  {s['total_issues']:>5d}  "
+            f"{s['model']:<{model_col}s}  {s['total_issues']:>5d}  {s['weighted_score']:>4d}  "
             + "  ".join(f"{s['by_type'][c]:>4d}" for c in CATEGORIES)
             + f"  {s['self_caught']:>6d}  {rate:>5s}"
         )

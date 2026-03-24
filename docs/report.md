@@ -1,26 +1,26 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-22 18:26
+Generated: 2026-03-23 18:53
 
 Models compared: 12
 Challenges: 16
 
 ## Cross-Model Comparison
 
-| Model | Runs | Total Issues | Correctness | Edge Case | Security | Style | Self-Catch Rate |
-|-------|------|-------------|-------------|-----------|----------|-------|----------------|
-| gpt-4o | 1 | 10 | 3 | 6 | 0 | 1 | 40% |
-| opus-4 | 1 | 11 | 4 | 7 | 0 | 0 | 91% |
-| gpt-4o-mini | 1 | 12 | 5 | 6 | 0 | 1 | 50% |
-| haiku-4.5 | 1 | 12 | 6 | 5 | 1 | 0 | 92% |
-| o3-mini | 1 | 12 | 3 | 8 | 0 | 1 | 92% |
-| sonnet-4-strict-2pass | 1 | 12 | 3 | 9 | 0 | 0 | 83% |
-| kimi-k2.5 | 1 | 15 | 8 | 7 | 0 | 0 | 33% |
-| minimax-m2.5 | 1 | 15 | 5 | 8 | 0 | 2 | 53% |
-| qwen-3.5-plus | 1 | 17 | 4 | 13 | 0 | 0 | 47% |
-| gemini-3.1-pro | 1 | 20 | 8 | 12 | 0 | 0 | 40% |
-| glm-5 | 1 | 20 | 11 | 8 | 0 | 1 | 65% |
-| deepseek-v3.2 | 1 | 23 | 9 | 14 | 0 | 0 | 70% |
+| Model | Runs | Total Issues | Weighted | Correctness | Edge Case | Security | Style | Self-Catch Rate |
+|-------|------|-------------|---------|-------------|-----------|----------|-------|----------------|
+| gpt-4o | 1 | 10 | 19 | 3 | 6 | 0 | 1 | 40% |
+| opus-4 | 1 | 11 | 20 | 4 | 7 | 0 | 0 | 91% |
+| gpt-4o-mini | 1 | 12 | 21 | 5 | 6 | 0 | 1 | 50% |
+| haiku-4.5 | 1 | 12 | 25 | 6 | 5 | 1 | 0 | 92% |
+| o3-mini | 1 | 12 | 23 | 3 | 8 | 0 | 1 | 92% |
+| sonnet-4-strict-2pass | 1 | 12 | 20 | 3 | 9 | 0 | 0 | 83% |
+| kimi-k2.5 | 1 | 15 | 30 | 8 | 7 | 0 | 0 | 33% |
+| minimax-m2.5 | 1 | 15 | 29 | 5 | 8 | 0 | 2 | 53% |
+| qwen-3.5-plus | 1 | 17 | 38 | 4 | 13 | 0 | 0 | 47% |
+| gemini-3.1-pro | 1 | 20 | 42 | 8 | 12 | 0 | 0 | 40% |
+| glm-5 | 1 | 20 | 47 | 11 | 8 | 0 | 1 | 65% |
+| deepseek-v3.2 | 1 | 23 | 44 | 9 | 14 | 0 | 0 | 70% |
 
 ## Per-Challenge Breakdown
 

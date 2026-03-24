@@ -19,8 +19,8 @@ def section_comparison_table(groups: dict, aggregates: dict) -> str:
     """Cross-model comparison table."""
     lines = ["## Cross-Model Comparison", ""]
 
-    lines.append("| Model | Runs | Total Issues | Correctness | Edge Case | Security | Style | Self-Catch Rate |")
-    lines.append("|-------|------|-------------|-------------|-----------|----------|-------|----------------|")
+    lines.append("| Model | Runs | Total Issues | Weighted | Correctness | Edge Case | Security | Style | Self-Catch Rate |")
+    lines.append("|-------|------|-------------|---------|-------------|-----------|----------|-------|----------------|")
 
     rows = []
     for label in sorted(groups):
@@ -29,20 +29,23 @@ def section_comparison_table(groups: dict, aggregates: dict) -> str:
         ti = agg["total_issues"]
         scr = agg["self_catch_rate"]
 
+        ws = agg["weighted_score"]
         if n > 1:
             total_str = f"{ti['mean']:.1f} +/- {ti['stddev']:.1f}"
+            ws_str = f"{ws['mean']:.1f} +/- {ws['stddev']:.1f}"
             rate_str = f"{scr['mean']*100:.0f}% +/- {scr['stddev']*100:.0f}%" if scr else "n/a"
             type_strs = [f"{agg['by_type'][c]['mean']:.1f}" for c in CATEGORIES]
         else:
             total_str = f"{ti['mean']:.0f}"
+            ws_str = f"{ws['mean']:.0f}"
             rate_str = f"{scr['mean']*100:.0f}%" if scr else "n/a"
             type_strs = [f"{agg['by_type'][c]['mean']:.0f}" for c in CATEGORIES]
 
-        rows.append((ti["mean"], label, n, total_str, type_strs, rate_str))
+        rows.append((ti["mean"], label, n, total_str, ws_str, type_strs, rate_str))
 
-    for _, label, n, total_str, type_strs, rate_str in sorted(rows):
+    for _, label, n, total_str, ws_str, type_strs, rate_str in sorted(rows):
         lines.append(
-            f"| {label} | {n} | {total_str} | "
+            f"| {label} | {n} | {total_str} | {ws_str} | "
             + " | ".join(type_strs)
             + f" | {rate_str} |"
         )
