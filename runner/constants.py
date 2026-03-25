@@ -81,6 +81,7 @@ CHALLENGE_LANG = {
 }
 
 CHALLENGE_TESTS_DIR = PROJECT_DIR / "challenge_tests"
+FIX_PROMPT_FILE = CHALLENGES_DIR / "fix_prompt.md"
 
 
 def normalize_issue_type(raw: str) -> str | None:

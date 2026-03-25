@@ -323,7 +323,7 @@ RUNNERS = {
 }
 
 
-def test_challenge(run_dir, challenge_id, challenge_data):
+def test_challenge(run_dir, challenge_id, challenge_data, use_fixed=False):
     """Run tests for a single challenge."""
     lang = CHALLENGE_LANG.get(challenge_id)
     if not lang:
@@ -333,7 +333,8 @@ def test_challenge(run_dir, challenge_id, challenge_data):
     if not runner:
         return None
 
-    code_file = challenge_data.get("generated_code_file")
+    file_key = "fixed_code_file" if use_fixed else "generated_code_file"
+    code_file = challenge_data.get(file_key)
     if not code_file:
         return None
 
@@ -360,6 +361,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run test suites against generated code")
     parser.add_argument("run_dir", help="Path to run directory")
     parser.add_argument("--challenges", nargs="*", default=None, help="Test only specific challenges")
+    parser.add_argument("--fixed", action="store_true", help="Test fixed code instead of original")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be tested")
     args = parser.parse_args()
 
@@ -386,8 +388,12 @@ def main():
             print(f"  {cid} ({lang}): {runner}")
         return
 
+    version = "fixed" if args.fixed else "original"
+    results_key = "test_results_fixed" if args.fixed else "test_results"
+
     print(f"Run dir:    {run_dir}")
     print(f"Model:      {data.get('model', 'unknown')}")
+    print(f"Version:    {version}")
     print()
 
     total_passed = 0
@@ -400,14 +406,14 @@ def main():
             continue
 
         cdata = challenges[cid]
-        result = test_challenge(run_dir, cid, cdata)
+        result = test_challenge(run_dir, cid, cdata, use_fixed=args.fixed)
 
         if result is None:
             skipped += 1
             continue
 
         tested += 1
-        data["challenges"][cid]["test_results"] = result
+        data["challenges"][cid][results_key] = result
 
         p = result["passed"]
         t = result["total"]

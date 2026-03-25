@@ -69,10 +69,23 @@ def score_run(data: dict) -> dict:
                 "compile_error": bool(test_results.get("compile_error")),
             }
 
+        # Fixed test results (if available)
+        test_results_fixed = challenge.get("test_results_fixed")
+        c_test_fixed = None
+        if test_results_fixed:
+            c_test_fixed = {
+                "passed": test_results_fixed.get("passed", 0),
+                "failed": test_results_fixed.get("failed", 0),
+                "errors": test_results_fixed.get("errors", 0),
+                "total": test_results_fixed.get("total", 0),
+                "compile_error": bool(test_results_fixed.get("compile_error")),
+            }
+
         per_challenge[cid] = {
             "issue_count": len(issues),
             "by_type": c_totals,
             "tests": c_test,
+            "tests_fixed": c_test_fixed,
         }
 
     self_catch_rate = self_caught / total_issues if total_issues > 0 else None
@@ -93,6 +106,25 @@ def score_run(data: dict) -> dict:
                 challenges_all_pass += 1
 
     test_pass_rate = total_test_passed / total_test_count if total_test_count > 0 else None
+
+    # Aggregate fixed test results
+    total_fixed_passed = 0
+    total_fixed_count = 0
+    fix_improvement = 0
+    fix_regression = 0
+    challenges_with_fix = 0
+    for cid in CHALLENGE_IDS:
+        c = per_challenge.get(cid, {})
+        orig = c.get("tests")
+        fixed = c.get("tests_fixed")
+        if orig and fixed and orig["total"] > 0 and fixed["total"] > 0:
+            challenges_with_fix += 1
+            total_fixed_passed += fixed["passed"]
+            total_fixed_count += fixed["total"]
+            fix_improvement += max(0, fixed["passed"] - orig["passed"])
+            fix_regression += max(0, orig["passed"] - fixed["passed"])
+
+    fixed_pass_rate = total_fixed_passed / total_fixed_count if total_fixed_count > 0 else None
 
     return {
         "model": data.get("model", "unknown"),
@@ -116,6 +148,15 @@ def score_run(data: dict) -> dict:
             "challenges_tested": challenges_tested,
             "challenges_all_pass": challenges_all_pass,
         },
+        "fixed_pass_rate": fixed_pass_rate,
+        "fix": {
+            "passed": total_fixed_passed,
+            "total": total_fixed_count,
+            "improvement": fix_improvement,
+            "regression": fix_regression,
+            "net": fix_improvement - fix_regression,
+            "challenges_with_fix": challenges_with_fix,
+        } if challenges_with_fix > 0 else None,
     }
 
 

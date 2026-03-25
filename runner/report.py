@@ -234,6 +234,38 @@ def section_test_results(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_fix_effectiveness(aggregates: dict) -> str:
+    """Fix loop effectiveness per model."""
+    has_fix = any(agg.get("fix") for agg in aggregates.values())
+    if not has_fix:
+        return ""
+
+    lines = ["## Fix Effectiveness", ""]
+    lines.append("| Model | Original Pass Rate | Fixed Pass Rate | Improvement | Regressions |")
+    lines.append("|-------|--------------------|-----------------|-------------|-------------|")
+
+    rows = []
+    for label, agg in aggregates.items():
+        tpr = agg.get("test_pass_rate")
+        fpr = agg.get("fixed_pass_rate")
+        fix = agg.get("fix")
+        if tpr and fpr and fix:
+            rows.append((
+                fpr["mean"] * 100 - tpr["mean"] * 100,  # sort by improvement
+                label,
+                tpr["mean"] * 100,
+                fpr["mean"] * 100,
+                fix["improvement"]["mean"],
+                fix["regression"]["mean"],
+            ))
+
+    for _, label, orig, fixed, imp, reg in sorted(rows, reverse=True):
+        lines.append(f"| {label} | {orig:.0f}% | {fixed:.0f}% | +{imp:.1f} | -{reg:.1f} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_findings(aggregates: dict) -> str:
     """Auto-generated key findings."""
     lines = ["## Key Findings", ""]
@@ -290,6 +322,7 @@ def generate_report(results_dir: Path) -> str:
         section_self_catch_by_type(aggregates),
         section_token_efficiency(aggregates),
         section_test_results(aggregates),
+        section_fix_effectiveness(aggregates),
         section_findings(aggregates),
     ]
 

@@ -91,6 +91,11 @@ def aggregate_scores(scores: list[dict]) -> dict:
     test_passed = [s["tests"]["passed"] for s in scores if s.get("test_pass_rate") is not None]
     test_total = [s["tests"]["total"] for s in scores if s.get("test_pass_rate") is not None]
 
+    # Aggregate fix results
+    fixed_pass_rates = [s["fixed_pass_rate"] for s in scores if s.get("fixed_pass_rate") is not None]
+    fix_improvements = [s["fix"]["improvement"] for s in scores if s.get("fix")]
+    fix_regressions = [s["fix"]["regression"] for s in scores if s.get("fix")]
+
     mean_review = mean(review_tokens)
     mean_issues = mean(totals)
 
@@ -114,6 +119,12 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "passed": {"mean": mean(test_passed)},
             "total": {"mean": mean(test_total)},
         } if test_passed else None,
+        "fixed_pass_rate": {"mean": mean(fixed_pass_rates), "stddev": stddev(fixed_pass_rates)} if fixed_pass_rates else None,
+        "fix": {
+            "improvement": {"mean": mean(fix_improvements)},
+            "regression": {"mean": mean(fix_regressions)},
+            "net": {"mean": mean(fix_improvements) - mean(fix_regressions)},
+        } if fix_improvements else None,
     }
 
 

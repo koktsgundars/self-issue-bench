@@ -28,7 +28,7 @@ import time
 from datetime import date
 
 import yaml
-from constants import CHALLENGE_IDS, CHALLENGE_PROMPT_FILES, CHALLENGES_DIR, RESULTS_DIR
+from constants import CHALLENGE_IDS, CHALLENGE_PROMPT_FILES, CHALLENGES_DIR, FIX_PROMPT_FILE, RESULTS_DIR
 from providers import ALL_PROVIDER_NAMES, check_api_key, create_provider
 
 REVIEW_PROMPT = (CHALLENGES_DIR / "review_prompt.md").read_text().strip()
@@ -39,12 +39,15 @@ SECOND_REVIEW_PROMPT = (
     "Use the same output format. If you have nothing to add, say so explicitly."
 )
 
+FIX_PROMPT = FIX_PROMPT_FILE.read_text().strip()
+
 def run_challenge(
     provider,
     model: str,
     challenge_id: str,
     prompt_text: str,
     double_review: bool = False,
+    fix: bool = False,
 ) -> dict:
     """Run a single challenge: generate code, then ask for self-review."""
     print(f"  [{challenge_id}] Generating code...")
@@ -85,6 +88,21 @@ def run_challenge(
         result["self_review_2"] = review2
         result["usage"]["review_2"] = review2_usage
 
+    # Optional fix turn: ask model to fix issues from its review
+    if fix:
+        print(f"  [{challenge_id}] Requesting fix...")
+
+        # Use the last review as context (review2 if double_review, else review)
+        last_review = result.get("self_review_2", review)
+        messages += [
+            {"role": "assistant", "content": last_review},
+            {"role": "user", "content": FIX_PROMPT},
+        ]
+        fixed_code, fix_usage = provider.chat(model, messages)
+
+        result["fixed_code"] = fixed_code
+        result["usage"]["fix"] = fix_usage
+
     return result
 
 
@@ -116,6 +134,11 @@ def main():
         "--double-review",
         action="store_true",
         help="Run a second review pass after the first",
+    )
+    parser.add_argument(
+        "--fix",
+        action="store_true",
+        help="After self-review, ask the model to fix its issues and save both versions",
     )
     parser.add_argument(
         "--runs",
@@ -163,6 +186,7 @@ def main():
         for rn in run_numbers:
             print(f"  Output dir:  {make_run_dir(rn)}")
         print(f"Double review: {args.double_review}")
+        print(f"Fix:           {args.fix}")
         print(f"Challenges:    {challenge_ids}")
         return
 
@@ -201,6 +225,7 @@ def main():
                 "label": label,
                 "date": run_date,
                 "double_review": args.double_review,
+                "fix": args.fix,
                 "run_number": run_num if args.runs > 1 else None,
                 "notes": "",
                 "challenges": {},
@@ -215,6 +240,7 @@ def main():
             result = run_challenge(
                 provider, args.model, challenge_id, prompt_text,
                 double_review=args.double_review,
+                fix=args.fix,
             )
 
             # Determine file extension from challenge content
@@ -251,6 +277,13 @@ def main():
                 review2_path = run_dir / f"{challenge_id}_review2.md"
                 review2_path.write_text(result["self_review_2"])
                 challenge_result["review2_file"] = f"{challenge_id}_review2.md"
+
+            # Save fixed code if present
+            if "fixed_code" in result:
+                fixed_filename = f"{challenge_id}_fixed{ext}"
+                fixed_path = code_dir / fixed_filename
+                fixed_path.write_text(result["fixed_code"])
+                challenge_result["fixed_code_file"] = f"code/{fixed_filename}"
 
             results["challenges"][challenge_id] = challenge_result
 

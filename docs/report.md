@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-24 22:14
+Generated: 2026-03-25 14:49
 
 Models compared: 12
 Challenges: 22
@@ -162,18 +162,24 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 
 | Model | Tests Passed | Total Tests | Pass Rate |
 |-------|-------------|-------------|-----------|
-| sonnet-4 | 30 | 30 | 100% |
-| opus-4 | 30 | 30 | 100% |
-| o3-mini | 30 | 30 | 100% |
-| deepseek-v3.2 | 30 | 30 | 98% |
-| gpt-4o | 29 | 30 | 97% |
-| qwen-3.5-plus | 18 | 19 | 95% |
-| gpt-4o-mini | 26 | 30 | 87% |
-| gemini-3.1-pro | 9 | 10 | 86% |
-| minimax-m2.5 | 14 | 20 | 72% |
-| haiku-4.5 | 13 | 19 | 68% |
-| glm-5 | 4 | 10 | 40% |
-| kimi-k2.5 | 4 | 16 | 25% |
+| sonnet-4 | 60 | 60 | 100% |
+| opus-4 | 60 | 60 | 100% |
+| o3-mini | 60 | 60 | 100% |
+| deepseek-v3.2 | 59 | 60 | 98% |
+| gpt-4o | 58 | 60 | 97% |
+| qwen-3.5-plus | 36 | 38 | 95% |
+| gpt-4o-mini | 52 | 60 | 87% |
+| gemini-3.1-pro | 18 | 21 | 86% |
+| minimax-m2.5 | 29 | 40 | 72% |
+| haiku-4.5 | 26 | 38 | 68% |
+| glm-5 | 8 | 20 | 40% |
+| kimi-k2.5 | 8 | 32 | 25% |
+
+## Fix Effectiveness
+
+| Model | Original Pass Rate | Fixed Pass Rate | Improvement | Regressions |
+|-------|--------------------|-----------------|-------------|-------------|
+| opus-4 | 100% | 100% | +0.0 | -0.0 |
 
 ## Key Findings
 
