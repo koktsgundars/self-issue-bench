@@ -10,7 +10,7 @@ RateLimiter = mod.RateLimiter
 
 
 def test_allows_within_limit():
-    with patch("time.time", return_value=1000.0):
+    with patch("c15_rate_limiter.time.time", return_value=1000.0):
         limiter = RateLimiter(3, 10.0)
         assert limiter.allow() is True
         assert limiter.allow() is True
@@ -18,7 +18,7 @@ def test_allows_within_limit():
 
 
 def test_denies_over_limit():
-    with patch("time.time", return_value=1000.0):
+    with patch("c15_rate_limiter.time.time", return_value=1000.0):
         limiter = RateLimiter(2, 10.0)
         assert limiter.allow() is True
         assert limiter.allow() is True
@@ -27,7 +27,7 @@ def test_denies_over_limit():
 
 def test_sliding_window_allows_after_period():
     t = 1000.0
-    with patch("time.time") as mock_time:
+    with patch("c15_rate_limiter.time.time") as mock_time:
         mock_time.return_value = t
         limiter = RateLimiter(2, 10.0)
         assert limiter.allow() is True
@@ -40,7 +40,7 @@ def test_sliding_window_allows_after_period():
 
 
 def test_single_call_limit():
-    with patch("time.time", return_value=1000.0):
+    with patch("c15_rate_limiter.time.time", return_value=1000.0):
         limiter = RateLimiter(1, 5.0)
         assert limiter.allow() is True
         assert limiter.allow() is False

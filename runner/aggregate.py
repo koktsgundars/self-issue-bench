@@ -88,8 +88,8 @@ def aggregate_scores(scores: list[dict]) -> dict:
 
     # Aggregate test results
     test_pass_rates = [s["test_pass_rate"] for s in scores if s.get("test_pass_rate") is not None]
-    test_passed = [s["tests"]["passed"] for s in scores if s.get("tests")]
-    test_total = [s["tests"]["total"] for s in scores if s.get("tests")]
+    test_passed = [s["tests"]["passed"] for s in scores if s.get("test_pass_rate") is not None]
+    test_total = [s["tests"]["total"] for s in scores if s.get("test_pass_rate") is not None]
 
     mean_review = mean(review_tokens)
     mean_issues = mean(totals)

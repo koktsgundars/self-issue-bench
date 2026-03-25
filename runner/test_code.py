@@ -56,6 +56,22 @@ def parse_pytest_json(output: str) -> list[dict]:
     return details
 
 
+_TIMEOUT_RESULT = {
+    "passed": 0, "failed": 0, "errors": 1, "total": 1,
+    "compile_error": "Timed out (30s)",
+    "details": [],
+}
+
+# Map language to test file extension
+_LANG_EXT = {
+    "python": ".py",
+    "javascript": ".js",
+    "typescript": ".ts",
+    "go": "_test.go",
+    "rust": ".rs",
+}
+
+
 def run_python_test(challenge_id, code_path, test_path, run_dir):
     """Run a Python test suite against generated code."""
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -71,19 +87,22 @@ def run_python_test(challenge_id, code_path, test_path, run_dir):
         shutil.copy(test_path, tmpdir / f"test_{challenge_id}.py")
 
         # Run pytest with JSON report
-        result = subprocess.run(
-            [
-                sys.executable, "-m", "pytest",
-                f"test_{challenge_id}.py",
-                "--tb=short", "-q",
-                "--json-report", "--json-report-file=report.json",
-            ],
-            cwd=tmpdir,
-            capture_output=True,
-            text=True,
-            timeout=30,
-            env={**__import__("os").environ, "PYTHONDONTWRITEBYTECODE": "1"},
-        )
+        try:
+            result = subprocess.run(
+                [
+                    sys.executable, "-m", "pytest",
+                    f"test_{challenge_id}.py",
+                    "--tb=short", "-q",
+                    "--json-report", "--json-report-file=report.json",
+                ],
+                cwd=tmpdir,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                env={**__import__("os").environ, "PYTHONDONTWRITEBYTECODE": "1"},
+            )
+        except subprocess.TimeoutExpired:
+            return _TIMEOUT_RESULT
 
         # Parse results
         report_path = tmpdir / "report.json"
@@ -113,34 +132,6 @@ def run_python_test(challenge_id, code_path, test_path, run_dir):
             "details": details,
         }
 
-
-def _js_loader_preamble(func_or_class_name):
-    """Generate JS preamble that loads generated code via vm and exports the target."""
-    return f"""
-const vm = require('vm');
-const fs = require('fs');
-const code = fs.readFileSync(process.env.CODE_FILE, 'utf8');
-const sandbox = {{}};
-vm.createContext(sandbox);
-vm.runInContext(code, sandbox);
-const {func_or_class_name} = sandbox.{func_or_class_name};
-"""
-
-
-# Map challenge ID to the JS export name to extract
-_JS_EXPORTS = {
-    "c4_array_dedup": "deduplicate",
-    "c5_deep_clone": "deepClone",
-    "c8_token_counter": "countTokens",
-    "c10_debounce": "debounce",
-    "c12_flatten_array": "EventEmitter",
-    "c16_html_entity_decoder": "decodeEntities",
-}
-
-_TS_EXPORTS = {
-    "c14_binary_search": "validateSchema",
-    "c22_markdown_renderer": "renderMarkdown",
-}
 
 
 def parse_node_test_output(stdout: str) -> list[dict]:
@@ -196,14 +187,17 @@ def run_javascript_test(challenge_id, code_path, test_path, run_dir):
         shutil.copy(test_path, tmpdir / f"test_{challenge_id}.js")
 
         # Run with node
-        result = subprocess.run(
-            ["node", "--test", f"test_{challenge_id}.js"],
-            cwd=tmpdir,
-            capture_output=True,
-            text=True,
-            timeout=30,
-            env={**__import__("os").environ, "CODE_FILE": str(code_file)},
-        )
+        try:
+            result = subprocess.run(
+                ["node", "--test", f"test_{challenge_id}.js"],
+                cwd=tmpdir,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                env={**__import__("os").environ, "CODE_FILE": str(code_file)},
+            )
+        except subprocess.TimeoutExpired:
+            return _TIMEOUT_RESULT
 
         # Check for syntax/compile errors
         if result.returncode != 0 and "SyntaxError" in result.stderr:
@@ -261,14 +255,17 @@ def run_typescript_test(challenge_id, code_path, test_path, run_dir):
         shutil.copy(test_path, tmpdir / f"test_{challenge_id}.ts")
 
         # Use tsx to run TypeScript test directly
-        result = subprocess.run(
-            ["npx", "tsx", f"test_{challenge_id}.ts"],
-            cwd=tmpdir,
-            capture_output=True,
-            text=True,
-            timeout=60,
-            env={**__import__("os").environ, "CODE_FILE": str(code_file)},
-        )
+        try:
+            result = subprocess.run(
+                ["npx", "tsx", f"test_{challenge_id}.ts"],
+                cwd=tmpdir,
+                capture_output=True,
+                text=True,
+                timeout=60,
+                env={**__import__("os").environ, "CODE_FILE": str(code_file)},
+            )
+        except subprocess.TimeoutExpired:
+            return _TIMEOUT_RESULT
 
         # Parse simple pass/fail output from test file
         details = _parse_simple_test_output(result.stdout)
@@ -350,9 +347,8 @@ def test_challenge(run_dir, challenge_id, challenge_data):
 
     # Find test file
     test_dir = CHALLENGE_TESTS_DIR / lang
-    test_file = test_dir / f"test_{challenge_id}.py" if lang == "python" else \
-                test_dir / f"test_{challenge_id}.js" if lang == "javascript" else \
-                test_dir / f"test_{challenge_id}.ts"
+    ext = _LANG_EXT.get(lang, ".py")
+    test_file = test_dir / f"test_{challenge_id}{ext}"
 
     if not test_file.exists():
         return None  # No test suite yet

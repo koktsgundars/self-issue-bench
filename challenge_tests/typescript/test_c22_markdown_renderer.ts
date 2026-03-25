@@ -100,5 +100,8 @@ test('inline formatting in heading', () => {
   assertContains(result, '<strong>world</strong>');
 });
 
+// Cleanup temp dir
+fs.rmSync(tmpDir, { recursive: true, force: true });
+
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);

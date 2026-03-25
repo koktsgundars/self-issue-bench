@@ -14,7 +14,7 @@ def test_immediate_success():
     assert result == 42
 
 
-@patch("time.sleep")
+@patch("c7_retry.time.sleep")
 def test_success_after_failures(mock_sleep):
     call_count = 0
 
@@ -30,7 +30,7 @@ def test_success_after_failures(mock_sleep):
     assert call_count == 3
 
 
-@patch("time.sleep")
+@patch("c7_retry.time.sleep")
 def test_all_retries_exhausted(mock_sleep):
     def always_fail():
         raise RuntimeError("always fails")
@@ -42,7 +42,7 @@ def test_all_retries_exhausted(mock_sleep):
         assert "always fails" in str(e)
 
 
-@patch("time.sleep")
+@patch("c7_retry.time.sleep")
 def test_retries_zero(mock_sleep):
     """With retries=0, should call fn once and raise on failure."""
     def fail():
