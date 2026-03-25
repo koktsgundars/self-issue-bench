@@ -57,12 +57,42 @@ def score_run(data: dict) -> dict:
         total_review_tokens += rev.get("input_tokens", 0) + rev.get("output_tokens", 0)
         total_review_tokens += rev2.get("input_tokens", 0) + rev2.get("output_tokens", 0)
 
+        # Test results (if available)
+        test_results = challenge.get("test_results")
+        c_test = None
+        if test_results:
+            c_test = {
+                "passed": test_results.get("passed", 0),
+                "failed": test_results.get("failed", 0),
+                "errors": test_results.get("errors", 0),
+                "total": test_results.get("total", 0),
+                "compile_error": bool(test_results.get("compile_error")),
+            }
+
         per_challenge[cid] = {
             "issue_count": len(issues),
             "by_type": c_totals,
+            "tests": c_test,
         }
 
     self_catch_rate = self_caught / total_issues if total_issues > 0 else None
+
+    # Aggregate test results across challenges
+    total_test_passed = 0
+    total_test_count = 0
+    challenges_tested = 0
+    challenges_all_pass = 0
+    for cid in CHALLENGE_IDS:
+        c = per_challenge.get(cid, {})
+        t = c.get("tests")
+        if t and t["total"] > 0:
+            challenges_tested += 1
+            total_test_passed += t["passed"]
+            total_test_count += t["total"]
+            if t["passed"] == t["total"]:
+                challenges_all_pass += 1
+
+    test_pass_rate = total_test_passed / total_test_count if total_test_count > 0 else None
 
     return {
         "model": data.get("model", "unknown"),
@@ -79,6 +109,13 @@ def score_run(data: dict) -> dict:
             "review": total_review_tokens,
         },
         "per_challenge": per_challenge,
+        "test_pass_rate": test_pass_rate,
+        "tests": {
+            "passed": total_test_passed,
+            "total": total_test_count,
+            "challenges_tested": challenges_tested,
+            "challenges_all_pass": challenges_all_pass,
+        },
     }
 
 

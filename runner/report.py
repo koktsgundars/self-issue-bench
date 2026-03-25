@@ -206,6 +206,34 @@ def section_token_efficiency(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_test_results(aggregates: dict) -> str:
+    """Test pass rates per model."""
+    # Check if any model has test data
+    has_tests = any(agg.get("test_pass_rate") for agg in aggregates.values())
+    if not has_tests:
+        return ""
+
+    lines = ["## Test Pass Rates", ""]
+    lines.append("| Model | Tests Passed | Total Tests | Pass Rate |")
+    lines.append("|-------|-------------|-------------|-----------|")
+
+    rows = []
+    for label, agg in aggregates.items():
+        tpr = agg.get("test_pass_rate")
+        tr = agg.get("test_results")
+        if tpr and tr:
+            rate = tpr["mean"] * 100
+            passed = tr["passed"]["mean"]
+            total = tr["total"]["mean"]
+            rows.append((rate, label, passed, total))
+
+    for rate, label, passed, total in sorted(rows, reverse=True):
+        lines.append(f"| {label} | {passed:.0f} | {total:.0f} | {rate:.0f}% |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_findings(aggregates: dict) -> str:
     """Auto-generated key findings."""
     lines = ["## Key Findings", ""]
@@ -261,6 +289,7 @@ def generate_report(results_dir: Path) -> str:
         section_self_catch(aggregates),
         section_self_catch_by_type(aggregates),
         section_token_efficiency(aggregates),
+        section_test_results(aggregates),
         section_findings(aggregates),
     ]
 

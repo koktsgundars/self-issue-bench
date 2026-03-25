@@ -54,6 +54,35 @@ _TYPE_ALIASES = {
 }
 
 
+# Language for each challenge (used by test runner)
+CHALLENGE_LANG = {
+    "c1_fibonacci": "python",
+    "c2_palindrome": "python",
+    "c3_word_frequency": "python",
+    "c4_array_dedup": "javascript",
+    "c5_deep_clone": "javascript",
+    "c6_csv_parser": "python",
+    "c7_retry": "python",
+    "c8_token_counter": "javascript",
+    "c9_url_parser": "python",
+    "c10_debounce": "javascript",
+    "c11_lru_cache": "python",
+    "c12_flatten_array": "javascript",
+    "c13_date_formatter": "python",
+    "c14_binary_search": "typescript",
+    "c15_rate_limiter": "python",
+    "c16_html_entity_decoder": "javascript",
+    "c17_concurrent_map": "go",
+    "c18_iterator": "go",
+    "c19_ring_buffer": "rust",
+    "c20_expression_parser": "rust",
+    "c21_task_scheduler": "python",
+    "c22_markdown_renderer": "typescript",
+}
+
+CHALLENGE_TESTS_DIR = PROJECT_DIR / "challenge_tests"
+
+
 def normalize_issue_type(raw: str) -> str | None:
     """Normalize issue type string to canonical form, or None if unrecognized."""
     import re

@@ -86,6 +86,11 @@ def aggregate_scores(scores: list[dict]) -> dict:
         else:
             self_catch_by_type[cat] = {"caught": 0, "total": 0, "rate": None}
 
+    # Aggregate test results
+    test_pass_rates = [s["test_pass_rate"] for s in scores if s.get("test_pass_rate") is not None]
+    test_passed = [s["tests"]["passed"] for s in scores if s.get("tests")]
+    test_total = [s["tests"]["total"] for s in scores if s.get("tests")]
+
     mean_review = mean(review_tokens)
     mean_issues = mean(totals)
 
@@ -104,6 +109,11 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "total": {"mean": mean(gen_tokens) + mean_review},
             "review_tokens_per_issue": mean_review / mean_issues if mean_issues > 0 else None,
         },
+        "test_pass_rate": {"mean": mean(test_pass_rates), "stddev": stddev(test_pass_rates)} if test_pass_rates else None,
+        "test_results": {
+            "passed": {"mean": mean(test_passed)},
+            "total": {"mean": mean(test_total)},
+        } if test_passed else None,
     }
 
 
