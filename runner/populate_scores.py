@@ -17,7 +17,7 @@ RESULTS_DIR = Path(__file__).parent.parent / "results"
 # self_caught = True if the model flagged it in pass 1 or pass 2
 
 SCORES = {
-    "sonnet-4-strict-2pass_2026-03-21": {
+    "sonnet-4_2026-03-21": {
         "c1_fibonacci": [],
         "c2_palindrome": [],
         "c3_word_frequency": [
@@ -177,7 +177,7 @@ C9_C16_SCORES = {
             ("correctness", "medium", "fromCharCode fails for code points > U+FFFF — should use fromCodePoint", False),
         ],
     },
-    "sonnet-4-strict-2pass_2026-03-21": {
+    "sonnet-4_2026-03-21": {
         "c9_url_parser": [
             ("edge_case", "medium", "IPv6 with port still breaks bracket parsing", True),
             ("edge_case", "low", "No URL-decoding of query/path values", False),

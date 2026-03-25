@@ -14,8 +14,8 @@ def test_parse_run_dir_with_run_number():
 
 
 def test_parse_run_dir_complex_label():
-    label, run_num = parse_run_dir("sonnet-4-strict-2pass_run1_2026-03-21")
-    assert label == "sonnet-4-strict-2pass"
+    label, run_num = parse_run_dir("some-model-with-dashes_run1_2026-03-21")
+    assert label == "some-model-with-dashes"
     assert run_num == 1
 
 

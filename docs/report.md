@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-24 14:13
+Generated: 2026-03-24 19:09
 
 Models compared: 12
 Challenges: 22
@@ -14,7 +14,7 @@ Challenges: 22
 | glm-5 | 2 | 15.0 +/- 7.1 | 36.0 +/- 15.6 | 9.5 | 4.5 | 0.0 | 1.0 | 52% +/- 18% |
 | o3-mini | 2 | 15.0 +/- 4.2 | 29.0 +/- 8.5 | 3.0 | 11.0 | 0.0 | 1.0 | 76% +/- 22% |
 | opus-4 | 2 | 15.0 +/- 5.7 | 27.5 +/- 10.6 | 4.5 | 10.0 | 0.0 | 0.5 | 72% +/- 27% |
-| sonnet-4-strict-2pass | 2 | 15.0 +/- 4.2 | 29.0 +/- 12.7 | 6.0 | 8.5 | 0.0 | 0.5 | 72% +/- 16% |
+| sonnet-4 | 2 | 15.0 +/- 4.2 | 29.0 +/- 12.7 | 6.0 | 8.5 | 0.0 | 0.5 | 72% +/- 16% |
 | qwen-3.5-plus | 2 | 17.0 +/- 0.0 | 34.5 +/- 4.9 | 6.5 | 10.5 | 0.0 | 0.0 | 26% +/- 29% |
 | gpt-4o | 2 | 19.0 +/- 12.7 | 41.0 +/- 31.1 | 11.0 | 7.0 | 0.0 | 1.0 | 38% +/- 3% |
 | haiku-4.5 | 2 | 20.0 +/- 11.3 | 44.0 +/- 26.9 | 11.5 | 4.5 | 1.5 | 2.5 | 80% +/- 17% |
@@ -24,7 +24,7 @@ Challenges: 22
 
 ## Per-Challenge Breakdown
 
-| Challenge | deepseek-v3.2 | gemini-3.1-pro | glm-5 | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | o3-mini | opus-4 | qwen-3.5-plus | sonnet-4-strict-2pass |
+| Challenge | deepseek-v3.2 | gemini-3.1-pro | glm-5 | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | o3-mini | opus-4 | qwen-3.5-plus | sonnet-4 |
 |-----------|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | c1_fibonacci | 1.5 | 1.0 | 0.5 | 1.0 | 0.5 | 0.0 | 0.5 | 0.5 | 1.5 | 0.0 | 1.0 | 0.0 |
 | c2_palindrome | 1.5 | 1.0 | 0.0 | 2.5 | 2.5 | 3.0 | 0.5 | 0.0 | 1.5 | 1.5 | 1.0 | 1.5 |
@@ -113,7 +113,7 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 |-------|----------------|---------------|---------------|
 | haiku-4.5 | 80% | 16 | 4 |
 | o3-mini | 76% | 11 | 4 |
-| sonnet-4-strict-2pass | 72% | 11 | 4 |
+| sonnet-4 | 72% | 11 | 4 |
 | opus-4 | 72% | 11 | 4 |
 | deepseek-v3.2 | 54% | 13 | 11 |
 | minimax-m2.5 | 54% | 7 | 6 |
@@ -139,7 +139,7 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | o3-mini | 67% (4/6) | 77% (17/22) | - | 50% (1/2) |
 | opus-4 | 67% (6/9) | 70% (14/20) | - | 0% (0/1) |
 | qwen-3.5-plus | 15% (2/13) | 33% (7/21) | - | - |
-| sonnet-4-strict-2pass | 58% (7/12) | 82% (14/17) | - | 0% (0/1) |
+| sonnet-4 | 58% (7/12) | 82% (14/17) | - | 0% (0/1) |
 
 ## Token Efficiency
 
@@ -149,7 +149,7 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | gpt-4o-mini | 3,830 | 9,670 | 13,501 | 460 |
 | deepseek-v3.2 | 5,077 | 8,826 | 13,904 | 360 |
 | opus-4 | 4,900 | 9,968 | 14,868 | 665 |
-| sonnet-4-strict-2pass | 5,178 | 10,885 | 16,063 | 726 |
+| sonnet-4 | 5,178 | 10,885 | 16,063 | 726 |
 | haiku-4.5 | 7,092 | 14,322 | 21,414 | 716 |
 | o3-mini | 11,876 | 25,910 | 37,786 | 1727 |
 | gemini-3.1-pro | 28,564 | 31,222 | 59,786 | 1419 |
