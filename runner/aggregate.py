@@ -154,6 +154,21 @@ def gather_scores(results_dir: Path, label_filter: str | None = None) -> dict[st
     return dict(groups)
 
 
+def gather_scores_by_date(results_dir: Path, label_filter: str | None = None) -> dict[str, dict[str, list[dict]]]:
+    """Group and score runs by label and date. Returns {label: {date: [scores]}}."""
+    groups: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
+    for results_file in sorted(results_dir.glob("*/results.yaml")):
+        dirname = results_file.parent.name
+        label, _ = parse_run_dir(dirname)
+        if label_filter and label != label_filter:
+            continue
+        data = load_run(results_file)
+        run_date = data.get("date", "unknown")
+        score = score_run(data)
+        groups[label][run_date].append(score)
+    return dict(groups)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Aggregate multiple benchmark runs")
     parser.add_argument("results_dir", help="Path to results directory")

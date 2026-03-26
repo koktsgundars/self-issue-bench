@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-25 19:29
+Generated: 2026-03-25 19:32
 
 Models compared: 13
 Challenges: 22
@@ -202,6 +202,94 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | Model | Original Pass Rate | Fixed Pass Rate | Improvement | Regressions |
 |-------|--------------------|-----------------|-------------|-------------|
 | nemotron-3-super | 96% | 83% | +4.0 | -36.0 |
+
+## Score History
+
+Models with runs on multiple dates, showing key metrics per date.
+
+### deepseek-v3.2
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 23 | 70% | - | - |
+| 2026-03-23 | 26 | 38% | 98% | 83% |
+
+### gemini-3.1-pro
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 20 | 40% | - | - |
+| 2026-03-23 | 24 | 62% | 86% | 40% |
+
+### glm-5
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 20 | 65% | - | - |
+| 2026-03-23 | 10 | 40% | 40% | 33% |
+
+### gpt-4o
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 10 | 40% | - | - |
+| 2026-03-23 | 28 | 36% | 97% | 67% |
+
+### gpt-4o-mini
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 12 | 50% | - | - |
+| 2026-03-23 | 30 | 40% | 87% | 67% |
+
+### haiku-4.5
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 12 | 92% | - | - |
+| 2026-03-23 | 28 | 68% | 68% | 50% |
+
+### kimi-k2.5
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 15 | 33% | - | - |
+| 2026-03-23 | 5 | 40% | 25% | 33% |
+
+### minimax-m2.5
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 15 | 53% | - | - |
+| 2026-03-23 | 11 | 55% | 72% | 75% |
+
+### o3-mini
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 12 | 92% | - | - |
+| 2026-03-23 | 18 | 61% | 100% | 100% |
+
+### opus-4
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 11 | 91% | - | - |
+| 2026-03-23 | 19 | 53% | - | - |
+
+### qwen-3.5-plus
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-22 | 17 | 47% | - | - |
+| 2026-03-23 | 17 | 6% | 95% | 67% |
+
+### sonnet-4
+
+| Date | Issues | Self-Catch | Test Pass | First-Try Pass |
+|------|--------|------------|-----------|---------------|
+| 2026-03-21 | 12 | 83% | - | - |
+| 2026-03-23 | 18 | 61% | 100% | 100% |
 
 ## Key Findings
 

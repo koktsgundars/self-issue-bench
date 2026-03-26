@@ -11,7 +11,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
-from aggregate import aggregate_scores, gather_scores
+from aggregate import aggregate_scores, gather_scores, gather_scores_by_date
 from constants import CATEGORIES, CHALLENGE_IDS
 
 
@@ -297,6 +297,48 @@ def section_fix_effectiveness(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_drift(results_dir: Path) -> str:
+    """Show how model scores change over time."""
+    by_date = gather_scores_by_date(results_dir)
+
+    # Only include models with runs on multiple dates
+    multi_date_models = {
+        label: dates for label, dates in by_date.items()
+        if len(dates) > 1
+    }
+
+    if not multi_date_models:
+        return ""
+
+    lines = ["## Score History", ""]
+    lines.append("Models with runs on multiple dates, showing key metrics per date.")
+    lines.append("")
+
+    for label in sorted(multi_date_models):
+        dates = multi_date_models[label]
+        lines.append(f"### {label}")
+        lines.append("")
+        lines.append("| Date | Issues | Self-Catch | Test Pass | First-Try Pass |")
+        lines.append("|------|--------|------------|-----------|---------------|")
+
+        for run_date in sorted(dates):
+            agg = aggregate_scores(dates[run_date])
+            ti = agg["total_issues"]["mean"]
+            scr = agg.get("self_catch_rate")
+            tpr = agg.get("test_pass_rate")
+            ftp = agg.get("first_try_pass_rate")
+
+            scr_str = f"{scr['mean']*100:.0f}%" if scr else "-"
+            tpr_str = f"{tpr['mean']*100:.0f}%" if tpr else "-"
+            ftp_str = f"{ftp['mean']*100:.0f}%" if ftp else "-"
+
+            lines.append(f"| {run_date} | {ti:.0f} | {scr_str} | {tpr_str} | {ftp_str} |")
+
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 def section_findings(aggregates: dict) -> str:
     """Auto-generated key findings."""
     lines = ["## Key Findings", ""]
@@ -355,6 +397,7 @@ def generate_report(results_dir: Path) -> str:
         section_token_efficiency(aggregates),
         section_test_results(aggregates),
         section_fix_effectiveness(aggregates),
+        section_drift(results_dir),
         section_findings(aggregates),
     ]
 
