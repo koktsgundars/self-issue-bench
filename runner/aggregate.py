@@ -96,6 +96,14 @@ def aggregate_scores(scores: list[dict]) -> dict:
     fix_improvements = [s["fix"]["improvement"] for s in scores if s.get("fix")]
     fix_regressions = [s["fix"]["regression"] for s in scores if s.get("fix")]
 
+    # Aggregate new metrics
+    zero_issues = [s["challenges_zero_issues"] for s in scores if s.get("challenges_zero_issues") is not None]
+    agreements = [s["test_review_agreement"] for s in scores if s.get("test_review_agreement") is not None]
+    fix_success_rates = [s["fix_success_rate"] for s in scores if s.get("fix_success_rate") is not None]
+    first_try = [s["tests"]["challenges_all_pass"] / s["tests"]["challenges_tested"]
+                 for s in scores
+                 if s.get("tests") and s["tests"].get("challenges_tested", 0) > 0]
+
     mean_review = mean(review_tokens)
     mean_issues = mean(totals)
 
@@ -125,6 +133,10 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "regression": {"mean": mean(fix_regressions)},
             "net": {"mean": mean(fix_improvements) - mean(fix_regressions)},
         } if fix_improvements else None,
+        "first_try_pass_rate": {"mean": mean(first_try), "stddev": stddev(first_try)} if first_try else None,
+        "challenges_zero_issues": {"mean": mean(zero_issues)} if zero_issues else None,
+        "test_review_agreement": {"mean": mean(agreements)} if agreements else None,
+        "fix_success_rate": {"mean": mean(fix_success_rates)} if fix_success_rates else None,
     }
 
 

@@ -1,9 +1,27 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-25 19:23
+Generated: 2026-03-25 19:29
 
 Models compared: 13
 Challenges: 22
+
+## Model Summary
+
+| Model | Test Pass Rate | First-Try Pass | Self-Catch Rate | Issues | Clean Challenges | Review-Test Agreement |
+|-------|---------------|----------------|-----------------|--------|-----------------|----------------------|
+| sonnet-4 | 100% | 100% | 72% | 15 | 15/22 | 17% |
+| o3-mini | 100% | 100% | 76% | 15 | 16/22 | 17% |
+| deepseek-v3.2 | 98% | 83% | 54% | 24 | 14/22 | 17% |
+| gpt-4o | 97% | 67% | 38% | 19 | 14/22 | 33% |
+| nemotron-3-super | 96% | 83% | 42% | 40 | 9/22 | 44% |
+| qwen-3.5-plus | 95% | 67% | 26% | 17 | 16/22 | 50% |
+| gpt-4o-mini | 87% | 67% | 45% | 21 | 14/22 | 33% |
+| gemini-3.1-pro | 86% | 40% | 51% | 22 | 16/22 | 80% |
+| minimax-m2.5 | 72% | 75% | 54% | 13 | 16/22 | 0% |
+| haiku-4.5 | 68% | 50% | 80% | 20 | 15/22 | 67% |
+| glm-5 | 40% | 33% | 52% | 15 | 15/22 | 67% |
+| kimi-k2.5 | 25% | 33% | 37% | 10 | 16/22 | 0% |
+| opus-4 | - | - | 72% | 15 | 15/22 | - |
 
 ## Cross-Model Comparison
 

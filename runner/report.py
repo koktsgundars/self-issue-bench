@@ -15,6 +15,37 @@ from aggregate import aggregate_scores, gather_scores
 from constants import CATEGORIES, CHALLENGE_IDS
 
 
+def section_model_summary(aggregates: dict) -> str:
+    """Top-level summary with the metrics that matter most."""
+    lines = ["## Model Summary", ""]
+    lines.append("| Model | Test Pass Rate | First-Try Pass | Self-Catch Rate | Issues | Clean Challenges | Review-Test Agreement |")
+    lines.append("|-------|---------------|----------------|-----------------|--------|-----------------|----------------------|")
+
+    rows = []
+    for label, agg in aggregates.items():
+        tpr = agg.get("test_pass_rate")
+        ftp = agg.get("first_try_pass_rate")
+        scr = agg.get("self_catch_rate")
+        ti = agg["total_issues"]["mean"]
+        czi = agg.get("challenges_zero_issues")
+        tra = agg.get("test_review_agreement")
+
+        tpr_str = f"{tpr['mean']*100:.0f}%" if tpr else "-"
+        ftp_str = f"{ftp['mean']*100:.0f}%" if ftp else "-"
+        scr_str = f"{scr['mean']*100:.0f}%" if scr else "-"
+        czi_str = f"{czi['mean']:.0f}/22" if czi else "-"
+        tra_str = f"{tra['mean']*100:.0f}%" if tra else "-"
+
+        sort_key = tpr["mean"] if tpr else 0
+        rows.append((sort_key, label, tpr_str, ftp_str, scr_str, f"{ti:.0f}", czi_str, tra_str))
+
+    for _, label, tpr_str, ftp_str, scr_str, ti_str, czi_str, tra_str in sorted(rows, reverse=True):
+        lines.append(f"| {label} | {tpr_str} | {ftp_str} | {scr_str} | {ti_str} | {czi_str} | {tra_str} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_comparison_table(groups: dict, aggregates: dict) -> str:
     """Cross-model comparison table."""
     lines = ["## Cross-Model Comparison", ""]
@@ -314,6 +345,7 @@ def generate_report(results_dir: Path) -> str:
         f"Models compared: {len(groups)}",
         f"Challenges: {len(CHALLENGE_IDS)}",
         "",
+        section_model_summary(aggregates),
         section_comparison_table(groups, aggregates),
         section_per_challenge(aggregates),
         section_challenge_type_profile(aggregates),

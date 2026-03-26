@@ -107,6 +107,43 @@ def score_run(data: dict) -> dict:
 
     test_pass_rate = total_test_passed / total_test_count if total_test_count > 0 else None
 
+    # Challenges with zero review issues
+    challenges_zero_issues = sum(
+        1 for cid in CHALLENGE_IDS
+        if per_challenge.get(cid, {}).get("issue_count", 0) == 0
+    )
+
+    # Test-review agreement: how often test results and review align
+    test_review_agree = 0
+    test_review_total = 0
+    for cid in CHALLENGE_IDS:
+        c = per_challenge.get(cid, {})
+        t = c.get("tests")
+        if t and t["total"] > 0:
+            test_review_total += 1
+            has_issues = c.get("issue_count", 0) > 0
+            has_failures = t["passed"] < t["total"]
+            if has_issues == has_failures:
+                test_review_agree += 1
+    test_review_agreement = test_review_agree / test_review_total if test_review_total > 0 else None
+
+    # Fix success rate: of challenges where model self-caught issues, how many improved?
+    fix_attempts = 0
+    fix_successes = 0
+    for cid in CHALLENGE_IDS:
+        c = per_challenge.get(cid, {})
+        orig = c.get("tests")
+        fixed = c.get("tests_fixed")
+        if orig and fixed and orig["total"] > 0 and fixed["total"] > 0:
+            # Only count challenges where model found issues in self-review
+            issues = data.get("challenges", {}).get(cid, {}).get("issues", [])
+            self_found = any(i.get("self_caught") for i in issues)
+            if self_found:
+                fix_attempts += 1
+                if fixed["passed"] > orig["passed"]:
+                    fix_successes += 1
+    fix_success_rate = fix_successes / fix_attempts if fix_attempts > 0 else None
+
     # Aggregate fixed test results
     total_fixed_passed = 0
     total_fixed_count = 0
@@ -148,6 +185,9 @@ def score_run(data: dict) -> dict:
             "challenges_tested": challenges_tested,
             "challenges_all_pass": challenges_all_pass,
         },
+        "challenges_zero_issues": challenges_zero_issues,
+        "test_review_agreement": test_review_agreement,
+        "fix_success_rate": fix_success_rate,
         "fixed_pass_rate": fixed_pass_rate,
         "fix": {
             "passed": total_fixed_passed,
