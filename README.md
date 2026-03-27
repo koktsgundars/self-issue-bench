@@ -1,6 +1,6 @@
 # self-issue-bench
 
-A benchmark measuring how many issues a coding assistant introduces into its
+A benchmark measuring how many issues n LLM introduces into its
 own output on trivial, clean coding challenges. No pre-injected bugs.
 We measure self-generated issue rate + self-catch rate.
 
@@ -18,7 +18,7 @@ We publish results periodically. See `docs/benchmark.md` for the full protocol.
 
 ## Methodology
 
-1. Send a challenge prompt to the assistant — fresh session, no system prompt, no context
+1. Send a challenge prompt to the LLM — fresh session, no system prompt, no context
 2. After generation, send the standard review prompt (included in `challenges/`)
 3. Run independent review with a different model
 4. Score by category: correctness, edge case, security, style
@@ -27,8 +27,8 @@ See `docs/benchmark.md` for the complete protocol and scoring rubric.
 
 ## Key metrics
 
-- **Total issues**: count of distinct bugs/smells introduced by the assistant
-- **Self-catch rate** = issues flagged by assistant in review / total issues found
+- **Total issues**: count of distinct bugs/smells introduced by the LLM
+- **Self-catch rate** = issues flagged by LLM in review / total issues found
 
 ## Challenges
 
