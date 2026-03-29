@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-29 12:02
+Generated: 2026-03-29 14:40
 
 Models compared: 13
 Challenges: 52
@@ -215,6 +215,97 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 | c45_binary_heap | 4/13 | 2 |
 | c27_min_heap | 2/13 | 1 |
 | c4_array_dedup | 1/13 | 1 |
+
+## Difficulty Tiers
+
+Based on empirical failure rates across 13 models.
+
+### Hard (32 challenges)
+
+| Challenge | Models with Issues | Mean Issues |
+|-----------|-------------------|-------------|
+| c9_url_parser | 13/13 | 4.1 |
+| c5_deep_clone | 13/13 | 3.6 |
+| c6_csv_parser | 13/13 | 2.5 |
+| c16_html_entity_decoder | 13/13 | 1.7 |
+| c12_flatten_array | 13/13 | 1.4 |
+| c14_binary_search | 12/13 | 3.5 |
+| c22_markdown_renderer | 12/13 | 3.0 |
+| c2_palindrome | 12/13 | 2.8 |
+| c21_task_scheduler | 12/13 | 1.6 |
+| c1_fibonacci | 12/13 | 1.0 |
+| c7_retry | 12/13 | 0.8 |
+| c20_expression_parser | 11/13 | 2.4 |
+| c19_ring_buffer | 11/13 | 1.4 |
+| c8_token_counter | 11/13 | 0.7 |
+| c32_sanitize_html | 10/13 | 3.4 |
+| c42_mustache | 10/13 | 2.8 |
+| c29_parse_cron | 10/13 | 2.7 |
+| c48_result_type | 10/13 | 2.6 |
+| c30_tokenize_sql | 10/13 | 2.4 |
+| c41_json_stream | 10/13 | 2.0 |
+| c34_diff_objects | 10/13 | 2.0 |
+| c51_deep_merge | 10/13 | 1.9 |
+| c52_retry_ts | 10/13 | 1.7 |
+| c49_parse_route | 10/13 | 1.6 |
+| c36_flatten_object | 10/13 | 1.5 |
+| c44_validate_email | 10/13 | 1.3 |
+| c47_typed_event_emitter | 10/13 | 1.2 |
+| c39_observable | 10/13 | 1.2 |
+| c35_throttle | 10/13 | 1.1 |
+| c33_escape_shell | 10/13 | 0.9 |
+| c37_topological_sort | 10/13 | 0.9 |
+| c43_escape_regexp | 10/13 | 0.6 |
+
+### Medium (15 challenges)
+
+| Challenge | Models with Issues | Mean Issues |
+|-----------|-------------------|-------------|
+| c40_parse_query_string | 9/13 | 1.0 |
+| c24_topological_sort | 9/13 | 0.7 |
+| c3_word_frequency | 9/13 | 0.5 |
+| c10_debounce | 9/13 | 0.4 |
+| c23_merge_intervals | 9/13 | 0.4 |
+| c50_parse_ini | 8/13 | 0.9 |
+| c31_glob_match | 8/13 | 0.8 |
+| c28_linked_list | 8/13 | 0.6 |
+| c26_trie | 8/13 | 0.5 |
+| c38_priority_queue | 8/13 | 0.4 |
+| c15_rate_limiter | 8/13 | 0.3 |
+| c11_lru_cache | 8/13 | 0.2 |
+| c46_memoize | 7/13 | 0.4 |
+| c17_concurrent_map | 6/13 | 0.6 |
+| c13_date_formatter | 5/13 | 0.4 |
+
+### Easy (5 challenges)
+
+| Challenge | Models with Issues | Mean Issues |
+|-----------|-------------------|-------------|
+| c18_iterator | 4/13 | 0.3 |
+| c45_binary_heap | 4/13 | 0.1 |
+| c25_edit_distance | 4/13 | 0.1 |
+| c27_min_heap | 2/13 | 0.1 |
+| c4_array_dedup | 1/13 | 0.1 |
+
+**Distribution**: 32 hard, 15 medium, 5 easy, 0 trivial
+
+## Cost-Effectiveness
+
+| Model | Cost/Run | Cost/Issue | Issues/$ | Test Pass Rate |
+|-------|---------|-----------|---------|---------------|
+| gpt-4o-mini | $0.02 | $0.000 | 5507 | 91% |
+| deepseek-v3.2 | $0.03 | $0.000 | 2411 | 96% |
+| nemotron-3-super | $0.05 | $0.000 | 2161 | 92% |
+| haiku-4.5 | $0.21 | $0.002 | 514 | 72% |
+| gpt-4o | $0.25 | $0.003 | 342 | 94% |
+| glm-5 | $0.05 | $0.003 | 327 | 40% |
+| minimax-m2.5 | $0.17 | $0.004 | 234 | 82% |
+| kimi-k2.5 | $0.06 | $0.006 | 156 | 25% |
+| o3-mini | $0.42 | $0.007 | 145 | 98% |
+| sonnet-4 | $0.46 | $0.007 | 143 | 98% |
+| qwen-3.5-plus | $0.18 | $0.011 | 93 | 95% |
+| gemini-3.1-pro | $1.01 | $0.015 | 66 | 92% |
+| opus-4 | $2.13 | $0.035 | 28 | 98% |
 
 ## Self-Catch Analysis
 

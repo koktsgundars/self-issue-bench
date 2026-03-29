@@ -6,6 +6,7 @@ from pathlib import Path
 
 import yaml
 from constants import CATEGORIES, CHALLENGE_IDS, SEVERITIES, SEVERITY_WEIGHTS, normalize_issue_type
+from pricing import get_cost
 
 
 def load_run(path: Path) -> dict:
@@ -23,6 +24,8 @@ def score_run(data: dict) -> dict:
     weighted_score = 0
     total_gen_tokens = 0
     total_review_tokens = 0
+    total_input_tokens = 0
+    total_output_tokens = 0
     per_challenge = {}
 
     for cid in CHALLENGE_IDS:
@@ -53,9 +56,14 @@ def score_run(data: dict) -> dict:
         gen = usage.get("generation", {})
         rev = usage.get("review", {})
         rev2 = usage.get("review_2", {})
-        total_gen_tokens += gen.get("input_tokens", 0) + gen.get("output_tokens", 0)
-        total_review_tokens += rev.get("input_tokens", 0) + rev.get("output_tokens", 0)
-        total_review_tokens += rev2.get("input_tokens", 0) + rev2.get("output_tokens", 0)
+        gen_in = gen.get("input_tokens", 0)
+        gen_out = gen.get("output_tokens", 0)
+        rev_in = rev.get("input_tokens", 0) + rev2.get("input_tokens", 0)
+        rev_out = rev.get("output_tokens", 0) + rev2.get("output_tokens", 0)
+        total_gen_tokens += gen_in + gen_out
+        total_review_tokens += rev_in + rev_out
+        total_input_tokens += gen_in + rev_in
+        total_output_tokens += gen_out + rev_out
 
         # Test results (if available)
         test_results = challenge.get("test_results")
@@ -176,7 +184,10 @@ def score_run(data: dict) -> dict:
         "tokens": {
             "generation": total_gen_tokens,
             "review": total_review_tokens,
+            "input": total_input_tokens,
+            "output": total_output_tokens,
         },
+        "cost": get_cost(data.get("model", ""), total_input_tokens, total_output_tokens),
         "per_challenge": per_challenge,
         "test_pass_rate": test_pass_rate,
         "tests": {
