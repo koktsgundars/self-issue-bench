@@ -33,7 +33,7 @@ def section_model_summary(aggregates: dict) -> str:
         tpr_str = f"{tpr['mean']*100:.0f}%" if tpr else "-"
         ftp_str = f"{ftp['mean']*100:.0f}%" if ftp else "-"
         scr_str = f"{scr['mean']*100:.0f}%" if scr else "-"
-        czi_str = f"{czi['mean']:.0f}/22" if czi else "-"
+        czi_str = f"{czi['mean']:.0f}/{len(CHALLENGE_IDS)}" if czi else "-"
         tra_str = f"{tra['mean']*100:.0f}%" if tra else "-"
 
         sort_key = tpr["mean"] if tpr else 0
