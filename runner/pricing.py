@@ -24,8 +24,21 @@ MODEL_PRICING = {
 }
 
 
+# Aliases for model names that vary between providers (e.g. OpenRouter prefixes)
+_MODEL_ALIASES = {
+    "anthropic/claude-sonnet-4": "claude-sonnet-4-20250514",
+    "anthropic/claude-opus-4": "claude-opus-4-20250514",
+    "anthropic/claude-haiku-4.5": "claude-haiku-4-5-20251001",
+    "anthropic/claude-haiku-4-5": "claude-haiku-4-5-20251001",
+    "openai/gpt-4o": "gpt-4o",
+    "openai/gpt-4o-mini": "gpt-4o-mini",
+    "openai/o3-mini": "o3-mini",
+}
+
+
 def get_cost(model: str, input_tokens: int, output_tokens: int) -> float | None:
     """Compute cost in dollars for a given model and token count."""
+    model = _MODEL_ALIASES.get(model, model)
     pricing = MODEL_PRICING.get(model)
     if not pricing:
         return None
