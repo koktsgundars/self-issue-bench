@@ -18,6 +18,7 @@ from pathlib import Path
 
 from constants import CATEGORIES, CHALLENGE_IDS
 from score import load_run, score_run
+from stats import bootstrap_ci
 
 
 def parse_run_dir(dirname: str) -> tuple[str, int | None]:
@@ -113,9 +114,9 @@ def aggregate_scores(scores: list[dict]) -> dict:
     return {
         "label": scores[0].get("model", "unknown"),
         "n_runs": n,
-        "total_issues": {"mean": mean(totals), "stddev": stddev(totals), "min": min(totals), "max": max(totals)},
+        "total_issues": {"mean": mean(totals), "stddev": stddev(totals), "min": min(totals), "max": max(totals), "ci_95": bootstrap_ci(totals)},
         "weighted_score": {"mean": mean(weighted), "stddev": stddev(weighted), "min": min(weighted), "max": max(weighted)},
-        "self_catch_rate": {"mean": mean(rates), "stddev": stddev(rates)} if rates else None,
+        "self_catch_rate": {"mean": mean(rates), "stddev": stddev(rates), "ci_95": bootstrap_ci(rates)} if rates else None,
         "self_catch_by_type": self_catch_by_type,
         "by_type": by_type,
         "per_challenge": per_challenge,
@@ -125,7 +126,8 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "total": {"mean": mean(gen_tokens) + mean_review},
             "review_tokens_per_issue": mean_review / mean_issues if mean_issues > 0 else None,
         },
-        "test_pass_rate": {"mean": mean(test_pass_rates), "stddev": stddev(test_pass_rates)} if test_pass_rates else None,
+        "test_pass_rate": {"mean": mean(test_pass_rates), "stddev": stddev(test_pass_rates), "ci_95": bootstrap_ci(test_pass_rates)} if test_pass_rates else None,
+        "test_pass_rate_values": test_pass_rates,  # raw values for pairwise tests
         "test_results": {
             "passed": {"mean": mean(test_passed)},
             "total": {"mean": mean(test_total)},

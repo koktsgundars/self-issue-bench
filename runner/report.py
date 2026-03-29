@@ -13,6 +13,7 @@ from pathlib import Path
 
 from aggregate import aggregate_scores, gather_scores, gather_scores_by_date
 from constants import CATEGORIES, CHALLENGE_IDS
+from stats import bootstrap_diff_test
 
 
 def section_model_summary(aggregates: dict) -> str:
@@ -30,9 +31,23 @@ def section_model_summary(aggregates: dict) -> str:
         czi = agg.get("challenges_zero_issues")
         tra = agg.get("test_review_agreement")
 
-        tpr_str = f"{tpr['mean']*100:.0f}%" if tpr else "-"
+        if tpr and tpr.get("ci_95"):
+            ci = tpr["ci_95"]
+            tpr_str = f"{tpr['mean']*100:.0f}% [{ci[0]*100:.0f}-{ci[1]*100:.0f}%]"
+        elif tpr:
+            tpr_str = f"{tpr['mean']*100:.0f}%"
+        else:
+            tpr_str = "-"
+
         ftp_str = f"{ftp['mean']*100:.0f}%" if ftp else "-"
-        scr_str = f"{scr['mean']*100:.0f}%" if scr else "-"
+
+        if scr and scr.get("ci_95"):
+            ci = scr["ci_95"]
+            scr_str = f"{scr['mean']*100:.0f}% [{ci[0]*100:.0f}-{ci[1]*100:.0f}%]"
+        elif scr:
+            scr_str = f"{scr['mean']*100:.0f}%"
+        else:
+            scr_str = "-"
         czi_str = f"{czi['mean']:.0f}/{len(CHALLENGE_IDS)}" if czi else "-"
         tra_str = f"{tra['mean']*100:.0f}%" if tra else "-"
 
@@ -42,6 +57,52 @@ def section_model_summary(aggregates: dict) -> str:
     for _, label, tpr_str, ftp_str, scr_str, ti_str, czi_str, tra_str in sorted(rows, reverse=True):
         lines.append(f"| {label} | {tpr_str} | {ftp_str} | {scr_str} | {ti_str} | {czi_str} | {tra_str} |")
 
+    lines.append("")
+    return "\n".join(lines)
+
+
+def section_significance_matrix(aggregates: dict) -> str:
+    """Pairwise significance tests for test pass rate."""
+    # Only include models with raw test pass rate values
+    models = []
+    for label, agg in sorted(aggregates.items()):
+        vals = agg.get("test_pass_rate_values")
+        if vals and len(vals) >= 3:
+            models.append((label, vals))
+
+    if len(models) < 2:
+        return ""
+
+    lines = ["## Statistical Significance (Test Pass Rate)", ""]
+    lines.append("Pairwise bootstrap test (p < 0.05 = significant difference).")
+    lines.append("")
+
+    # Header
+    labels = [m[0] for m in models]
+    header = "| | " + " | ".join(labels) + " |"
+    sep = "|---|" + "|".join(["---:" for _ in labels]) + "|"
+    lines.append(header)
+    lines.append(sep)
+
+    for i, (label_a, vals_a) in enumerate(models):
+        cells = []
+        for j, (label_b, vals_b) in enumerate(models):
+            if i == j:
+                cells.append("—")
+            elif i < j:
+                p = bootstrap_diff_test(vals_a, vals_b)
+                if p is not None and p < 0.05:
+                    cells.append(f"**{p:.3f}**")
+                elif p is not None:
+                    cells.append(f"{p:.2f}")
+                else:
+                    cells.append("-")
+            else:
+                cells.append("")  # lower triangle left empty
+        lines.append(f"| {label_a} | " + " | ".join(cells) + " |")
+
+    lines.append("")
+    lines.append("Bold = statistically significant (p < 0.05). Upper triangle only.")
     lines.append("")
     return "\n".join(lines)
 
@@ -471,6 +532,7 @@ def generate_report(results_dir: Path) -> str:
         f"Challenges: {len(CHALLENGE_IDS)}",
         "",
         section_model_summary(aggregates),
+        section_significance_matrix(aggregates),
         section_comparison_table(groups, aggregates),
         section_per_challenge(aggregates),
         section_challenge_type_profile(aggregates),
