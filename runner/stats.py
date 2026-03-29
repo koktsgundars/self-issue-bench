@@ -2,19 +2,22 @@
 
 import random
 
+# Fixed seed for reproducible reports
+_RNG = random.Random(42)
+
 
 def bootstrap_ci(values: list[float], n_resamples: int = 2000, ci: float = 0.95) -> tuple[float, float] | None:
     """Compute bootstrap confidence interval for the mean.
 
     Returns (low, high) or None if insufficient data.
     """
-    if len(values) < 3:
+    if len(values) < 3 or n_resamples <= 0:
         return None
 
     alpha = (1 - ci) / 2
     means = []
     for _ in range(n_resamples):
-        sample = random.choices(values, k=len(values))
+        sample = _RNG.choices(values, k=len(values))
         means.append(sum(sample) / len(sample))
 
     means.sort()
@@ -29,7 +32,7 @@ def bootstrap_diff_test(a: list[float], b: list[float], n_resamples: int = 5000)
     Returns p-value (two-sided) or None if insufficient data.
     Tests H0: mean(a) == mean(b).
     """
-    if len(a) < 3 or len(b) < 3:
+    if len(a) < 3 or len(b) < 3 or n_resamples <= 0:
         return None
 
     observed_diff = abs(sum(a) / len(a) - sum(b) / len(b))
@@ -42,8 +45,8 @@ def bootstrap_diff_test(a: list[float], b: list[float], n_resamples: int = 5000)
 
     count = 0
     for _ in range(n_resamples):
-        sa = random.choices(a_centered, k=len(a))
-        sb = random.choices(b_centered, k=len(b))
+        sa = _RNG.choices(a_centered, k=len(a))
+        sb = _RNG.choices(b_centered, k=len(b))
         diff = abs(sum(sa) / len(sa) - sum(sb) / len(sb))
         if diff >= observed_diff:
             count += 1

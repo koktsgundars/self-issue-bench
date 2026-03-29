@@ -1,6 +1,6 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-29 16:05
+Generated: 2026-03-29 16:33
 
 Models compared: 13
 Challenges: 52
@@ -11,17 +11,17 @@ Challenges: 52
 |-------|---------------|----------------|-----------------|--------|-----------------|----------------------|
 | sonnet-4 | 98% [97-99%] | 91% | 71% [67-76%] | 66 | 27/52 | 39% |
 | opus-4 | 98% [97-98%] | 88% | 77% [67-84%] | 60 | 28/52 | 46% |
-| o3-mini | 98% [96-99%] | 90% | 51% [39-66%] | 62 | 29/52 | 44% |
-| deepseek-v3.2 | 96% [95-98%] | 84% | 64% [55-70%] | 80 | 24/52 | 41% |
+| o3-mini | 98% [96-99%] | 90% | 51% [39-65%] | 62 | 29/52 | 44% |
+| deepseek-v3.2 | 96% [95-98%] | 84% | 64% [55-69%] | 80 | 24/52 | 41% |
 | qwen-3.5-plus | 95% | 67% | 26% | 17 | 46/52 | 50% |
 | gpt-4o | 94% [93-96%] | 77% | 30% [25-35%] | 85 | 22/52 | 42% |
-| nemotron-3-super | 92% [89-95%] | 71% | 50% [45-55%] | 103 | 19/52 | 54% |
+| nemotron-3-super | 92% [89-95%] | 71% | 50% [46-55%] | 103 | 19/52 | 54% |
 | gemini-3.1-pro | 92% [88-95%] | 72% | 44% [37-52%] | 66 | 30/52 | 62% |
 | gpt-4o-mini | 91% [89-93%] | 72% | 48% [45-52%] | 94 | 21/52 | 45% |
 | minimax-m2.5 | 82% [78-86%] | 79% | 47% [41-52%] | 40 | 34/52 | 48% |
 | haiku-4.5 | 72% [70-75%] | 54% | 69% [63-77%] | 107 | 21/52 | 64% |
 | glm-5 | 40% | 33% | 52% | 15 | 45/52 | 67% |
-| kimi-k2.5 | 25% | 33% | 37% | 10 | 46/52 | 0% |
+| kimi-k2.5 | 25% | 33% | 37% | 7 | 48/52 | 0% |
 
 ## Statistical Significance (Test Pass Rate)
 
@@ -29,15 +29,15 @@ Pairwise bootstrap test (p < 0.05 = significant difference).
 
 | | deepseek-v3.2 | gemini-3.1-pro | gpt-4o | gpt-4o-mini | haiku-4.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | sonnet-4 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| deepseek-v3.2 | — | **0.013** | **0.028** | **0.000** | **0.000** | **0.000** | **0.004** | 0.15 | **0.040** | **0.030** |
-| gemini-3.1-pro |  | — | 0.21 | 0.76 | **0.000** | **0.002** | 0.95 | **0.001** | **0.000** | **0.000** |
-| gpt-4o |  |  | — | **0.004** | **0.000** | **0.000** | 0.16 | **0.001** | **0.000** | **0.000** |
+| deepseek-v3.2 | — | **0.013** | **0.025** | **0.000** | **0.000** | **0.000** | **0.007** | 0.16 | **0.043** | **0.029** |
+| gemini-3.1-pro |  | — | 0.20 | 0.75 | **0.000** | **0.001** | 0.95 | **0.002** | **0.000** | **0.000** |
+| gpt-4o |  |  | — | **0.003** | **0.000** | **0.000** | 0.17 | **0.000** | **0.000** | **0.000** |
 | gpt-4o-mini |  |  |  | — | **0.000** | **0.000** | 0.68 | **0.000** | **0.000** | **0.000** |
 | haiku-4.5 |  |  |  |  | — | **0.000** | **0.000** | **0.000** | **0.000** | **0.000** |
-| minimax-m2.5 |  |  |  |  |  | — | **0.001** | **0.000** | **0.000** | **0.000** |
+| minimax-m2.5 |  |  |  |  |  | — | **0.000** | **0.000** | **0.000** | **0.000** |
 | nemotron-3-super |  |  |  |  |  |  | — | **0.000** | **0.000** | **0.000** |
-| o3-mini |  |  |  |  |  |  |  | — | 0.97 | 0.67 |
-| opus-4 |  |  |  |  |  |  |  |  | — | 0.54 |
+| o3-mini |  |  |  |  |  |  |  | — | 0.96 | 0.65 |
+| opus-4 |  |  |  |  |  |  |  |  | — | 0.55 |
 | sonnet-4 |  |  |  |  |  |  |  |  |  | — |
 
 Bold = statistically significant (p < 0.05). Upper triangle only.
@@ -46,7 +46,7 @@ Bold = statistically significant (p < 0.05). Upper triangle only.
 
 | Model | Runs | Total Issues | Weighted | Correctness | Edge Case | Security | Style | Self-Catch Rate |
 |-------|------|-------------|---------|-------------|-----------|----------|-------|----------------|
-| kimi-k2.5 | 2 | 10.0 +/- 7.1 | 22.5 +/- 10.6 | 6.5 | 3.5 | 0.0 | 0.0 | 37% +/- 5% |
+| kimi-k2.5 | 3 | 6.7 +/- 7.6 | 15.0 +/- 15.0 | 4.3 | 2.3 | 0.0 | 0.0 | 37% +/- 5% |
 | glm-5 | 2 | 15.0 +/- 7.1 | 36.0 +/- 15.6 | 9.5 | 4.5 | 0.0 | 1.0 | 52% +/- 18% |
 | qwen-3.5-plus | 2 | 17.0 +/- 0.0 | 34.5 +/- 4.9 | 6.5 | 10.5 | 0.0 | 0.0 | 26% +/- 29% |
 | minimax-m2.5 | 7 | 40.1 +/- 31.3 | 86.3 +/- 67.0 | 21.4 | 16.9 | 0.4 | 1.4 | 47% +/- 8% |
@@ -64,27 +64,27 @@ Bold = statistically significant (p < 0.05). Upper triangle only.
 
 | Challenge | deepseek-v3.2 | gemini-3.1-pro | glm-5 | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | qwen-3.5-plus | sonnet-4 |
 |-----------|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| c1_fibonacci | 1.9 | 1.3 | 0.5 | 2.0 | 2.3 | 0.0 | 0.5 | 0.6 | 0.5 | 1.3 | 0.1 | 1.0 | 0.6 |
-| c2_palindrome | 3.1 | 2.5 | 0.0 | 3.9 | 3.6 | 3.9 | 0.5 | 1.4 | 4.0 | 2.6 | 2.4 | 1.0 | 2.7 |
+| c1_fibonacci | 1.9 | 1.3 | 0.5 | 2.0 | 2.3 | 0.0 | 0.3 | 0.6 | 0.5 | 1.3 | 0.1 | 1.0 | 0.6 |
+| c2_palindrome | 3.1 | 2.5 | 0.0 | 3.9 | 3.6 | 3.9 | 0.3 | 1.4 | 4.0 | 2.6 | 2.4 | 1.0 | 2.7 |
 | c3_word_frequency | 0.3 | 0.3 | 0.5 | 0.3 | 0.0 | 2.4 | 0.0 | 0.0 | 0.3 | 0.9 | 0.3 | 0.0 | 0.1 |
 | c4_array_dedup | 0.0 | 0.0 | 0.0 | 0.6 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| c5_deep_clone | 4.7 | 1.5 | 2.5 | 4.0 | 4.7 | 4.3 | 1.5 | 3.0 | 5.0 | 3.7 | 2.6 | 3.0 | 4.0 |
-| c6_csv_parser | 2.3 | 3.0 | 2.5 | 1.7 | 2.9 | 4.4 | 0.5 | 0.9 | 3.2 | 2.1 | 2.7 | 1.0 | 2.9 |
-| c7_retry | 0.7 | 0.8 | 0.5 | 0.4 | 0.7 | 2.0 | 0.5 | 0.4 | 1.7 | 1.0 | 0.0 | 0.5 | 0.7 |
-| c8_token_counter | 0.3 | 0.3 | 0.5 | 1.1 | 1.1 | 0.0 | 0.5 | 0.3 | 1.3 | 1.3 | 0.4 | 0.0 | 1.0 |
-| c9_url_parser | 4.6 | 5.3 | 2.5 | 5.1 | 4.1 | 4.3 | 2.5 | 3.0 | 4.8 | 3.9 | 3.9 | 2.5 | 3.6 |
-| c10_debounce | 0.1 | 0.3 | 0.0 | 0.7 | 1.3 | 0.4 | 0.5 | 0.0 | 0.5 | 0.3 | 0.0 | 0.0 | 0.6 |
+| c5_deep_clone | 4.7 | 1.5 | 2.5 | 4.0 | 4.7 | 4.3 | 1.0 | 3.0 | 5.0 | 3.7 | 2.6 | 3.0 | 4.0 |
+| c6_csv_parser | 2.3 | 3.0 | 2.5 | 1.7 | 2.9 | 4.4 | 0.3 | 0.9 | 3.2 | 2.1 | 2.7 | 1.0 | 2.9 |
+| c7_retry | 0.7 | 0.8 | 0.5 | 0.4 | 0.7 | 2.0 | 0.3 | 0.4 | 1.7 | 1.0 | 0.0 | 0.5 | 0.7 |
+| c8_token_counter | 0.3 | 0.3 | 0.5 | 1.1 | 1.1 | 0.0 | 0.3 | 0.3 | 1.3 | 1.3 | 0.4 | 0.0 | 1.0 |
+| c9_url_parser | 4.6 | 5.3 | 2.5 | 5.1 | 4.1 | 4.3 | 1.7 | 3.0 | 4.8 | 3.9 | 3.9 | 2.5 | 3.6 |
+| c10_debounce | 0.1 | 0.3 | 0.0 | 0.7 | 1.3 | 0.4 | 0.3 | 0.0 | 0.5 | 0.3 | 0.0 | 0.0 | 0.6 |
 | c11_lru_cache | 0.3 | 0.5 | 0.0 | 0.0 | 0.1 | 0.7 | 0.0 | 0.3 | 0.2 | 0.0 | 0.3 | 0.0 | 0.1 |
-| c12_flatten_array | 2.0 | 2.0 | 1.0 | 1.3 | 1.1 | 1.7 | 0.5 | 0.9 | 2.0 | 1.6 | 1.3 | 1.0 | 1.1 |
+| c12_flatten_array | 2.0 | 2.0 | 1.0 | 1.3 | 1.1 | 1.7 | 0.3 | 0.9 | 2.0 | 1.6 | 1.3 | 1.0 | 1.1 |
 | c13_date_formatter | 0.6 | 0.2 | 0.0 | 0.1 | 0.0 | 3.3 | 0.0 | 0.0 | 0.7 | 0.0 | 0.0 | 0.0 | 0.0 |
 | c14_binary_search | 3.4 | 4.0 | 2.0 | 3.7 | 4.4 | 5.0 | 0.0 | 2.0 | 5.0 | 3.0 | 3.0 | 2.0 | 3.1 |
 | c15_rate_limiter | 0.0 | 0.0 | 0.5 | 0.3 | 0.3 | 0.0 | 0.0 | 0.7 | 0.8 | 0.4 | 0.1 | 0.0 | 0.7 |
-| c16_html_entity_decoder | 1.3 | 1.8 | 0.5 | 1.6 | 2.0 | 3.1 | 1.5 | 1.4 | 2.7 | 1.6 | 0.9 | 1.5 | 1.7 |
+| c16_html_entity_decoder | 1.3 | 1.8 | 0.5 | 1.6 | 2.0 | 3.1 | 1.0 | 1.4 | 2.7 | 1.6 | 0.9 | 1.5 | 1.7 |
 | c17_concurrent_map | 0.9 | 0.8 | 0.0 | 1.7 | 1.9 | 0.0 | 0.0 | 0.7 | 0.7 | 0.0 | 0.0 | 0.0 | 0.0 |
 | c18_iterator | 0.3 | 0.0 | 0.0 | 0.6 | 0.0 | 1.9 | 0.0 | 0.0 | 0.0 | 0.0 | 0.3 | 0.0 | 0.0 |
-| c19_ring_buffer | 1.0 | 0.0 | 0.5 | 2.0 | 1.9 | 1.6 | 0.5 | 0.6 | 3.5 | 2.0 | 0.6 | 0.0 | 1.4 |
+| c19_ring_buffer | 1.0 | 0.0 | 0.5 | 2.0 | 1.9 | 1.6 | 0.3 | 0.6 | 3.5 | 2.0 | 0.6 | 0.0 | 1.4 |
 | c20_expression_parser | 2.9 | 4.5 | 0.0 | 3.0 | 3.9 | 3.0 | 0.0 | 0.4 | 4.2 | 1.6 | 0.3 | 1.0 | 2.4 |
-| c21_task_scheduler | 2.1 | 0.3 | 0.5 | 2.3 | 2.3 | 3.4 | 0.5 | 1.3 | 3.2 | 0.6 | 1.3 | 0.0 | 0.7 |
+| c21_task_scheduler | 2.1 | 0.3 | 0.5 | 2.3 | 2.3 | 3.4 | 0.3 | 1.3 | 3.2 | 0.6 | 1.3 | 0.0 | 0.7 |
 | c22_markdown_renderer | 2.7 | 3.3 | 0.5 | 4.4 | 3.9 | 4.6 | 0.0 | 0.7 | 3.8 | 2.9 | 2.9 | 2.5 | 3.1 |
 | c23_merge_intervals | 0.6 | 0.5 | 0.0 | 0.4 | 0.7 | 0.3 | 0.0 | 0.6 | 0.3 | 0.1 | 0.4 | 0.0 | 0.0 |
 | c24_topological_sort | 1.1 | 0.2 | 0.0 | 1.3 | 1.1 | 1.6 | 0.0 | 0.3 | 0.5 | 0.3 | 1.1 | 0.0 | 0.0 |
@@ -123,27 +123,27 @@ Mean issues of each type per model, summed across all models.
 
 | Challenge | Correctness | Edge Case | Security | Style | Total |
 |-----------|-------------|-----------|----------|-------|-------|
-| c1_fibonacci | 6 | 6 | 0 | 0 | 13 |
-| c2_palindrome | 19 | 11 | 1 | 1 | 32 |
+| c1_fibonacci | 6 | 6 | 0 | 0 | 12 |
+| c2_palindrome | 19 | 11 | 1 | 1 | 31 |
 | c3_word_frequency | 2 | 3 | 0 | 0 | 5 |
 | c4_array_dedup | 0 | 0 | 0 | 0 | 1 |
 | c5_deep_clone | 2 | 41 | 0 | 1 | 44 |
 | c6_csv_parser | 18 | 10 | 1 | 2 | 30 |
 | c7_retry | 7 | 2 | 0 | 2 | 10 |
 | c8_token_counter | 2 | 5 | 0 | 1 | 8 |
-| c9_url_parser | 20 | 30 | 0 | 0 | 50 |
+| c9_url_parser | 20 | 29 | 0 | 0 | 49 |
 | c10_debounce | 3 | 2 | 0 | 0 | 5 |
 | c11_lru_cache | 2 | 0 | 0 | 0 | 3 |
-| c12_flatten_array | 11 | 4 | 0 | 2 | 18 |
+| c12_flatten_array | 11 | 4 | 0 | 2 | 17 |
 | c13_date_formatter | 2 | 0 | 0 | 1 | 5 |
 | c14_binary_search | 27 | 12 | 1 | 1 | 41 |
 | c15_rate_limiter | 2 | 2 | 0 | 0 | 4 |
-| c16_html_entity_decoder | 11 | 10 | 1 | 0 | 22 |
+| c16_html_entity_decoder | 10 | 9 | 1 | 0 | 21 |
 | c17_concurrent_map | 5 | 0 | 0 | 1 | 7 |
 | c18_iterator | 1 | 0 | 0 | 2 | 3 |
-| c19_ring_buffer | 7 | 7 | 0 | 2 | 16 |
+| c19_ring_buffer | 7 | 7 | 0 | 2 | 15 |
 | c20_expression_parser | 16 | 11 | 0 | 0 | 27 |
-| c21_task_scheduler | 14 | 3 | 0 | 2 | 18 |
+| c21_task_scheduler | 13 | 3 | 0 | 2 | 18 |
 | c22_markdown_renderer | 23 | 10 | 2 | 0 | 35 |
 | c23_merge_intervals | 3 | 1 | 0 | 0 | 4 |
 | c24_topological_sort | 3 | 3 | 0 | 1 | 8 |
@@ -182,19 +182,19 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 
 | Challenge | Models with Issues | Total Issues Across Models |
 |-----------|-------------------|---------------------------|
-| c9_url_parser | 13/13 | 50 |
+| c9_url_parser | 13/13 | 49 |
 | c5_deep_clone | 13/13 | 44 |
 | c6_csv_parser | 13/13 | 30 |
-| c16_html_entity_decoder | 13/13 | 22 |
-| c12_flatten_array | 13/13 | 18 |
+| c16_html_entity_decoder | 13/13 | 21 |
+| c12_flatten_array | 13/13 | 17 |
 | c14_binary_search | 12/13 | 41 |
 | c22_markdown_renderer | 12/13 | 35 |
-| c2_palindrome | 12/13 | 32 |
+| c2_palindrome | 12/13 | 31 |
 | c21_task_scheduler | 12/13 | 18 |
-| c1_fibonacci | 12/13 | 13 |
+| c1_fibonacci | 12/13 | 12 |
 | c7_retry | 12/13 | 10 |
 | c20_expression_parser | 11/13 | 27 |
-| c19_ring_buffer | 11/13 | 16 |
+| c19_ring_buffer | 11/13 | 15 |
 | c8_token_counter | 11/13 | 8 |
 | c32_sanitize_html | 10/13 | 36 |
 | c42_mustache | 10/13 | 30 |
@@ -243,30 +243,30 @@ Based on empirical failure rates across 13 models.
 
 | Challenge | Models with Issues | Mean Issues |
 |-----------|-------------------|-------------|
-| c9_url_parser | 13/13 | 4.1 |
+| c9_url_parser | 13/13 | 4.0 |
 | c5_deep_clone | 13/13 | 3.6 |
 | c6_csv_parser | 13/13 | 2.5 |
 | c16_html_entity_decoder | 13/13 | 1.7 |
 | c12_flatten_array | 13/13 | 1.4 |
-| c14_binary_search | 12/13 | 3.5 |
+| c14_binary_search | 12/13 | 3.4 |
 | c22_markdown_renderer | 12/13 | 3.0 |
 | c2_palindrome | 12/13 | 2.8 |
 | c21_task_scheduler | 12/13 | 1.6 |
 | c1_fibonacci | 12/13 | 1.0 |
 | c7_retry | 12/13 | 0.8 |
-| c20_expression_parser | 11/13 | 2.4 |
-| c19_ring_buffer | 11/13 | 1.4 |
+| c20_expression_parser | 11/13 | 2.3 |
+| c19_ring_buffer | 11/13 | 1.3 |
 | c8_token_counter | 11/13 | 0.7 |
-| c32_sanitize_html | 10/13 | 3.4 |
-| c42_mustache | 10/13 | 2.8 |
+| c32_sanitize_html | 10/13 | 3.3 |
+| c42_mustache | 10/13 | 2.7 |
 | c29_parse_cron | 10/13 | 2.7 |
-| c48_result_type | 10/13 | 2.6 |
+| c48_result_type | 10/13 | 2.5 |
 | c30_tokenize_sql | 10/13 | 2.4 |
-| c41_json_stream | 10/13 | 2.0 |
-| c34_diff_objects | 10/13 | 2.0 |
+| c41_json_stream | 10/13 | 1.9 |
+| c34_diff_objects | 10/13 | 1.9 |
 | c51_deep_merge | 10/13 | 1.9 |
 | c52_retry_ts | 10/13 | 1.7 |
-| c49_parse_route | 10/13 | 1.6 |
+| c49_parse_route | 10/13 | 1.5 |
 | c36_flatten_object | 10/13 | 1.5 |
 | c44_validate_email | 10/13 | 1.3 |
 | c47_typed_event_emitter | 10/13 | 1.2 |
@@ -274,7 +274,7 @@ Based on empirical failure rates across 13 models.
 | c35_throttle | 10/13 | 1.1 |
 | c33_escape_shell | 10/13 | 0.9 |
 | c37_topological_sort | 10/13 | 0.9 |
-| c43_escape_regexp | 10/13 | 0.6 |
+| c43_escape_regexp | 10/13 | 0.5 |
 
 ### Medium (15 challenges)
 
@@ -287,7 +287,7 @@ Based on empirical failure rates across 13 models.
 | c23_merge_intervals | 9/13 | 0.4 |
 | c50_parse_ini | 8/13 | 0.9 |
 | c31_glob_match | 8/13 | 0.8 |
-| c28_linked_list | 8/13 | 0.6 |
+| c28_linked_list | 8/13 | 0.5 |
 | c26_trie | 8/13 | 0.5 |
 | c38_priority_queue | 8/13 | 0.4 |
 | c15_rate_limiter | 8/13 | 0.3 |
@@ -320,10 +320,10 @@ Based on empirical failure rates across 13 models.
 | glm-5 | $0.05 | $0.003 | 327 | 40% |
 | minimax-m2.5 | $0.17 | $0.004 | 234 | 82% |
 | o3-mini | $0.39 | $0.006 | 157 | 98% |
-| kimi-k2.5 | $0.06 | $0.006 | 156 | 25% |
 | sonnet-4 | $0.46 | $0.007 | 143 | 98% |
 | qwen-3.5-plus | $0.18 | $0.011 | 93 | 95% |
 | gemini-3.1-pro | $1.01 | $0.015 | 66 | 92% |
+| kimi-k2.5 | $0.15 | $0.022 | 46 | 25% |
 | opus-4 | $2.13 | $0.035 | 28 | 98% |
 
 ## Self-Catch Analysis
@@ -340,7 +340,7 @@ Based on empirical failure rates across 13 models.
 | gpt-4o-mini | 48% | 45 | 48 |
 | minimax-m2.5 | 47% | 19 | 21 |
 | gemini-3.1-pro | 44% | 29 | 37 |
-| kimi-k2.5 | 37% | 4 | 6 |
+| kimi-k2.5 | 37% | 2 | 4 |
 | gpt-4o | 30% | 25 | 59 |
 | qwen-3.5-plus | 26% | 4 | 12 |
 
@@ -371,11 +371,11 @@ Based on empirical failure rates across 13 models.
 | deepseek-v3.2 | 19,069 | 31,909 | 50,979 | 400 |
 | opus-4 | 20,444 | 32,064 | 52,508 | 531 |
 | sonnet-4 | 21,395 | 34,363 | 55,758 | 521 |
-| kimi-k2.5 | 34,156 | 41,331 | 75,487 | 4133 |
 | haiku-4.5 | 31,074 | 48,678 | 79,751 | 453 |
 | glm-5 | 33,492 | 48,192 | 81,685 | 3213 |
 | o3-mini | 40,199 | 69,238 | 109,437 | 1125 |
 | qwen-3.5-plus | 61,416 | 96,798 | 158,215 | 5694 |
+| kimi-k2.5 | 75,045 | 97,619 | 172,664 | 14643 |
 | nemotron-3-super | 56,465 | 123,528 | 179,992 | 1199 |
 | minimax-m2.5 | 101,199 | 83,597 | 184,796 | 2082 |
 | gemini-3.1-pro | 101,580 | 117,297 | 218,877 | 1768 |
@@ -472,6 +472,7 @@ Models with runs on multiple dates, showing key metrics per date.
 |------|--------|------------|-----------|---------------|
 | 2026-03-22 | 15 | 33% | - | - |
 | 2026-03-23 | 5 | 40% | 25% | 33% |
+| 2026-03-29 | 0 | - | - | - |
 
 ### minimax-m2.5
 
@@ -526,7 +527,7 @@ Models with runs on multiple dates, showing key metrics per date.
 
 ## Key Findings
 
-- **Fewest issues**: kimi-k2.5 (10 issues)
+- **Fewest issues**: kimi-k2.5 (7 issues)
 - **Most issues**: haiku-4.5 (107 issues)
 - **Best self-catch rate**: opus-4 (77%)
 - **Worst self-catch rate**: qwen-3.5-plus (26%)
