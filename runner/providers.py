@@ -68,16 +68,26 @@ class OpenAIProvider:
             kwargs["api_key"] = api_key
         self.client = openai.OpenAI(**kwargs)
 
-    def chat(self, model: str, messages: list[dict]) -> tuple[str, dict]:
+    def chat(self, model: str, messages: list[dict], _retries: int = 3) -> tuple[str, dict]:
         # o-series reasoning models (o1, o3, o4, etc.) require max_completion_tokens
         import re
+        import time as _time
         is_o_series = bool(re.match(r"^o\d", model))
         token_param = "max_completion_tokens" if is_o_series else "max_tokens"
-        response = self.client.chat.completions.create(
-            model=model,
-            messages=messages,
-            **{token_param: MAX_TOKENS},
-        )
+        for attempt in range(_retries):
+            response = self.client.chat.completions.create(
+                model=model,
+                messages=messages,
+                **{token_param: MAX_TOKENS},
+            )
+            if response.choices:
+                break
+            if attempt < _retries - 1:
+                print(f"    WARN: Empty response from {model}, retrying ({attempt + 1}/{_retries})...")
+                _time.sleep(2 ** attempt)
+        else:
+            if not response.choices:
+                raise RuntimeError(f"Empty response from {model} after {_retries} retries")
         text = response.choices[0].message.content or ""
         usage = {
             "input_tokens": response.usage.prompt_tokens if response.usage else 0,
