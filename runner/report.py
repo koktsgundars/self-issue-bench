@@ -167,6 +167,89 @@ def section_discrimination(aggregates: dict) -> str:
     return "\n".join(lines)
 
 
+def section_difficulty_tiers(groups: dict, aggregates: dict) -> str:
+    """Classify challenges into difficulty tiers."""
+    n_models = len(aggregates)
+    challenge_stats = []
+
+    for cid in CHALLENGE_IDS:
+        models_with_issues = 0
+        total_issues = 0
+        for label, scores in groups.items():
+            for s in scores:
+                pc = s["per_challenge"].get(cid, {})
+                if pc.get("issue_count", 0) > 0:
+                    models_with_issues += 1
+                    break
+            for s in scores:
+                pc = s["per_challenge"].get(cid, {})
+                total_issues += pc.get("issue_count", 0)
+        mean_issues = total_issues / sum(len(v) for v in groups.values()) if groups else 0
+        challenge_stats.append((models_with_issues, mean_issues, cid))
+
+    # Classify
+    hard = [(m, i, c) for m, i, c in challenge_stats if m >= n_models * 0.75]
+    medium = [(m, i, c) for m, i, c in challenge_stats if n_models * 0.38 <= m < n_models * 0.75]
+    easy = [(m, i, c) for m, i, c in challenge_stats if 0 < m < n_models * 0.38]
+    trivial = [(m, i, c) for m, i, c in challenge_stats if m == 0]
+
+    lines = ["## Difficulty Tiers", ""]
+    lines.append(f"Based on empirical failure rates across {n_models} models.")
+    lines.append("")
+
+    for tier_name, tier_data in [("Hard", hard), ("Medium", medium), ("Easy", easy), ("Trivial", trivial)]:
+        if not tier_data:
+            continue
+        lines.append(f"### {tier_name} ({len(tier_data)} challenges)")
+        lines.append("")
+        lines.append("| Challenge | Models with Issues | Mean Issues |")
+        lines.append("|-----------|-------------------|-------------|")
+        for m, i, c in sorted(tier_data, reverse=True):
+            lines.append(f"| {c} | {m}/{n_models} | {i:.1f} |")
+        lines.append("")
+
+    lines.append(f"**Distribution**: {len(hard)} hard, {len(medium)} medium, {len(easy)} easy, {len(trivial)} trivial")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def section_cost_effectiveness(aggregates: dict) -> str:
+    """Cost-effectiveness analysis."""
+    # Check if any model has cost data
+    has_cost = any(
+        agg.get("cost") and agg["cost"].get("mean") is not None
+        for agg in aggregates.values()
+    )
+    if not has_cost:
+        return ""
+
+    lines = ["## Cost-Effectiveness", ""]
+    lines.append("| Model | Cost/Run | Cost/Issue | Issues/$ | Test Pass Rate |")
+    lines.append("|-------|---------|-----------|---------|---------------|")
+
+    rows = []
+    for label, agg in aggregates.items():
+        cost = agg.get("cost")
+        ti = agg["total_issues"]["mean"]
+        tpr = agg.get("test_pass_rate")
+
+        if not cost or cost.get("mean") is None:
+            continue
+
+        cost_val = cost["mean"]
+        cost_per_issue = cost_val / ti if ti > 0 else 0
+        issues_per_dollar = ti / cost_val if cost_val > 0 else 0
+        tpr_str = f"{tpr['mean']*100:.0f}%" if tpr else "-"
+
+        rows.append((issues_per_dollar, label, cost_val, cost_per_issue, issues_per_dollar, tpr_str))
+
+    for _, label, cost, cpi, ipd, tpr_str in sorted(rows, reverse=True):
+        lines.append(f"| {label} | ${cost:.2f} | ${cpi:.3f} | {ipd:.0f} | {tpr_str} |")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def section_self_catch(aggregates: dict) -> str:
     """Self-catch rate analysis."""
     lines = ["## Self-Catch Analysis", ""]
@@ -392,6 +475,8 @@ def generate_report(results_dir: Path) -> str:
         section_per_challenge(aggregates),
         section_challenge_type_profile(aggregates),
         section_discrimination(aggregates),
+        section_difficulty_tiers(groups, aggregates),
+        section_cost_effectiveness(aggregates),
         section_self_catch(aggregates),
         section_self_catch_by_type(aggregates),
         section_token_efficiency(aggregates),

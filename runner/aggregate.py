@@ -104,6 +104,9 @@ def aggregate_scores(scores: list[dict]) -> dict:
                  for s in scores
                  if s.get("tests") and s["tests"].get("challenges_tested", 0) > 0]
 
+    # Cost aggregation
+    costs = [s["cost"] for s in scores if s.get("cost") is not None]
+
     mean_review = mean(review_tokens)
     mean_issues = mean(totals)
 
@@ -133,6 +136,7 @@ def aggregate_scores(scores: list[dict]) -> dict:
             "regression": {"mean": mean(fix_regressions)},
             "net": {"mean": mean(fix_improvements) - mean(fix_regressions)},
         } if fix_improvements else None,
+        "cost": {"mean": mean(costs), "stddev": stddev(costs)} if costs else None,
         "first_try_pass_rate": {"mean": mean(first_try), "stddev": stddev(first_try)} if first_try else None,
         "challenges_zero_issues": {"mean": mean(zero_issues)} if zero_issues else None,
         "test_review_agreement": {"mean": mean(agreements)} if agreements else None,
