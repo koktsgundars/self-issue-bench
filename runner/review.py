@@ -184,6 +184,13 @@ def main():
         help="Review only specific challenges",
     )
     parser.add_argument(
+        "--reviewer-number",
+        type=int,
+        default=1,
+        choices=[1, 2],
+        help="Reviewer slot (1=primary, 2=secondary for cross-validation)",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Print prompts without calling API",
@@ -225,9 +232,16 @@ def main():
     check_api_key(args.reviewer_provider)
     provider = create_provider(args.reviewer_provider)
 
+    # Determine storage keys based on reviewer number
+    rn = args.reviewer_number
+    issues_key = "issues" if rn == 1 else f"issues_reviewer_{rn}"
+    review_file_key = "independent_review_file" if rn == 1 else f"independent_review_file_reviewer_{rn}"
+    reviewer_meta_key = "independent_reviewer" if rn == 1 else f"independent_reviewer_{rn}"
+    file_suffix = "" if rn == 1 else f"_reviewer{rn}"
+
     print(f"Run dir:    {run_dir}")
     print(f"Model:      {data.get('model', 'unknown')}")
-    print(f"Reviewer:   {args.reviewer_model}")
+    print(f"Reviewer:   {args.reviewer_model} (slot {rn})")
     print(f"Challenges: {len(challenges)}")
     print()
 
@@ -242,12 +256,13 @@ def main():
         )
 
         # Save raw response
-        review_path = run_dir / f"{cid}_independent_review.md"
+        review_filename = f"{cid}_independent_review{file_suffix}.md"
+        review_path = run_dir / review_filename
         review_path.write_text(raw_response)
 
         # Update results
-        data["challenges"][cid]["issues"] = issues
-        data["challenges"][cid]["independent_review_file"] = f"{cid}_independent_review.md"
+        data["challenges"][cid][issues_key] = issues
+        data["challenges"][cid][review_file_key] = review_filename
 
         caught = sum(1 for i in issues if i.get("self_caught"))
         total_issues += len(issues)
@@ -256,7 +271,7 @@ def main():
         print(f"  [{cid}] {len(issues)} issues ({caught} self-caught)")
 
     # Add reviewer metadata
-    data["independent_reviewer"] = {
+    data[reviewer_meta_key] = {
         "model": args.reviewer_model,
         "provider": args.reviewer_provider,
         "date": date.today().isoformat(),
