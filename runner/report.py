@@ -515,7 +515,7 @@ def section_findings(aggregates: dict) -> str:
 
 def generate_report(results_dir: Path) -> str:
     """Generate full markdown report."""
-    groups = gather_scores(results_dir)
+    groups = gather_scores(results_dir, min_challenges=len(CHALLENGE_IDS))
 
     if not groups:
         return "No results found."

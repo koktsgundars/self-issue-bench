@@ -146,8 +146,12 @@ def aggregate_scores(scores: list[dict]) -> dict:
     }
 
 
-def gather_scores(results_dir: Path, label_filter: str | None = None) -> dict[str, list[dict]]:
-    """Group and score all runs by label."""
+def gather_scores(results_dir: Path, label_filter: str | None = None, min_challenges: int | None = None) -> dict[str, list[dict]]:
+    """Group and score all runs by label.
+
+    If min_challenges is set, only include runs with at least that many challenges.
+    This filters out old runs with fewer challenges than the current set.
+    """
     groups = defaultdict(list)
     for results_file in sorted(results_dir.glob("*/results.yaml")):
         dirname = results_file.parent.name
@@ -155,6 +159,9 @@ def gather_scores(results_dir: Path, label_filter: str | None = None) -> dict[st
         if label_filter and label != label_filter:
             continue
         data = load_run(results_file)
+        if min_challenges is not None:
+            if len(data.get("challenges", {})) < min_challenges:
+                continue
         score = score_run(data)
         groups[label].append(score)
     return dict(groups)
