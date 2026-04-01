@@ -1,8 +1,8 @@
 # Self-Issue Benchmark Report
 
-Generated: 2026-03-29 17:33
+Generated: 2026-04-01 09:24
 
-Models compared: 11
+Models compared: 13
 Challenges: 52
 
 ## Model Summary
@@ -10,33 +10,37 @@ Challenges: 52
 | Model | Test Pass Rate | First-Try Pass | Self-Catch Rate | Issues | Clean Challenges | Review-Test Agreement |
 |-------|---------------|----------------|-----------------|--------|-----------------|----------------------|
 | opus-4 | 98% [97-98%] | 88% | 79% [76-82%] | 79 | 22/52 | 46% |
+| qwen-3.5-plus | 98% [98-98%] | 87% | 33% [30-36%] | 75 | 23/52 | 50% |
 | sonnet-4 | 98% [97-98%] | 90% | 71% [69-73%] | 86 | 20/52 | 43% |
 | o3-mini | 97% [96-98%] | 88% | 40% [36-44%] | 80 | 22/52 | 50% |
 | deepseek-v3.2 | 96% [95-97%] | 84% | 67% [64-70%] | 102 | 17/52 | 46% |
 | gpt-4o | 94% [92-95%] | 79% | 27% [23-31%] | 111 | 13/52 | 44% |
 | gemini-3.1-pro | 93% [89-96%] | 79% | 40% [35-46%] | 88 | 22/52 | 58% |
 | gpt-4o-mini | 92% [90-93%] | 73% | 50% [46-54%] | 123 | 12/52 | 47% |
-| nemotron-3-super | 91% [87-94%] | 69% | 52% [48-57%] | 116 | 15/52 | 56% |
-| minimax-m2.5 | 84% [81-87%] | 79% | 43% [37-48%] | 51 | 30/52 | 57% |
+| nemotron-3-super | 91% [87-94%] | 69% | 52% [47-57%] | 116 | 15/52 | 56% |
+| minimax-m2.5 | 84% [81-88%] | 79% | 43% [37-48%] | 51 | 30/52 | 57% |
+| kimi-k2.5 | 75% [68-82%] | 73% | 35% [24-49%] | 47 | 27/52 | 59% |
 | haiku-4.5 | 73% [71-76%] | 55% | 65% [61-67%] | 142 | 11/52 | 63% |
-| kimi-k2.5 | - | - | - | 0 | 52/52 | - |
+| glm-5 | - | - | - | 0 | 52/52 | - |
 
 ## Statistical Significance (Test Pass Rate)
 
 Pairwise bootstrap test (p < 0.05 = significant difference).
 
-| | deepseek-v3.2 | gemini-3.1-pro | gpt-4o | gpt-4o-mini | haiku-4.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | sonnet-4 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| deepseek-v3.2 | — | 0.11 | **0.014** | **0.000** | **0.000** | **0.000** | **0.002** | 0.17 | **0.010** | **0.019** |
-| gemini-3.1-pro |  | — | 0.69 | 0.52 | **0.000** | **0.001** | 0.39 | **0.032** | **0.006** | **0.009** |
-| gpt-4o |  |  | — | **0.034** | **0.000** | **0.000** | 0.12 | **0.000** | **0.000** | **0.000** |
-| gpt-4o-mini |  |  |  | — | **0.000** | **0.000** | 0.64 | **0.000** | **0.000** | **0.000** |
-| haiku-4.5 |  |  |  |  | — | **0.000** | **0.000** | **0.000** | **0.000** | **0.000** |
-| minimax-m2.5 |  |  |  |  |  | — | **0.004** | **0.000** | **0.000** | **0.000** |
-| nemotron-3-super |  |  |  |  |  |  | — | **0.000** | **0.000** | **0.000** |
-| o3-mini |  |  |  |  |  |  |  | — | 0.53 | 0.58 |
-| opus-4 |  |  |  |  |  |  |  |  | — | 0.94 |
-| sonnet-4 |  |  |  |  |  |  |  |  |  | — |
+| | deepseek-v3.2 | gemini-3.1-pro | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | qwen-3.5-plus | sonnet-4 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| deepseek-v3.2 | — | 0.11 | **0.014** | **0.000** | **0.000** | **0.000** | **0.000** | **0.001** | 0.17 | **0.010** | **0.008** | **0.019** |
+| gemini-3.1-pro |  | — | 0.69 | 0.53 | **0.000** | **0.000** | **0.000** | 0.38 | **0.029** | **0.006** | **0.005** | **0.011** |
+| gpt-4o |  |  | — | **0.034** | **0.000** | **0.000** | **0.000** | 0.10 | **0.000** | **0.000** | **0.000** | **0.000** |
+| gpt-4o-mini |  |  |  | — | **0.000** | **0.000** | **0.000** | 0.63 | **0.000** | **0.000** | **0.000** | **0.000** |
+| haiku-4.5 |  |  |  |  | — | 0.61 | **0.000** | **0.000** | **0.000** | **0.000** | **0.000** | **0.000** |
+| kimi-k2.5 |  |  |  |  |  | — | **0.007** | **0.000** | **0.000** | **0.000** | **0.000** | **0.000** |
+| minimax-m2.5 |  |  |  |  |  |  | — | **0.006** | **0.000** | **0.000** | **0.000** | **0.000** |
+| nemotron-3-super |  |  |  |  |  |  |  | — | **0.000** | **0.000** | **0.000** | **0.000** |
+| o3-mini |  |  |  |  |  |  |  |  | — | 0.52 | 0.54 | 0.58 |
+| opus-4 |  |  |  |  |  |  |  |  |  | — | 0.96 | 0.94 |
+| qwen-3.5-plus |  |  |  |  |  |  |  |  |  |  | — | 0.90 |
+| sonnet-4 |  |  |  |  |  |  |  |  |  |  |  | — |
 
 Bold = statistically significant (p < 0.05). Upper triangle only.
 
@@ -44,8 +48,10 @@ Bold = statistically significant (p < 0.05). Upper triangle only.
 
 | Model | Runs | Total Issues | Weighted | Correctness | Edge Case | Security | Style | Self-Catch Rate |
 |-------|------|-------------|---------|-------------|-----------|----------|-------|----------------|
-| kimi-k2.5 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | n/a |
+| glm-5 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | n/a |
+| kimi-k2.5 | 3 | 47.3 +/- 10.6 | 103.3 +/- 20.6 | 24.3 | 22.0 | 0.3 | 0.7 | 35% +/- 13% |
 | minimax-m2.5 | 5 | 51.0 +/- 30.9 | 109.6 +/- 66.0 | 27.2 | 21.6 | 0.6 | 1.6 | 43% +/- 7% |
+| qwen-3.5-plus | 4 | 74.8 +/- 5.9 | 151.2 +/- 16.7 | 35.2 | 36.8 | 1.8 | 1.0 | 33% +/- 3% |
 | opus-4 | 5 | 78.6 +/- 4.2 | 158.8 +/- 8.6 | 35.2 | 39.6 | 2.0 | 1.8 | 79% +/- 4% |
 | o3-mini | 5 | 80.2 +/- 2.4 | 151.4 +/- 5.9 | 31.8 | 44.0 | 2.6 | 1.8 | 40% +/- 5% |
 | sonnet-4 | 5 | 86.4 +/- 5.1 | 174.4 +/- 17.0 | 44.4 | 38.6 | 1.6 | 1.8 | 71% +/- 2% |
@@ -58,60 +64,60 @@ Bold = statistically significant (p < 0.05). Upper triangle only.
 
 ## Per-Challenge Breakdown
 
-| Challenge | deepseek-v3.2 | gemini-3.1-pro | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | sonnet-4 |
-|-----------|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| c1_fibonacci | 2.0 | 1.5 | 2.4 | 3.0 | 0.0 | - | 0.6 | 0.6 | 1.2 | 0.2 | 0.8 |
-| c2_palindrome | 3.8 | 3.2 | 4.4 | 4.0 | 4.2 | - | 2.0 | 4.0 | 3.0 | 2.8 | 3.2 |
-| c3_word_frequency | 0.0 | 0.5 | 0.4 | 0.0 | 3.0 | - | 0.0 | 0.4 | 0.8 | 0.0 | 0.0 |
-| c4_array_dedup | 0.0 | 0.0 | 0.4 | 0.0 | 0.0 | - | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| c5_deep_clone | 5.4 | 1.2 | 5.2 | 6.0 | 5.6 | - | 4.2 | 4.8 | 4.8 | 3.4 | 5.0 |
-| c6_csv_parser | 2.8 | 3.5 | 2.2 | 3.6 | 5.6 | - | 1.0 | 3.2 | 2.6 | 3.4 | 3.4 |
-| c7_retry | 0.8 | 1.0 | 0.4 | 0.6 | 2.8 | - | 0.4 | 2.0 | 1.0 | 0.0 | 1.0 |
-| c8_token_counter | 0.0 | 0.5 | 1.6 | 1.4 | 0.0 | - | 0.0 | 1.2 | 1.8 | 0.6 | 1.4 |
-| c9_url_parser | 5.2 | 6.0 | 6.6 | 5.2 | 5.4 | - | 3.2 | 4.6 | 4.8 | 4.8 | 4.6 |
-| c10_debounce | 0.2 | 0.5 | 1.0 | 1.8 | 0.6 | - | 0.0 | 0.6 | 0.4 | 0.0 | 0.8 |
-| c11_lru_cache | 0.4 | 0.8 | 0.0 | 0.2 | 1.0 | - | 0.0 | 0.2 | 0.0 | 0.2 | 0.0 |
-| c12_flatten_array | 2.4 | 2.5 | 1.6 | 1.2 | 1.8 | - | 1.0 | 2.4 | 1.8 | 1.4 | 1.4 |
-| c13_date_formatter | 0.6 | 0.2 | 0.2 | 0.0 | 4.4 | - | 0.0 | 0.4 | 0.0 | 0.0 | 0.0 |
-| c14_binary_search | 3.8 | 4.8 | 4.6 | 5.0 | 6.0 | - | 2.0 | 5.0 | 3.6 | 3.4 | 3.8 |
-| c15_rate_limiter | 0.0 | 0.0 | 0.4 | 0.4 | 0.0 | - | 0.8 | 0.8 | 0.6 | 0.0 | 0.8 |
-| c16_html_entity_decoder | 1.2 | 2.0 | 2.0 | 2.6 | 4.2 | - | 1.4 | 2.6 | 2.0 | 1.0 | 2.2 |
-| c17_concurrent_map | 1.0 | 1.0 | 2.0 | 2.0 | 0.0 | - | 1.0 | 0.8 | 0.0 | 0.0 | 0.0 |
-| c18_iterator | 0.4 | 0.0 | 0.8 | 0.0 | 2.2 | - | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| c19_ring_buffer | 1.0 | 0.0 | 2.4 | 2.2 | 1.8 | - | 0.4 | 3.8 | 2.4 | 0.4 | 1.6 |
-| c20_expression_parser | 3.0 | 5.2 | 3.4 | 4.6 | 3.6 | - | 0.4 | 4.6 | 1.8 | 0.4 | 2.8 |
-| c21_task_scheduler | 2.6 | 0.5 | 2.6 | 2.8 | 4.6 | - | 1.4 | 3.6 | 0.8 | 1.4 | 0.6 |
-| c22_markdown_renderer | 3.2 | 3.5 | 5.0 | 4.4 | 5.2 | - | 1.0 | 4.0 | 3.4 | 3.2 | 3.6 |
-| c23_merge_intervals | 0.8 | 0.8 | 0.6 | 1.0 | 0.4 | - | 0.8 | 0.4 | 0.2 | 0.6 | 0.0 |
-| c24_topological_sort | 1.6 | 0.2 | 1.8 | 1.6 | 2.2 | - | 0.4 | 0.6 | 0.4 | 1.6 | 0.0 |
-| c25_edit_distance | 0.0 | 0.5 | 0.0 | 0.0 | 0.4 | - | 0.2 | 1.0 | 0.0 | 0.0 | 0.0 |
-| c26_trie | 0.2 | 0.2 | 1.8 | 1.6 | 1.2 | - | 0.0 | 1.0 | 0.0 | 0.8 | 0.8 |
-| c27_min_heap | 0.0 | 0.0 | 0.6 | 0.0 | 0.0 | - | 0.0 | 0.2 | 0.0 | 0.0 | 0.0 |
-| c28_linked_list | 2.0 | 0.0 | 0.4 | 0.8 | 0.8 | - | 1.2 | 2.2 | 0.4 | 0.0 | 0.4 |
-| c29_parse_cron | 5.0 | 4.8 | 4.0 | 5.0 | 5.0 | - | 1.4 | 3.0 | 4.2 | 4.4 | 4.4 |
-| c30_tokenize_sql | 3.4 | 3.8 | 3.4 | 4.0 | 5.2 | - | 1.8 | 4.6 | 3.4 | 3.4 | 3.6 |
-| c31_glob_match | 1.4 | 1.0 | 0.8 | 0.8 | 5.0 | - | 1.4 | 0.4 | 0.0 | 0.0 | 1.2 |
-| c32_sanitize_html | 5.0 | 3.2 | 5.6 | 7.6 | 5.4 | - | 2.0 | 4.6 | 4.2 | 6.2 | 6.4 |
-| c33_escape_shell | 1.6 | 0.5 | 1.6 | 1.8 | 1.8 | - | 1.0 | 1.8 | 1.4 | 0.6 | 1.4 |
-| c34_diff_objects | 2.4 | 3.8 | 3.0 | 2.6 | 5.4 | - | 2.6 | 2.6 | 2.8 | 2.4 | 2.2 |
-| c35_throttle | 2.2 | 0.5 | 2.6 | 2.0 | 2.6 | - | 1.0 | 1.6 | 1.0 | 1.8 | 0.8 |
-| c36_flatten_object | 2.2 | 2.8 | 2.6 | 2.6 | 1.6 | - | 1.6 | 3.0 | 2.4 | 2.0 | 1.8 |
-| c37_topological_sort | 1.8 | 1.2 | 1.8 | 2.0 | 2.0 | - | 0.4 | 1.2 | 1.0 | 0.8 | 0.8 |
-| c38_priority_queue | 1.2 | 0.0 | 0.4 | 0.8 | 1.8 | - | 0.4 | 0.2 | 0.0 | 1.4 | 0.4 |
-| c39_observable | 2.0 | 0.8 | 2.6 | 2.8 | 1.8 | - | 1.2 | 2.8 | 0.2 | 1.2 | 2.2 |
-| c40_parse_query_string | 1.4 | 0.0 | 2.2 | 2.8 | 1.6 | - | 0.8 | 1.0 | 1.2 | 2.0 | 1.6 |
-| c41_json_stream | 3.8 | 4.2 | 3.0 | 3.4 | 3.8 | - | 1.8 | 2.8 | 2.2 | 2.8 | 2.0 |
-| c42_mustache | 5.6 | 3.5 | 5.2 | 4.8 | 5.2 | - | 0.6 | 5.2 | 3.4 | 4.6 | 3.8 |
-| c43_escape_regexp | 0.4 | 0.5 | 1.0 | 1.2 | 0.8 | - | 0.6 | 0.8 | 1.0 | 1.0 | 1.0 |
-| c44_validate_email | 1.4 | 2.8 | 2.2 | 4.0 | 3.2 | - | 1.2 | 1.4 | 1.2 | 1.0 | 1.4 |
-| c45_binary_heap | 0.0 | 0.0 | 0.0 | 0.4 | 0.2 | - | 0.0 | 1.2 | 0.0 | 0.2 | 0.0 |
-| c46_memoize | 0.2 | 0.0 | 0.2 | 1.0 | 2.0 | - | 0.6 | 1.6 | 0.0 | 0.4 | 0.0 |
-| c47_typed_event_emitter | 2.4 | 2.0 | 0.8 | 1.2 | 2.6 | - | 1.4 | 3.4 | 1.0 | 2.0 | 2.0 |
-| c48_result_type | 3.8 | 3.2 | 3.4 | 4.4 | 5.6 | - | 1.6 | 6.8 | 3.6 | 2.8 | 3.6 |
-| c49_parse_route | 2.6 | 3.5 | 2.0 | 3.0 | 4.4 | - | 0.8 | 2.4 | 1.4 | 1.8 | 1.8 |
-| c50_parse_ini | 2.2 | 0.0 | 2.0 | 1.6 | 3.4 | - | 0.6 | 1.2 | 1.4 | 1.0 | 0.0 |
-| c51_deep_merge | 3.4 | 3.0 | 3.0 | 3.2 | 3.0 | - | 1.6 | 3.4 | 2.8 | 3.0 | 3.0 |
-| c52_retry_ts | 2.2 | 3.2 | 2.6 | 3.8 | 2.0 | - | 1.2 | 3.6 | 2.6 | 2.2 | 2.8 |
+| Challenge | deepseek-v3.2 | gemini-3.1-pro | glm-5 | gpt-4o | gpt-4o-mini | haiku-4.5 | kimi-k2.5 | minimax-m2.5 | nemotron-3-super | o3-mini | opus-4 | qwen-3.5-plus | sonnet-4 |
+|-----------|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| c1_fibonacci | 2.0 | 1.5 | - | 2.4 | 3.0 | 0.0 | 1.7 | 0.6 | 0.6 | 1.2 | 0.2 | 1.5 | 0.8 |
+| c2_palindrome | 3.8 | 3.2 | - | 4.4 | 4.0 | 4.2 | 1.3 | 2.0 | 4.0 | 3.0 | 2.8 | 2.2 | 3.2 |
+| c3_word_frequency | 0.0 | 0.5 | - | 0.4 | 0.0 | 3.0 | 0.0 | 0.0 | 0.4 | 0.8 | 0.0 | 1.0 | 0.0 |
+| c4_array_dedup | 0.0 | 0.0 | - | 0.4 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c5_deep_clone | 5.4 | 1.2 | - | 5.2 | 6.0 | 5.6 | 4.7 | 4.2 | 4.8 | 4.8 | 3.4 | 3.8 | 5.0 |
+| c6_csv_parser | 2.8 | 3.5 | - | 2.2 | 3.6 | 5.6 | 1.3 | 1.0 | 3.2 | 2.6 | 3.4 | 2.8 | 3.4 |
+| c7_retry | 0.8 | 1.0 | - | 0.4 | 0.6 | 2.8 | 1.0 | 0.4 | 2.0 | 1.0 | 0.0 | 1.0 | 1.0 |
+| c8_token_counter | 0.0 | 0.5 | - | 1.6 | 1.4 | 0.0 | 1.0 | 0.0 | 1.2 | 1.8 | 0.6 | 0.0 | 1.4 |
+| c9_url_parser | 5.2 | 6.0 | - | 6.6 | 5.2 | 5.4 | 4.0 | 3.2 | 4.6 | 4.8 | 4.8 | 5.5 | 4.6 |
+| c10_debounce | 0.2 | 0.5 | - | 1.0 | 1.8 | 0.6 | 1.0 | 0.0 | 0.6 | 0.4 | 0.0 | 0.0 | 0.8 |
+| c11_lru_cache | 0.4 | 0.8 | - | 0.0 | 0.2 | 1.0 | 0.0 | 0.0 | 0.2 | 0.0 | 0.2 | 0.0 | 0.0 |
+| c12_flatten_array | 2.4 | 2.5 | - | 1.6 | 1.2 | 1.8 | 1.0 | 1.0 | 2.4 | 1.8 | 1.4 | 1.2 | 1.4 |
+| c13_date_formatter | 0.6 | 0.2 | - | 0.2 | 0.0 | 4.4 | 0.0 | 0.0 | 0.4 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c14_binary_search | 3.8 | 4.8 | - | 4.6 | 5.0 | 6.0 | 3.3 | 2.0 | 5.0 | 3.6 | 3.4 | 3.2 | 3.8 |
+| c15_rate_limiter | 0.0 | 0.0 | - | 0.4 | 0.4 | 0.0 | 0.0 | 0.8 | 0.8 | 0.6 | 0.0 | 0.0 | 0.8 |
+| c16_html_entity_decoder | 1.2 | 2.0 | - | 2.0 | 2.6 | 4.2 | 2.0 | 1.4 | 2.6 | 2.0 | 1.0 | 1.8 | 2.2 |
+| c17_concurrent_map | 1.0 | 1.0 | - | 2.0 | 2.0 | 0.0 | 0.0 | 1.0 | 0.8 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c18_iterator | 0.4 | 0.0 | - | 0.8 | 0.0 | 2.2 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c19_ring_buffer | 1.0 | 0.0 | - | 2.4 | 2.2 | 1.8 | 0.7 | 0.4 | 3.8 | 2.4 | 0.4 | 0.0 | 1.6 |
+| c20_expression_parser | 3.0 | 5.2 | - | 3.4 | 4.6 | 3.6 | 0.0 | 0.4 | 4.6 | 1.8 | 0.4 | 2.5 | 2.8 |
+| c21_task_scheduler | 2.6 | 0.5 | - | 2.6 | 2.8 | 4.6 | 0.0 | 1.4 | 3.6 | 0.8 | 1.4 | 1.2 | 0.6 |
+| c22_markdown_renderer | 3.2 | 3.5 | - | 5.0 | 4.4 | 5.2 | 0.3 | 1.0 | 4.0 | 3.4 | 3.2 | 3.2 | 3.6 |
+| c23_merge_intervals | 0.8 | 0.8 | - | 0.6 | 1.0 | 0.4 | 0.7 | 0.8 | 0.4 | 0.2 | 0.6 | 1.0 | 0.0 |
+| c24_topological_sort | 1.6 | 0.2 | - | 1.8 | 1.6 | 2.2 | 0.3 | 0.4 | 0.6 | 0.4 | 1.6 | 0.0 | 0.0 |
+| c25_edit_distance | 0.0 | 0.5 | - | 0.0 | 0.0 | 0.4 | 0.0 | 0.2 | 1.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c26_trie | 0.2 | 0.2 | - | 1.8 | 1.6 | 1.2 | 1.3 | 0.0 | 1.0 | 0.0 | 0.8 | 1.2 | 0.8 |
+| c27_min_heap | 0.0 | 0.0 | - | 0.6 | 0.0 | 0.0 | 0.0 | 0.0 | 0.2 | 0.0 | 0.0 | 0.0 | 0.0 |
+| c28_linked_list | 2.0 | 0.0 | - | 0.4 | 0.8 | 0.8 | 2.3 | 1.2 | 2.2 | 0.4 | 0.0 | 0.2 | 0.4 |
+| c29_parse_cron | 5.0 | 4.8 | - | 4.0 | 5.0 | 5.0 | 1.3 | 1.4 | 3.0 | 4.2 | 4.4 | 4.0 | 4.4 |
+| c30_tokenize_sql | 3.4 | 3.8 | - | 3.4 | 4.0 | 5.2 | 1.0 | 1.8 | 4.6 | 3.4 | 3.4 | 3.2 | 3.6 |
+| c31_glob_match | 1.4 | 1.0 | - | 0.8 | 0.8 | 5.0 | 0.7 | 1.4 | 0.4 | 0.0 | 0.0 | 0.2 | 1.2 |
+| c32_sanitize_html | 5.0 | 3.2 | - | 5.6 | 7.6 | 5.4 | 1.3 | 2.0 | 4.6 | 4.2 | 6.2 | 4.0 | 6.4 |
+| c33_escape_shell | 1.6 | 0.5 | - | 1.6 | 1.8 | 1.8 | 0.3 | 1.0 | 1.8 | 1.4 | 0.6 | 1.2 | 1.4 |
+| c34_diff_objects | 2.4 | 3.8 | - | 3.0 | 2.6 | 5.4 | 0.3 | 2.6 | 2.6 | 2.8 | 2.4 | 2.8 | 2.2 |
+| c35_throttle | 2.2 | 0.5 | - | 2.6 | 2.0 | 2.6 | 1.3 | 1.0 | 1.6 | 1.0 | 1.8 | 0.0 | 0.8 |
+| c36_flatten_object | 2.2 | 2.8 | - | 2.6 | 2.6 | 1.6 | 1.7 | 1.6 | 3.0 | 2.4 | 2.0 | 2.5 | 1.8 |
+| c37_topological_sort | 1.8 | 1.2 | - | 1.8 | 2.0 | 2.0 | 0.7 | 0.4 | 1.2 | 1.0 | 0.8 | 0.2 | 0.8 |
+| c38_priority_queue | 1.2 | 0.0 | - | 0.4 | 0.8 | 1.8 | 0.7 | 0.4 | 0.2 | 0.0 | 1.4 | 0.0 | 0.4 |
+| c39_observable | 2.0 | 0.8 | - | 2.6 | 2.8 | 1.8 | 0.7 | 1.2 | 2.8 | 0.2 | 1.2 | 0.2 | 2.2 |
+| c40_parse_query_string | 1.4 | 0.0 | - | 2.2 | 2.8 | 1.6 | 0.0 | 0.8 | 1.0 | 1.2 | 2.0 | 1.0 | 1.6 |
+| c41_json_stream | 3.8 | 4.2 | - | 3.0 | 3.4 | 3.8 | 1.7 | 1.8 | 2.8 | 2.2 | 2.8 | 3.0 | 2.0 |
+| c42_mustache | 5.6 | 3.5 | - | 5.2 | 4.8 | 5.2 | 0.0 | 0.6 | 5.2 | 3.4 | 4.6 | 3.8 | 3.8 |
+| c43_escape_regexp | 0.4 | 0.5 | - | 1.0 | 1.2 | 0.8 | 0.0 | 0.6 | 0.8 | 1.0 | 1.0 | 0.5 | 1.0 |
+| c44_validate_email | 1.4 | 2.8 | - | 2.2 | 4.0 | 3.2 | 0.7 | 1.2 | 1.4 | 1.2 | 1.0 | 1.2 | 1.4 |
+| c45_binary_heap | 0.0 | 0.0 | - | 0.0 | 0.4 | 0.2 | 0.0 | 0.0 | 1.2 | 0.0 | 0.2 | 0.0 | 0.0 |
+| c46_memoize | 0.2 | 0.0 | - | 0.2 | 1.0 | 2.0 | 0.0 | 0.6 | 1.6 | 0.0 | 0.4 | 0.8 | 0.0 |
+| c47_typed_event_emitter | 2.4 | 2.0 | - | 0.8 | 1.2 | 2.6 | 2.0 | 1.4 | 3.4 | 1.0 | 2.0 | 2.5 | 2.0 |
+| c48_result_type | 3.8 | 3.2 | - | 3.4 | 4.4 | 5.6 | 0.3 | 1.6 | 6.8 | 3.6 | 2.8 | 3.5 | 3.6 |
+| c49_parse_route | 2.6 | 3.5 | - | 2.0 | 3.0 | 4.4 | 1.0 | 0.8 | 2.4 | 1.4 | 1.8 | 1.2 | 1.8 |
+| c50_parse_ini | 2.2 | 0.0 | - | 2.0 | 1.6 | 3.4 | 1.0 | 0.6 | 1.2 | 1.4 | 1.0 | 0.0 | 0.0 |
+| c51_deep_merge | 3.4 | 3.0 | - | 3.0 | 3.2 | 3.0 | 1.7 | 1.6 | 3.4 | 2.8 | 3.0 | 2.8 | 3.0 |
+| c52_retry_ts | 2.2 | 3.2 | - | 2.6 | 3.8 | 2.0 | 1.0 | 1.2 | 3.6 | 2.6 | 2.2 | 2.5 | 2.8 |
 
 ## Issue Types by Challenge
 
@@ -119,58 +125,58 @@ Mean issues of each type per model, summed across all models.
 
 | Challenge | Correctness | Edge Case | Security | Style | Total |
 |-----------|-------------|-----------|----------|-------|-------|
-| c1_fibonacci | 5 | 7 | 0 | 0 | 12 |
-| c2_palindrome | 22 | 12 | 1 | 1 | 35 |
-| c3_word_frequency | 2 | 2 | 0 | 1 | 5 |
+| c1_fibonacci | 7 | 9 | 0 | 0 | 15 |
+| c2_palindrome | 23 | 13 | 1 | 1 | 38 |
+| c3_word_frequency | 2 | 3 | 0 | 1 | 6 |
 | c4_array_dedup | 0 | 0 | 0 | 0 | 0 |
-| c5_deep_clone | 2 | 42 | 0 | 1 | 46 |
-| c6_csv_parser | 19 | 10 | 1 | 1 | 31 |
-| c7_retry | 7 | 2 | 0 | 2 | 10 |
-| c8_token_counter | 2 | 6 | 0 | 1 | 8 |
-| c9_url_parser | 20 | 30 | 0 | 0 | 50 |
-| c10_debounce | 3 | 2 | 0 | 0 | 6 |
+| c5_deep_clone | 2 | 51 | 0 | 1 | 54 |
+| c6_csv_parser | 21 | 12 | 1 | 1 | 35 |
+| c7_retry | 8 | 2 | 0 | 2 | 12 |
+| c8_token_counter | 3 | 6 | 0 | 1 | 10 |
+| c9_url_parser | 25 | 35 | 0 | 0 | 60 |
+| c10_debounce | 4 | 3 | 0 | 0 | 7 |
 | c11_lru_cache | 2 | 0 | 0 | 0 | 3 |
-| c12_flatten_array | 12 | 4 | 0 | 1 | 18 |
+| c12_flatten_array | 14 | 5 | 0 | 1 | 20 |
 | c13_date_formatter | 3 | 0 | 1 | 2 | 6 |
-| c14_binary_search | 25 | 15 | 1 | 1 | 42 |
+| c14_binary_search | 28 | 18 | 1 | 1 | 49 |
 | c15_rate_limiter | 1 | 2 | 0 | 0 | 4 |
-| c16_html_entity_decoder | 10 | 10 | 1 | 0 | 21 |
+| c16_html_entity_decoder | 11 | 13 | 1 | 0 | 25 |
 | c17_concurrent_map | 6 | 0 | 0 | 1 | 8 |
 | c18_iterator | 1 | 0 | 0 | 2 | 3 |
-| c19_ring_buffer | 7 | 7 | 0 | 2 | 16 |
-| c20_expression_parser | 18 | 12 | 0 | 0 | 30 |
-| c21_task_scheduler | 15 | 3 | 0 | 2 | 21 |
-| c22_markdown_renderer | 23 | 11 | 2 | 0 | 36 |
-| c23_merge_intervals | 4 | 1 | 0 | 0 | 6 |
-| c24_topological_sort | 4 | 5 | 0 | 1 | 10 |
+| c19_ring_buffer | 7 | 8 | 0 | 2 | 17 |
+| c20_expression_parser | 19 | 13 | 0 | 0 | 32 |
+| c21_task_scheduler | 16 | 4 | 0 | 2 | 22 |
+| c22_markdown_renderer | 25 | 12 | 3 | 0 | 40 |
+| c23_merge_intervals | 6 | 1 | 0 | 0 | 7 |
+| c24_topological_sort | 5 | 5 | 0 | 1 | 11 |
 | c25_edit_distance | 1 | 1 | 0 | 0 | 2 |
-| c26_trie | 4 | 3 | 0 | 0 | 8 |
+| c26_trie | 6 | 4 | 0 | 0 | 10 |
 | c27_min_heap | 0 | 1 | 0 | 0 | 1 |
-| c28_linked_list | 3 | 5 | 0 | 0 | 8 |
-| c29_parse_cron | 30 | 11 | 0 | 0 | 41 |
-| c30_tokenize_sql | 23 | 11 | 1 | 1 | 37 |
-| c31_glob_match | 7 | 3 | 1 | 1 | 12 |
-| c32_sanitize_html | 28 | 11 | 11 | 0 | 50 |
-| c33_escape_shell | 5 | 6 | 3 | 0 | 14 |
-| c34_diff_objects | 17 | 10 | 1 | 1 | 30 |
-| c35_throttle | 14 | 1 | 0 | 1 | 16 |
-| c36_flatten_object | 9 | 13 | 0 | 1 | 23 |
-| c37_topological_sort | 6 | 6 | 0 | 1 | 13 |
-| c38_priority_queue | 4 | 1 | 0 | 2 | 7 |
-| c39_observable | 13 | 4 | 0 | 1 | 18 |
-| c40_parse_query_string | 6 | 8 | 0 | 1 | 15 |
-| c41_json_stream | 19 | 10 | 0 | 0 | 30 |
-| c42_mustache | 37 | 4 | 1 | 0 | 42 |
-| c43_escape_regexp | 8 | 0 | 0 | 0 | 8 |
-| c44_validate_email | 10 | 9 | 0 | 1 | 20 |
+| c28_linked_list | 3 | 7 | 0 | 0 | 11 |
+| c29_parse_cron | 33 | 13 | 0 | 0 | 46 |
+| c30_tokenize_sql | 25 | 14 | 1 | 1 | 41 |
+| c31_glob_match | 7 | 3 | 1 | 2 | 13 |
+| c32_sanitize_html | 29 | 13 | 12 | 0 | 56 |
+| c33_escape_shell | 5 | 7 | 3 | 0 | 15 |
+| c34_diff_objects | 18 | 12 | 1 | 1 | 33 |
+| c35_throttle | 15 | 2 | 0 | 1 | 17 |
+| c36_flatten_object | 10 | 16 | 0 | 1 | 27 |
+| c37_topological_sort | 7 | 7 | 0 | 1 | 14 |
+| c38_priority_queue | 5 | 1 | 0 | 2 | 7 |
+| c39_observable | 14 | 4 | 0 | 1 | 18 |
+| c40_parse_query_string | 6 | 9 | 0 | 1 | 16 |
+| c41_json_stream | 22 | 12 | 0 | 0 | 35 |
+| c42_mustache | 40 | 5 | 1 | 0 | 46 |
+| c43_escape_regexp | 9 | 0 | 0 | 0 | 9 |
+| c44_validate_email | 10 | 10 | 0 | 1 | 22 |
 | c45_binary_heap | 1 | 0 | 0 | 1 | 2 |
-| c46_memoize | 4 | 1 | 0 | 1 | 6 |
-| c47_typed_event_emitter | 12 | 4 | 0 | 2 | 19 |
-| c48_result_type | 38 | 0 | 0 | 1 | 39 |
-| c49_parse_route | 11 | 12 | 1 | 0 | 24 |
-| c50_parse_ini | 5 | 7 | 0 | 0 | 13 |
-| c51_deep_merge | 21 | 7 | 0 | 1 | 29 |
-| c52_retry_ts | 16 | 8 | 0 | 1 | 26 |
+| c46_memoize | 4 | 1 | 0 | 1 | 7 |
+| c47_typed_event_emitter | 15 | 5 | 0 | 3 | 23 |
+| c48_result_type | 42 | 0 | 0 | 1 | 43 |
+| c49_parse_route | 13 | 12 | 1 | 0 | 26 |
+| c50_parse_ini | 5 | 8 | 0 | 0 | 14 |
+| c51_deep_merge | 24 | 8 | 0 | 1 | 34 |
+| c52_retry_ts | 19 | 10 | 0 | 1 | 30 |
 
 ## Challenge Discrimination
 
@@ -178,131 +184,131 @@ Challenges ranked by how many models have issues (higher = more discriminating).
 
 | Challenge | Models with Issues | Total Issues Across Models |
 |-----------|-------------------|---------------------------|
-| c9_url_parser | 10/11 | 50 |
-| c32_sanitize_html | 10/11 | 50 |
-| c5_deep_clone | 10/11 | 46 |
-| c14_binary_search | 10/11 | 42 |
-| c42_mustache | 10/11 | 42 |
-| c29_parse_cron | 10/11 | 41 |
-| c48_result_type | 10/11 | 39 |
-| c30_tokenize_sql | 10/11 | 37 |
-| c22_markdown_renderer | 10/11 | 36 |
-| c2_palindrome | 10/11 | 35 |
-| c6_csv_parser | 10/11 | 31 |
-| c41_json_stream | 10/11 | 30 |
-| c20_expression_parser | 10/11 | 30 |
-| c34_diff_objects | 10/11 | 30 |
-| c51_deep_merge | 10/11 | 29 |
-| c52_retry_ts | 10/11 | 26 |
-| c49_parse_route | 10/11 | 24 |
-| c36_flatten_object | 10/11 | 23 |
-| c16_html_entity_decoder | 10/11 | 21 |
-| c21_task_scheduler | 10/11 | 21 |
-| c44_validate_email | 10/11 | 20 |
-| c47_typed_event_emitter | 10/11 | 19 |
-| c39_observable | 10/11 | 18 |
-| c12_flatten_array | 10/11 | 18 |
-| c35_throttle | 10/11 | 16 |
-| c33_escape_shell | 10/11 | 14 |
-| c37_topological_sort | 10/11 | 13 |
-| c43_escape_regexp | 10/11 | 8 |
-| c19_ring_buffer | 9/11 | 16 |
-| c40_parse_query_string | 9/11 | 15 |
-| c1_fibonacci | 9/11 | 12 |
-| c24_topological_sort | 9/11 | 10 |
-| c7_retry | 9/11 | 10 |
-| c23_merge_intervals | 9/11 | 6 |
-| c50_parse_ini | 8/11 | 13 |
-| c31_glob_match | 8/11 | 12 |
-| c28_linked_list | 8/11 | 8 |
-| c26_trie | 8/11 | 8 |
-| c38_priority_queue | 8/11 | 7 |
-| c10_debounce | 8/11 | 6 |
-| c8_token_counter | 7/11 | 8 |
-| c46_memoize | 7/11 | 6 |
-| c17_concurrent_map | 6/11 | 8 |
-| c15_rate_limiter | 6/11 | 4 |
-| c11_lru_cache | 6/11 | 3 |
-| c13_date_formatter | 5/11 | 6 |
-| c3_word_frequency | 5/11 | 5 |
-| c25_edit_distance | 4/11 | 2 |
-| c45_binary_heap | 4/11 | 2 |
-| c18_iterator | 3/11 | 3 |
-| c27_min_heap | 2/11 | 1 |
-| c4_array_dedup | 1/11 | 0 |
+| c9_url_parser | 12/13 | 60 |
+| c32_sanitize_html | 12/13 | 56 |
+| c5_deep_clone | 12/13 | 54 |
+| c14_binary_search | 12/13 | 49 |
+| c29_parse_cron | 12/13 | 46 |
+| c48_result_type | 12/13 | 43 |
+| c30_tokenize_sql | 12/13 | 41 |
+| c22_markdown_renderer | 12/13 | 40 |
+| c2_palindrome | 12/13 | 38 |
+| c6_csv_parser | 12/13 | 35 |
+| c41_json_stream | 12/13 | 35 |
+| c51_deep_merge | 12/13 | 34 |
+| c34_diff_objects | 12/13 | 33 |
+| c52_retry_ts | 12/13 | 30 |
+| c36_flatten_object | 12/13 | 27 |
+| c49_parse_route | 12/13 | 26 |
+| c16_html_entity_decoder | 12/13 | 25 |
+| c47_typed_event_emitter | 12/13 | 23 |
+| c44_validate_email | 12/13 | 22 |
+| c12_flatten_array | 12/13 | 20 |
+| c39_observable | 12/13 | 18 |
+| c33_escape_shell | 12/13 | 15 |
+| c37_topological_sort | 12/13 | 14 |
+| c42_mustache | 11/13 | 46 |
+| c20_expression_parser | 11/13 | 32 |
+| c21_task_scheduler | 11/13 | 22 |
+| c35_throttle | 11/13 | 17 |
+| c1_fibonacci | 11/13 | 15 |
+| c7_retry | 11/13 | 12 |
+| c43_escape_regexp | 11/13 | 9 |
+| c23_merge_intervals | 11/13 | 7 |
+| c19_ring_buffer | 10/13 | 17 |
+| c40_parse_query_string | 10/13 | 16 |
+| c31_glob_match | 10/13 | 13 |
+| c28_linked_list | 10/13 | 11 |
+| c24_topological_sort | 10/13 | 11 |
+| c26_trie | 10/13 | 10 |
+| c50_parse_ini | 9/13 | 14 |
+| c38_priority_queue | 9/13 | 7 |
+| c10_debounce | 9/13 | 7 |
+| c8_token_counter | 8/13 | 10 |
+| c46_memoize | 8/13 | 7 |
+| c17_concurrent_map | 6/13 | 8 |
+| c3_word_frequency | 6/13 | 6 |
+| c15_rate_limiter | 6/13 | 4 |
+| c11_lru_cache | 6/13 | 3 |
+| c13_date_formatter | 5/13 | 6 |
+| c25_edit_distance | 4/13 | 2 |
+| c45_binary_heap | 4/13 | 2 |
+| c18_iterator | 3/13 | 3 |
+| c27_min_heap | 2/13 | 1 |
+| c4_array_dedup | 1/13 | 0 |
 
 ## Difficulty Tiers
 
-Based on empirical failure rates across 11 models.
+Based on empirical failure rates across 13 models.
 
-### Hard (34 challenges)
-
-| Challenge | Models with Issues | Mean Issues |
-|-----------|-------------------|-------------|
-| c32_sanitize_html | 10/11 | 5.0 |
-| c9_url_parser | 10/11 | 4.9 |
-| c5_deep_clone | 10/11 | 4.5 |
-| c42_mustache | 10/11 | 4.1 |
-| c14_binary_search | 10/11 | 4.1 |
-| c29_parse_cron | 10/11 | 4.0 |
-| c48_result_type | 10/11 | 3.8 |
-| c30_tokenize_sql | 10/11 | 3.6 |
-| c22_markdown_renderer | 10/11 | 3.6 |
-| c2_palindrome | 10/11 | 3.4 |
-| c6_csv_parser | 10/11 | 3.1 |
-| c41_json_stream | 10/11 | 2.9 |
-| c34_diff_objects | 10/11 | 2.9 |
-| c51_deep_merge | 10/11 | 2.9 |
-| c20_expression_parser | 10/11 | 2.9 |
-| c52_retry_ts | 10/11 | 2.6 |
-| c49_parse_route | 10/11 | 2.3 |
-| c36_flatten_object | 10/11 | 2.2 |
-| c21_task_scheduler | 10/11 | 2.1 |
-| c16_html_entity_decoder | 10/11 | 2.1 |
-| c44_validate_email | 10/11 | 1.9 |
-| c47_typed_event_emitter | 10/11 | 1.8 |
-| c39_observable | 10/11 | 1.7 |
-| c12_flatten_array | 10/11 | 1.7 |
-| c35_throttle | 10/11 | 1.6 |
-| c33_escape_shell | 10/11 | 1.3 |
-| c37_topological_sort | 10/11 | 1.3 |
-| c43_escape_regexp | 10/11 | 0.8 |
-| c19_ring_buffer | 9/11 | 1.6 |
-| c40_parse_query_string | 9/11 | 1.5 |
-| c1_fibonacci | 9/11 | 1.2 |
-| c24_topological_sort | 9/11 | 1.0 |
-| c7_retry | 9/11 | 1.0 |
-| c23_merge_intervals | 9/11 | 0.5 |
-
-### Medium (13 challenges)
+### Hard (37 challenges)
 
 | Challenge | Models with Issues | Mean Issues |
 |-----------|-------------------|-------------|
-| c50_parse_ini | 8/11 | 1.3 |
-| c31_glob_match | 8/11 | 1.2 |
-| c28_linked_list | 8/11 | 0.8 |
-| c26_trie | 8/11 | 0.8 |
-| c38_priority_queue | 8/11 | 0.7 |
-| c10_debounce | 8/11 | 0.6 |
-| c8_token_counter | 7/11 | 0.8 |
-| c46_memoize | 7/11 | 0.6 |
-| c17_concurrent_map | 6/11 | 0.8 |
-| c15_rate_limiter | 6/11 | 0.4 |
-| c11_lru_cache | 6/11 | 0.3 |
-| c13_date_formatter | 5/11 | 0.6 |
-| c3_word_frequency | 5/11 | 0.5 |
+| c9_url_parser | 12/13 | 4.9 |
+| c32_sanitize_html | 12/13 | 4.7 |
+| c5_deep_clone | 12/13 | 4.5 |
+| c14_binary_search | 12/13 | 4.0 |
+| c29_parse_cron | 12/13 | 3.9 |
+| c48_result_type | 12/13 | 3.6 |
+| c30_tokenize_sql | 12/13 | 3.4 |
+| c22_markdown_renderer | 12/13 | 3.4 |
+| c2_palindrome | 12/13 | 3.2 |
+| c6_csv_parser | 12/13 | 2.9 |
+| c41_json_stream | 12/13 | 2.8 |
+| c51_deep_merge | 12/13 | 2.8 |
+| c34_diff_objects | 12/13 | 2.8 |
+| c52_retry_ts | 12/13 | 2.5 |
+| c36_flatten_object | 12/13 | 2.2 |
+| c49_parse_route | 12/13 | 2.2 |
+| c16_html_entity_decoder | 12/13 | 2.1 |
+| c47_typed_event_emitter | 12/13 | 1.9 |
+| c44_validate_email | 12/13 | 1.8 |
+| c12_flatten_array | 12/13 | 1.6 |
+| c39_observable | 12/13 | 1.6 |
+| c33_escape_shell | 12/13 | 1.3 |
+| c37_topological_sort | 12/13 | 1.2 |
+| c42_mustache | 11/13 | 3.9 |
+| c20_expression_parser | 11/13 | 2.7 |
+| c21_task_scheduler | 11/13 | 1.9 |
+| c35_throttle | 11/13 | 1.5 |
+| c1_fibonacci | 11/13 | 1.2 |
+| c7_retry | 11/13 | 1.0 |
+| c43_escape_regexp | 11/13 | 0.8 |
+| c23_merge_intervals | 11/13 | 0.6 |
+| c19_ring_buffer | 10/13 | 1.4 |
+| c40_parse_query_string | 10/13 | 1.4 |
+| c31_glob_match | 10/13 | 1.1 |
+| c24_topological_sort | 10/13 | 0.9 |
+| c28_linked_list | 10/13 | 0.9 |
+| c26_trie | 10/13 | 0.8 |
+
+### Medium (10 challenges)
+
+| Challenge | Models with Issues | Mean Issues |
+|-----------|-------------------|-------------|
+| c50_parse_ini | 9/13 | 1.2 |
+| c38_priority_queue | 9/13 | 0.6 |
+| c10_debounce | 9/13 | 0.6 |
+| c8_token_counter | 8/13 | 0.8 |
+| c46_memoize | 8/13 | 0.6 |
+| c17_concurrent_map | 6/13 | 0.7 |
+| c3_word_frequency | 6/13 | 0.5 |
+| c15_rate_limiter | 6/13 | 0.3 |
+| c11_lru_cache | 6/13 | 0.2 |
+| c13_date_formatter | 5/13 | 0.5 |
 
 ### Easy (5 challenges)
 
 | Challenge | Models with Issues | Mean Issues |
 |-----------|-------------------|-------------|
-| c45_binary_heap | 4/11 | 0.2 |
-| c25_edit_distance | 4/11 | 0.2 |
-| c18_iterator | 3/11 | 0.3 |
-| c27_min_heap | 2/11 | 0.1 |
-| c4_array_dedup | 1/11 | 0.0 |
+| c45_binary_heap | 4/13 | 0.2 |
+| c25_edit_distance | 4/13 | 0.2 |
+| c18_iterator | 3/13 | 0.3 |
+| c27_min_heap | 2/13 | 0.1 |
+| c4_array_dedup | 1/13 | 0.0 |
 
-**Distribution**: 34 hard, 13 medium, 5 easy, 0 trivial
+**Distribution**: 37 hard, 10 medium, 5 easy, 0 trivial
 
 ## Cost-Effectiveness
 
@@ -315,16 +321,18 @@ Based on empirical failure rates across 11 models.
 | gpt-4o | $0.29 | $0.003 | 385 | 94% |
 | minimax-m2.5 | $0.22 | $0.004 | 231 | 84% |
 | o3-mini | $0.49 | $0.006 | 163 | 97% |
+| kimi-k2.5 | $0.32 | $0.007 | 149 | 75% |
 | sonnet-4 | $0.60 | $0.007 | 144 | 98% |
+| qwen-3.5-plus | $0.77 | $0.010 | 98 | 98% |
 | gemini-3.1-pro | $1.38 | $0.016 | 64 | 93% |
 | opus-4 | $2.76 | $0.035 | 28 | 98% |
-| kimi-k2.5 | $0.31 | $0.000 | 0 | - |
+| glm-5 | $0.23 | $0.000 | 0 | - |
 
 ## Self-Catch Analysis
 
 | Model | Self-Catch Rate | Issues Caught | Issues Missed |
 |-------|----------------|---------------|---------------|
-| kimi-k2.5 | 100% | - | - |
+| glm-5 | 100% | - | - |
 | opus-4 | 79% | 62 | 17 |
 | sonnet-4 | 71% | 61 | 25 |
 | deepseek-v3.2 | 67% | 69 | 33 |
@@ -334,6 +342,8 @@ Based on empirical failure rates across 11 models.
 | minimax-m2.5 | 43% | 22 | 29 |
 | gemini-3.1-pro | 40% | 36 | 53 |
 | o3-mini | 40% | 32 | 48 |
+| kimi-k2.5 | 35% | 16 | 31 |
+| qwen-3.5-plus | 33% | 25 | 50 |
 | gpt-4o | 27% | 30 | 81 |
 
 ## Self-Catch Rate by Issue Type
@@ -342,14 +352,16 @@ Based on empirical failure rates across 11 models.
 |-------|-------------|-----------|----------|-------|
 | deepseek-v3.2 | 70% (198/281) | 65% (134/207) | 43% (3/7) | 60% (9/15) |
 | gemini-3.1-pro | 41% (106/259) | 40% (37/92) | 0% (0/1) | 50% (1/2) |
+| glm-5 | - | - | - | - |
 | gpt-4o | 26% (81/313) | 28% (62/220) | 25% (2/8) | 23% (3/13) |
 | gpt-4o-mini | 49% (195/402) | 51% (100/196) | 88% (7/8) | 25% (2/8) |
 | haiku-4.5 | 68% (301/441) | 78% (80/102) | 59% (37/63) | 41% (43/106) |
-| kimi-k2.5 | - | - | - | - |
+| kimi-k2.5 | 30% (22/73) | 44% (29/66) | 0% (0/1) | 0% (0/2) |
 | minimax-m2.5 | 38% (52/136) | 51% (55/108) | 33% (1/3) | 50% (4/8) |
 | nemotron-3-super | 55% (210/382) | 48% (75/155) | 80% (12/15) | 23% (6/26) |
 | o3-mini | 40% (63/159) | 41% (90/220) | 46% (6/13) | 22% (2/9) |
 | opus-4 | 84% (147/176) | 76% (150/198) | 80% (8/10) | 56% (5/9) |
+| qwen-3.5-plus | 33% (47/141) | 31% (45/147) | 71% (5/7) | 50% (2/4) |
 | sonnet-4 | 67% (149/222) | 77% (149/193) | 62% (5/8) | 44% (4/9) |
 
 ## Token Efficiency
@@ -366,13 +378,16 @@ Based on empirical failure rates across 11 models.
 | nemotron-3-super | 63,088 | 137,903 | 200,991 | 1193 |
 | minimax-m2.5 | 131,518 | 96,276 | 227,794 | 1888 |
 | gemini-3.1-pro | 138,088 | 160,334 | 298,422 | 1812 |
-| kimi-k2.5 | 156,823 | 210,196 | 367,019 | - |
+| kimi-k2.5 | 167,563 | 205,991 | 373,554 | 4352 |
+| glm-5 | 187,512 | 208,913 | 396,425 | - |
+| qwen-3.5-plus | 315,998 | 349,241 | 665,239 | 4672 |
 
 ## Test Pass Rates
 
 | Model | Tests Passed | Total Tests | Pass Rate |
 |-------|-------------|-------------|-----------|
 | opus-4 | 331 | 338 | 98% |
+| qwen-3.5-plus | 312 | 318 | 98% |
 | sonnet-4 | 330 | 338 | 98% |
 | o3-mini | 328 | 337 | 97% |
 | deepseek-v3.2 | 316 | 329 | 96% |
@@ -381,6 +396,7 @@ Based on empirical failure rates across 11 models.
 | gpt-4o-mini | 310 | 338 | 92% |
 | nemotron-3-super | 261 | 288 | 91% |
 | minimax-m2.5 | 250 | 296 | 84% |
+| kimi-k2.5 | 215 | 286 | 75% |
 | haiku-4.5 | 188 | 257 | 73% |
 
 ## Fix Effectiveness
@@ -396,6 +412,8 @@ Based on empirical failure rates across 11 models.
 | sonnet-4 | 98% | 97% | +2.8 | -7.0 |
 | deepseek-v3.2 | 96% | 94% | +6.5 | -14.2 |
 | gemini-3.1-pro | 93% | 90% | +29.0 | -40.2 |
+| qwen-3.5-plus | 98% | 94% | +2.0 | -16.8 |
+| kimi-k2.5 | 75% | 68% | +22.0 | -50.5 |
 | nemotron-3-super | 91% | 81% | +23.6 | -46.4 |
 
 ## Score History
@@ -426,6 +444,7 @@ Models with runs on multiple dates, showing key metrics per date.
 |------|--------|------------|-----------|---------------|
 | 2026-03-22 | 20 | 65% | - | - |
 | 2026-03-23 | 10 | 40% | 40% | 33% |
+| 2026-04-01 | 0 | - | - | - |
 
 ### gpt-4o
 
@@ -457,7 +476,8 @@ Models with runs on multiple dates, showing key metrics per date.
 |------|--------|------------|-----------|---------------|
 | 2026-03-22 | 15 | 33% | - | - |
 | 2026-03-23 | 5 | 40% | 25% | 33% |
-| 2026-03-29 | 0 | - | - | - |
+| 2026-03-29 | 57 | 49% | 82% | 75% |
+| 2026-03-30 | 42 | 28% | 72% | 72% |
 
 ### minimax-m2.5
 
@@ -501,6 +521,8 @@ Models with runs on multiple dates, showing key metrics per date.
 |------|--------|------------|-----------|---------------|
 | 2026-03-22 | 17 | 47% | - | - |
 | 2026-03-23 | 17 | 6% | 95% | 67% |
+| 2026-03-29 | 82 | 35% | 98% | 85% |
+| 2026-03-31 | 72 | 32% | 98% | 88% |
 
 ### sonnet-4
 
@@ -512,7 +534,7 @@ Models with runs on multiple dates, showing key metrics per date.
 
 ## Key Findings
 
-- **Fewest issues**: kimi-k2.5 (0 issues)
+- **Fewest issues**: glm-5 (0 issues)
 - **Most issues**: haiku-4.5 (142 issues)
 - **Best self-catch rate**: opus-4 (79%)
 - **Worst self-catch rate**: gpt-4o (27%)
