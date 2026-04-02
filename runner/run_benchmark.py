@@ -41,6 +41,34 @@ SECOND_REVIEW_PROMPT = (
 
 FIX_PROMPT = FIX_PROMPT_FILE.read_text().strip()
 
+FIX_RETRY_PROMPT = (
+    "Your previous response was not a code block. "
+    "Return ONLY the corrected code as a plain code block. Nothing else."
+)
+
+_CODE_INDICATORS = [
+    "def ", "function ", "class ", "const ", "let ", "var ",
+    "import ", "from ", "return ", "if ", "for ", "while ",
+    "fn ", "pub ", "struct ", "func ",
+]
+
+
+def _looks_like_code(text: str) -> bool:
+    """Check if text appears to be code rather than prose."""
+    stripped = text.strip()
+    if not stripped:
+        return False
+    lines = stripped.splitlines()
+    if lines[0].startswith("```"):
+        lines = lines[1:]
+    if lines and lines[-1].strip() == "```":
+        lines = lines[:-1]
+    code = "\n".join(lines).strip()
+    if not code:
+        return False
+    return any(ind in code for ind in _CODE_INDICATORS)
+
+
 def run_challenge(
     provider,
     model: str,
@@ -99,6 +127,25 @@ def run_challenge(
             {"role": "user", "content": FIX_PROMPT},
         ]
         fixed_code, fix_usage = provider.chat(model, messages)
+
+        # Validate fix response looks like code; retry once if not
+        if not _looks_like_code(fixed_code):
+            print(f"  [{challenge_id}] Fix response is not code, retrying...")
+            messages += [
+                {"role": "assistant", "content": fixed_code},
+                {"role": "user", "content": FIX_RETRY_PROMPT},
+            ]
+            retry_code, retry_usage = provider.chat(model, messages)
+            fix_usage = {
+                "input_tokens": fix_usage.get("input_tokens", 0) + retry_usage.get("input_tokens", 0),
+                "output_tokens": fix_usage.get("output_tokens", 0) + retry_usage.get("output_tokens", 0),
+            }
+            if _looks_like_code(retry_code):
+                fixed_code = retry_code
+            else:
+                # Fall back to original generated code
+                print(f"  [{challenge_id}] Fix retry failed, using original code")
+                fixed_code = generated
 
         result["fixed_code"] = fixed_code
         result["usage"]["fix"] = fix_usage
