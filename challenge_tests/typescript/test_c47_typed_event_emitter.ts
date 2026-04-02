@@ -81,6 +81,17 @@ test('emit with no listeners does not throw', () => {
   emitter.emit('nonexistent');
 });
 
+test('off during emit does not skip listeners', () => {
+  const emitter = new TypedEventEmitter();
+  const results: number[] = [];
+  const fn1 = () => { results.push(1); emitter.off('event', fn2); };
+  const fn2 = () => { results.push(2); };
+  emitter.on('event', fn1);
+  emitter.on('event', fn2);
+  emitter.emit('event');
+  assertEqual(results, [1, 2]);
+});
+
 test('different event types', () => {
   const emitter = new TypedEventEmitter();
   let strResult = '';

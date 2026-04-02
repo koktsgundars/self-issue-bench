@@ -79,6 +79,26 @@ test('works with multiple argument types', () => {
   assertEqual(memoized('world', 1), 'world-1');
 });
 
+test('distinguishes calls by all arguments', () => {
+  let callCount = 0;
+  const fn = (a: number, b: number) => { callCount++; return a + b; };
+  const memoized = memoize(fn);
+  assertEqual(memoized(1, 2), 3);
+  assertEqual(memoized(1, 3), 4);
+  assertEqual(callCount, 2);
+});
+
+test('.clear() allows re-caching via .cache', () => {
+  const fn = (x: number) => x * 2;
+  const memoized = memoize(fn);
+  memoized(5);
+  if (memoized.cache.size !== 1) throw new Error('Expected 1 cached entry');
+  memoized.clear();
+  if (memoized.cache.size !== 0) throw new Error('Expected empty cache after clear');
+  memoized(5);
+  if (memoized.cache.size !== 1) throw new Error('Expected 1 cached entry after re-call');
+});
+
 fs.rmSync(tmpDir, { recursive: true, force: true });
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);
