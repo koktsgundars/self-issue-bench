@@ -107,6 +107,12 @@ test('minimum valid', () => {
   assertEqual(result.valid, true);
 });
 
+test('minimum exact boundary', () => {
+  const schema = { type: 'number', minimum: 10 };
+  const result = validateSchema(schema, 10);
+  assertEqual(result.valid, true);
+});
+
 test('minimum invalid', () => {
   const schema = { type: 'number', minimum: 10 };
   const result = validateSchema(schema, 5);

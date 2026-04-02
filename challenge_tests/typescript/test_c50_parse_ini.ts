@@ -41,10 +41,12 @@ test('multiple sections', () => {
 });
 
 test('comments ignored', () => {
-  const input = '; this is a comment\n# another comment\n[sec]\nkey = val';
+  const input = '; this is a comment\n# color = red\n[sec]\nkey = val';
   const result = parseINI(input);
   assertEqual(result['sec']['key'], 'val');
-  if (Object.keys(result).length !== 1) throw new Error('Should only have one section');
+  // The # comment with = should not create a key
+  if (result[''] && result['']['# color']) throw new Error('Hash comment should be ignored');
+  if (result[''] && result['color']) throw new Error('Hash comment should be ignored');
 });
 
 test('keys before section go under empty string', () => {
